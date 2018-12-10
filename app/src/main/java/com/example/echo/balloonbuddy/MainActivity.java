@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,33 +14,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button settingsButton;
-        Button prestatiesButton;
+        ImageButton settingsButton;
+        ImageButton prestatiesButton;
         Button startButton;
 
-        settingsButton = (Button) findViewById(R.id.settingsButton);
-        prestatiesButton = (Button) findViewById(R.id.prestatiesButton);
+        settingsButton = (ImageButton) findViewById(R.id.settingsButton);
+        prestatiesButton = (ImageButton) findViewById(R.id.prestatiesButton);
         startButton = (Button) findViewById(R.id.startButton);
 
-        settingsButton.setOnClickListener(new View.OnClickListener(){
+        settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
             }
         });
 
-        prestatiesButton.setOnClickListener(new View.OnClickListener(){
+        prestatiesButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, PrestatiesActivity.class);
                 startActivity(intent);
             }
         });
 
-        startButton.setOnClickListener(new View.OnClickListener(){
+        startButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, GameActivity.class);
                 startActivity(intent);
             }
