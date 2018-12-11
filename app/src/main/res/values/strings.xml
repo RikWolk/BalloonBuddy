@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">BalloonBuddy</string>
+    <string name="app_name">Balloon Buddy</string>
+    <string name="settings_name">Instellingen</string>
+    <string name="prestaties_name">Prestaties</string>
+    <string name="start_name">Start</string>
 </resources>

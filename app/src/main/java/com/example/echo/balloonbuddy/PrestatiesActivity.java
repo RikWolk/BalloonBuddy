@@ -6,27 +6,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
-public class MainActivity extends AppCompatActivity {
+public class PrestatiesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.activity_prestaties);
 
         ImageButton settingsButton;
         ImageButton prestatiesButton;
-        Button startButton;
 
         settingsButton = (ImageButton) findViewById(R.id.settingsButton);
         prestatiesButton = (ImageButton) findViewById(R.id.prestatiesButton);
-        startButton = (Button) findViewById(R.id.startButton);
 
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                Intent intent = new Intent(PrestatiesActivity.this, SettingsActivity.class);
                 startActivity(intent);
             }
         });
@@ -34,17 +32,14 @@ public class MainActivity extends AppCompatActivity {
         prestatiesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, PrestatiesActivity.class);
+                Intent intent = new Intent(PrestatiesActivity.this, PrestatiesActivity.class);
                 startActivity(intent);
             }
         });
 
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                startActivity(intent);
-            }
-        });
+        int[] i = {R.mipmap.icons_beker_locked_v01, R.mipmap.icons_beker_unlocked_v01};
+
     }
+
+
 }
