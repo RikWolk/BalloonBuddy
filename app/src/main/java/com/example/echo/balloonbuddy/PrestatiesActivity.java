@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 public class PrestatiesActivity extends AppCompatActivity {
 
@@ -36,6 +37,9 @@ public class PrestatiesActivity extends AppCompatActivity {
             }
         });
 
+        int[] i = {R.mipmap.icons_beker_locked_v01, R.mipmap.icons_beker_unlocked_v01};
+
     }
+
 
 }
