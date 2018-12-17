@@ -1,4 +1,3 @@
-//package bootcamp.android.demoapp;
 package com.example.echo.balloonbuddy;
 
 import android.app.Notification;
@@ -18,7 +17,7 @@ import com.example.echo.balloonbuddy.R;
 import static android.app.NotificationManager.IMPORTANCE_DEFAULT;
 
 public class AlarmReceiver extends BroadcastReceiver{
-//    private static final String CHANNEL_ID = "com.singhajit.notificationDemo.channelId";
+
     private static final String CHANNEL_ID = "100";
 
     @Override
