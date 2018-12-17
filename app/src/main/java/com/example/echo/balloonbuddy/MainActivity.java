@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         ImageButton prestatiesButton;
         Button startButton;
 
-        settingsButton = (ImageButton) findViewById(R.id.settingsButton);
+        settingsButton = (ImageButton) findViewById(R.id.pauseButton);
         prestatiesButton = (ImageButton) findViewById(R.id.prestatiesButton);
         startButton = (Button) findViewById(R.id.startButton);
 
