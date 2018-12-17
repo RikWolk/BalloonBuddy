@@ -19,6 +19,7 @@
         <activity android:name=".SettingsActivity" />
         <activity android:name=".PrestatiesActivity" />
         <activity android:name=".GameActivity" ></activity>
+        <receiver android:name=".AlarmReceiver"/>
     </application>
 
 </manifest>
