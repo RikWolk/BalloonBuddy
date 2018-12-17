@@ -18,9 +18,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".PrestatiesActivity" />
-        <activity android:name=".GameActivity" ></activity>
+        <activity android:name=".ListActivity" />
+        <activity android:name=".GameActivity" />
         <receiver android:name=".AlarmReceiver"/>
+        <activity android:name=".EditDataActivity" />
+        <activity android:name=".PrestatiesActivity" />
+        <activity android:name=".ListDataActivity" />
     </application>
 
 </manifest>
