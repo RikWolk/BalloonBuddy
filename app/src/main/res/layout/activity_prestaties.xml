@@ -101,6 +101,15 @@
             app:layout_constraintStart_toEndOf="@+id/achievementsOverview"
             app:layout_constraintTop_toTopOf="parent">
 
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/graph"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginBottom="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:layout_editor_absoluteX="0dp" />
+
+
             <TextView
                 android:id="@+id/voortgang"
                 android:layout_width="wrap_content"
@@ -114,6 +123,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+
+
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
