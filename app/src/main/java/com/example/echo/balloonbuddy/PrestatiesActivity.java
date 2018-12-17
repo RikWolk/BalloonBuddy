@@ -30,8 +30,7 @@ public class PrestatiesActivity extends AppCompatActivity {
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PrestatiesActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish(); // Dit haalt het huidige scherm van de stack af in plaats van een nieuwe bovenop toevoegen.
             }
         });
 

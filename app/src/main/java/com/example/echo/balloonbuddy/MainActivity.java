@@ -51,14 +51,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // LEX TEST MET LOCAL NOTIFICATIONS
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        // LOCAL NOTIFICATIONS
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE); // Init alarm service
 
-        Intent notificationIntent = new Intent(this, com.example.echo.balloonbuddy.AlarmReceiver.class);
-        PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent notificationIntent = new Intent(this, com.example.echo.balloonbuddy.AlarmReceiver.class); // Maak de notification intent
+        PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT); // Gooi de intent in een broadcast
 
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.SECOND, 5);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+        Calendar cal = Calendar.getInstance(); // Maak een kalender
+//        cal.add(Calendar.HOUR, 24); // Voeg aan de kalender 24u toe
+        cal.add(Calendar.SECOND, 10);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast); // Gooi het alarm zodra de tijd dde kalender + 24u bereikt
     }
 }

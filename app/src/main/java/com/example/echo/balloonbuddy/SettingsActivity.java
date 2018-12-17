@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.Switch;
 
 public class SettingsActivity extends AppCompatActivity {
+
+    public static Boolean reminderOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,15 +19,17 @@ public class SettingsActivity extends AppCompatActivity {
 
         ImageButton homeButton;
         ImageButton prestatiesButton;
+        Switch reminder;
 
         homeButton = (ImageButton) findViewById(R.id.homeButton);
         prestatiesButton = (ImageButton) findViewById(R.id.prestatiesButton);
+        reminder = (Switch) findViewById(R.id.reminder);
+        reminderOn = false;
 
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish(); // Dit haalt het huidige scherm van de stack af in plaats van een nieuwe toevoegen.
             }
         });
 
@@ -35,5 +41,11 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        reminder.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Zet zooi in de DB
+
+            }
+        });
     }
 }
