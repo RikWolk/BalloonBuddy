@@ -10,6 +10,7 @@ import android.widget.Switch;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    DataBaseHelper mDatabaseHelper;
     public static Boolean reminderOn;
 
     @Override
@@ -25,6 +26,8 @@ public class SettingsActivity extends AppCompatActivity {
         prestatiesButton = (ImageButton) findViewById(R.id.prestatiesButton);
         reminder = (Switch) findViewById(R.id.reminder);
         reminderOn = false;
+
+        mDatabaseHelper = new DataBaseHelper(this);
 
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
