@@ -54,10 +54,12 @@ public class PrestatiesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_prestaties);
 
         mListView = (ListView) findViewById(R.id.listView);
-        mDatabaseHelper = new DataBaseHelper(this, "scores");
+        mDatabaseHelper = new DataBaseHelper(this);
 
         // ADD SOME MORE DATA
-        mDatabaseHelper.addData(Integer.toString(100), "scores");
+        mDatabaseHelper.createScore(200, 5);
+        mDatabaseHelper.createScore(220, 3);
+        mDatabaseHelper.createScore(250, 8);
 
         Cursor data = mDatabaseHelper.getAllData("scores");
         while(data.moveToNext()) {
@@ -114,14 +116,6 @@ public class PrestatiesActivity extends AppCompatActivity {
             values[i] = v;
         }
         return values;
-    }
-
-    /**
-     * customizable toast
-     * @param message
-     */
-    private void toastMessage(String message){
-        Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
     }
 }
 
