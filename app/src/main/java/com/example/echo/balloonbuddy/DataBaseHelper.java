@@ -11,15 +11,15 @@ import android.util.Log;
 
 
 public class DataBaseHelper extends SQLiteOpenHelper {
-    private static final String TAG = "DatabaseHelper";
+    private static final String TAG = "DatabaseHelper"; // FOR LOGGING
 
-    private static final String TABLE_NAME = "people_table";
+    private static String TABLE_NAME = "scores";
     private static final String COL1 = "ID";
     private static final String COL2 = "name";
 
 
-    public DataBaseHelper(Context context) {
-        super(context, TABLE_NAME, null, 1);
+    public DataBaseHelper(Context context, String table_name) {
+        super(context, table_name, null, 1);
     }
 
     @Override
@@ -35,16 +35,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addData(String item) {
+    public boolean addData(String item, String table_name) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL2, item);
 
-        Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME);
+        Log.d(TAG, "addData: Adding " + item + " to " + table_name);
 
-        long result = db.insert(TABLE_NAME, null, contentValues);
+        long result = db.insert(table_name, null, contentValues);
 
-        //if date as inserted incorrectly it will return -1
+        // if data as inserted incorrectly it will return -1
         if (result == -1) {
             return false;
         } else {
@@ -53,12 +53,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Returns all the data from database
+     * Returns all the data from a certain table
      * @return
      */
-    public Cursor getData(){
+    public Cursor getAllData(String table_name){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME;
+        String query = "SELECT * FROM " + table_name;
         Cursor data = db.rawQuery(query, null);
         return data;
     }
@@ -106,6 +106,4 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, "deleteName: Deleting " + name + " from database.");
         db.execSQL(query);
     }
-
-
 }

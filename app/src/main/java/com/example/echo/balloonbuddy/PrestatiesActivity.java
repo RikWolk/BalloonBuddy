@@ -36,7 +36,6 @@ import java.util.Arrays;
 
 public class PrestatiesActivity extends AppCompatActivity {
 
-
     private static final String TAG = "ListDataActivity";
 
     private LineChart nChart;
@@ -44,10 +43,9 @@ public class PrestatiesActivity extends AppCompatActivity {
     DataBaseHelper mDatabaseHelper;
 
     private ListView mListView;
-    public int score = 260;
 
-    public static ArrayList<String> x =new ArrayList<String>();
-    public static ArrayList<String> y =new ArrayList<String>();
+    public static ArrayList<String> x = new ArrayList<String>();
+    public static ArrayList<String> y = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,39 +54,25 @@ public class PrestatiesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_prestaties);
 
         mListView = (ListView) findViewById(R.id.listView);
-        mDatabaseHelper = new DataBaseHelper(this);
+        mDatabaseHelper = new DataBaseHelper(this, "scores");
 
-        String newEntry = Integer.toString(score);
-        AddData(newEntry);
+        // ADD SOME MORE DATA
+        mDatabaseHelper.addData(Integer.toString(100), "scores");
 
-        x.add("0");
-        x.add("10");
-        x.add("20");
-        x.add("30");
-        x.add("40");
-        x.add("50");
-        x.add("60");
-        x.add("70");
-        x.add("80");
-        x.add("90");
-        x.add("100");
-        x.add("110");
-        x.add("120");
-        x.add("125");
-        x.add("130");
-
-
-        Cursor leuk = mDatabaseHelper.getData();
-        while(leuk.moveToNext()){
-            y.add(leuk.getString(1));
+        Cursor data = mDatabaseHelper.getAllData("scores");
+        while(data.moveToNext()) {
+            x.add(data.getString(0));
+            y.add(data.getString(1));
         }
+
+        // CHECK THE DATA
+        Log.d("Table Data", "X values: " + Integer.toString(x.size()));
+        Log.d("Table Data", "Y values: " + Integer.toString(y.size()));
 
         GraphView graph;
         LineGraphSeries<DataPoint> series;
         graph = (GraphView) findViewById(R.id.graph);
-
-
-        series= new LineGraphSeries<>(data());
+        series = new LineGraphSeries<>(data());
         series.setColor(Color.rgb(216, 57, 73));
         series.setThickness(6);
         series.setDrawBackground(true);
@@ -99,7 +83,6 @@ public class PrestatiesActivity extends AppCompatActivity {
         graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
         graph.getGridLabelRenderer().setHumanRounding(false);
         graph.addSeries(series);
-
 
         ImageButton settingsButton;
         ImageButton homeButton;
@@ -121,25 +104,12 @@ public class PrestatiesActivity extends AppCompatActivity {
                 finish(); // Dit haalt het huidige scherm van de stack af in plaats van een nieuwe bovenop toevoegen.
             }
         });
-
-
-    }
-
-
-    public void AddData(String newEntry) {
-        boolean insertData = mDatabaseHelper.addData(newEntry);
-
-        if (insertData) {
-            toastMessage("Data Successfully Inserted!");
-        } else {
-            toastMessage("Something went wrong");
-        }
     }
 
     public DataPoint[] data(){
-        int n=x.size();     //to find out the no. of data-points
+        int n = x.size();     //to find out the no. of data-points
         DataPoint[] values = new DataPoint[n];     //creating an object of type DataPoint[] of size 'n'
-        for(int i=0;i<n;i++){
+        for(int i = 0; i < n; i++){
             DataPoint v = new DataPoint(Double.parseDouble(x.get(i)),Double.parseDouble(y.get(i)));
             values[i] = v;
         }
