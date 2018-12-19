@@ -57,24 +57,31 @@ public class PrestatiesActivity extends AppCompatActivity {
         mDatabaseHelper = new DataBaseHelper(this);
 
         // ADD SOME MORE DATA
-//        mDatabaseHelper.insertScore(200, 5);
-//        mDatabaseHelper.insertScore(220, 3);
-//        mDatabaseHelper.insertScore(250, 8);
+        mDatabaseHelper.insertScore(200, 5);
+        mDatabaseHelper.insertScore(220, 3);
+        mDatabaseHelper.insertScore(250, 8);
 
+        // GET ALL THE DATA FROM TABLE SCORES
         Cursor data = mDatabaseHelper.getAllData("scores");
 
+        // CLEAR ANY LOCAL OLD TABLE DATA
         x.clear();
         y.clear();
 
+        // ITERATE THROUGH TABLE DATA AND ADD IT TO X and Y ARRAYS
         while(data.moveToNext()) {
             x.add(data.getString(0));
             y.add(data.getString(1));
         }
 
-        // CHECK THE DATA
+        // CHECK THE AMOUNT OF DATA
         Log.d("Table Data", "X values: " + Integer.toString(x.size()));
         Log.d("Table Data", "Y values: " + Integer.toString(y.size()));
 
+        // DELETE DATA FROM TABLE SCORES
+        mDatabaseHelper.deleteAllData("scores");
+
+        // PLOT THE GRAPH
         GraphView graph;
         LineGraphSeries<DataPoint> series;
         graph = (GraphView) findViewById(R.id.graph);
@@ -99,6 +106,7 @@ public class PrestatiesActivity extends AppCompatActivity {
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 Intent intent = new Intent(PrestatiesActivity.this, SettingsActivity.class);
                 startActivity(intent);
             }
