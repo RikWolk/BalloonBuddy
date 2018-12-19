@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/background_test" />
+        app:srcCompat="@drawable/background" />
 
     <TextView
         android:id="@+id/settingsTitle"
@@ -70,7 +70,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@mipmap/icons_settings_v01" />
+            app:srcCompat="@mipmap/icons_home_v01" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
