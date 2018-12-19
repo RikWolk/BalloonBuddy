@@ -22,6 +22,7 @@ public class PrestatiesActivity extends AppCompatActivity {
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 Intent intent = new Intent(PrestatiesActivity.this, SettingsActivity.class);
                 startActivity(intent);
             }
