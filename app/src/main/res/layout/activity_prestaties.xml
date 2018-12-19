@@ -115,6 +115,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
@@ -146,7 +147,7 @@
             <LinearLayout
                 android:id="@+id/vluchtenLijst"
                 android:layout_width="75dp"
-                android:layout_height="197dp"
+                android:layout_height="210dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
@@ -155,42 +156,48 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/achievements">
 
+
                 <ImageView
-                    android:id="@+id/eersteVluchtImage"
+                    android:id="@+id/vlucht1image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/background_light" />
+                    android:textColor="@android:color/background_light"
+                    app:srcCompat="@mipmap/icons_beker_locked_v01" />
 
                 <TextView
-                    android:id="@+id/eersteVluchtText"
+                    android:id="@+id/vluch1text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
                     android:text="Eerste vlucht"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
                     android:textSize="10sp" />
 
                 <ImageView
-                    android:id="@+id/honderdsteVluchtImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/honderdsteVluchtText"
+                    android:id="@+id/vlucht100image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:srcCompat="@mipmap/icons_beker_locked_v01" />
+
+                <TextView
+                    android:id="@+id/vlucht100text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
                     android:text="100e vlucht"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
                     android:textSize="10sp" />
 
                 <ImageView
-                    android:id="@+id/tweehonderdvijfstigsteVluchtImage"
+                    android:id="@+id/vlucht250image"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@mipmap/icons_beker_locked_v01" />
 
                 <TextView
-                    android:id="@+id/tweehonderdvijfstigsteVluchtText"
+                    android:id="@+id/vlucht250text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="250e vlucht"
