@@ -61,7 +61,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         // creating required tables
         db.execSQL(CREATE_TABLE_SCORES);
         db.execSQL(CREATE_TABLE_SETTINGS);
-        insertSetting(1);
     }
 
     @Override

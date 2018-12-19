@@ -57,9 +57,9 @@ public class PrestatiesActivity extends AppCompatActivity {
         mDatabaseHelper = new DataBaseHelper(this);
 
         // ADD SOME MORE DATA
-//        mDatabaseHelper.insertScore(200, 5);
-//        mDatabaseHelper.insertScore(220, 3);
-//        mDatabaseHelper.insertScore(250, 8);
+       //mDatabaseHelper.insertScore(200, 1);
+       //mDatabaseHelper.insertScore(220, 2);
+       //mDatabaseHelper.insertScore(250, 3);
 
         Cursor data = mDatabaseHelper.getAllData("scores");
 
@@ -87,7 +87,7 @@ public class PrestatiesActivity extends AppCompatActivity {
         graph.getGridLabelRenderer().setGridColor(Color.WHITE);
         graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
         graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
-        graph.getGridLabelRenderer().setHumanRounding(false);
+        graph.getGridLabelRenderer().setHumanRounding(true);
         graph.addSeries(series);
 
         ImageButton settingsButton;
