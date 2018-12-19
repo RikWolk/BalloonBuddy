@@ -57,11 +57,15 @@ public class PrestatiesActivity extends AppCompatActivity {
         mDatabaseHelper = new DataBaseHelper(this);
 
         // ADD SOME MORE DATA
-        mDatabaseHelper.createScore(200, 5);
-        mDatabaseHelper.createScore(220, 3);
-        mDatabaseHelper.createScore(250, 8);
+//        mDatabaseHelper.insertScore(200, 5);
+//        mDatabaseHelper.insertScore(220, 3);
+//        mDatabaseHelper.insertScore(250, 8);
 
         Cursor data = mDatabaseHelper.getAllData("scores");
+
+        x.clear();
+        y.clear();
+
         while(data.moveToNext()) {
             x.add(data.getString(0));
             y.add(data.getString(1));

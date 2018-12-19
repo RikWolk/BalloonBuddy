@@ -61,6 +61,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         // creating required tables
         db.execSQL(CREATE_TABLE_SCORES);
         db.execSQL(CREATE_TABLE_SETTINGS);
+        insertSetting(1);
     }
 
     @Override
@@ -73,7 +74,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void createScore(int score, int mistakes) {
+    public void insertScore(int score, int mistakes) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -86,7 +87,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_SCORES, null, values);
     }
 
-    public void createSettings(int reminder) {
+    public void insertSetting(int reminder) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
