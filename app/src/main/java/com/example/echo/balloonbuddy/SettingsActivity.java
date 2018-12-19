@@ -1,8 +1,10 @@
 package com.example.echo.balloonbuddy;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -46,7 +48,18 @@ public class SettingsActivity extends AppCompatActivity {
 
         reminder.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Zet zooi in de DB
+                Log.d("Switch", "staat de switch aan: " + isChecked);
+
+                Cursor data = mDatabaseHelper.getAllData("settings");
+
+                while(data.moveToNext()) {
+                    Log.d("Table Data", "Col ID: " + data.getString(0));
+                    Log.d("Table Data", "Col Reminder: " + data.getString(1));
+                }
+
+//                if(isChecked) {
+//                    mDatabaseHelper.updateSettings(0, 1);
+//                }
 
             }
         });
