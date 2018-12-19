@@ -9,103 +9,134 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
-    private static final String TAG = "DatabaseHelper";
 
-    private static final String TABLE_NAME = "people_table";
-    private static final String COL1 = "ID";
-    private static final String COL2 = "name";
+    // Logcat tag
+    private static final String LOG = "DataBaseHelper";
 
+    // Database Version
+    private static final int DATABASE_VERSION = 1;
+
+    // Database Name
+    private static final String DATABASE_NAME = "balloonbuddy";
+
+    // Table Names
+    private static final String TABLE_SCORES = "scores";
+    private static final String TABLE_SETTINGS = "settings";
+
+    // Common column names
+    private static final String ID = "id";
+    private static final String CREATED_AT = "created_at";
+
+    // SCORES Table - column nmaes
+    private static final String SCORE = "score";
+    private static final String MISTAKES = "mistakes";
+
+    // SETTINGS Table - column names
+    private static final String REMINDER = "reminder";
+
+    // Table Create Statements
+    // Todo table create statement
+    private static final String CREATE_TABLE_SCORES = "CREATE TABLE "
+            + TABLE_SCORES + "(" + ID + " INTEGER PRIMARY KEY," + SCORE
+            + " INTEGER," + MISTAKES + " INTEGER," + CREATED_AT
+            + " DATETIME" + ")";
+
+    // Tag table create statement
+    private static final String CREATE_TABLE_SETTINGS = "CREATE TABLE " + TABLE_SETTINGS
+            + "(" + ID + " INTEGER PRIMARY KEY," + REMINDER + " INTEGER,"
+            + CREATED_AT + " DATETIME" + ")";
 
     public DataBaseHelper(Context context) {
-        super(context, TABLE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTable = "CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COL2 +" TEXT)";
-        db.execSQL(createTable);
+
+        // creating required tables
+        db.execSQL(CREATE_TABLE_SCORES);
+        db.execSQL(CREATE_TABLE_SETTINGS);
+        insertSetting(1);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL("DROP IF TABLE EXISTS " + TABLE_NAME);
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // on upgrade drop older tables
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SCORES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SETTINGS);
+
+        // create new tables
         onCreate(db);
     }
 
-    public boolean addData(String item) {
+    public void insertScore(int score, int mistakes) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COL2, item);
 
-        Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME);
+        ContentValues values = new ContentValues();
 
-        long result = db.insert(TABLE_NAME, null, contentValues);
+        values.put(SCORE, score);
+        values.put(MISTAKES, mistakes);
+        values.put(CREATED_AT, getDateTime());
 
-        //if date as inserted incorrectly it will return -1
-        if (result == -1) {
-            return false;
-        } else {
-            return true;
-        }
+        // insert row
+        db.insert(TABLE_SCORES, null, values);
     }
 
-    /**
-     * Returns all the data from database
-     * @return
-     */
-    public Cursor getData(){
+    public void insertSetting(int reminder) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME;
+
+        ContentValues values = new ContentValues();
+
+        values.put(REMINDER, reminder);
+        values.put(CREATED_AT, getDateTime());
+
+        // insert row
+        db.insert(TABLE_SETTINGS, null, values);
+    }
+
+    public Cursor getAllData(String table_name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "SELECT * FROM " + table_name;
         Cursor data = db.rawQuery(query, null);
         return data;
     }
 
-    /**
-     * Returns only the ID that matches the name passed in
-     * @param name
-     * @return
-     */
-    public Cursor getItemID(String name){
+
+    public void updateSettings(int id, int reminder) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT " + COL1 + " FROM " + TABLE_NAME +
-                " WHERE " + COL2 + " = '" + name + "'";
-        Cursor data = db.rawQuery(query, null);
-        return data;
+
+        ContentValues values = new ContentValues();
+        values.put(REMINDER, reminder);
+
+        String UPDATE_SETTINGS = "UPDATE " + TABLE_SETTINGS
+                + " SET " + "'" + REMINDER + "' = " + reminder
+                + " WHERE '" + ID + "' = " + id;
+
+        db.execSQL(UPDATE_SETTINGS);
+
+        // updating row
+//         return db.update(TABLE_SETTINGS, values, ID + " = ?", new String[] { String.valueOf(id) });
+    }
+
+    // closing database
+    public void closeDB() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db != null && db.isOpen())
+            db.close();
     }
 
     /**
-     * Updates the name field
-     * @param newName
-     * @param id
-     * @param oldName
-     */
-    public void updateName(String newName, int id, String oldName){
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "UPDATE " + TABLE_NAME + " SET " + COL2 +
-                " = '" + newName + "' WHERE " + COL1 + " = '" + id + "'" +
-                " AND " + COL2 + " = '" + oldName + "'";
-        Log.d(TAG, "updateName: query: " + query);
-        Log.d(TAG, "updateName: Setting name to " + newName);
-        db.execSQL(query);
+     * get datetime
+     * */
+    private String getDateTime() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+        return dateFormat.format(date);
     }
-
-    /**
-     * Delete from database
-     * @param id
-     * @param name
-     */
-    public void deleteName(int id, String name){
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "DELETE FROM " + TABLE_NAME + " WHERE "
-                + COL1 + " = '" + id + "'" +
-                " AND " + COL2 + " = '" + name + "'";
-        Log.d(TAG, "deleteName: query: " + query);
-        Log.d(TAG, "deleteName: Deleting " + name + " from database.");
-        db.execSQL(query);
-    }
-
-
 }
