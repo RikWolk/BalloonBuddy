@@ -93,8 +93,8 @@ public class PrestatiesActivity extends AppCompatActivity {
         ImageButton settingsButton;
         ImageButton homeButton;
 
-        settingsButton = (ImageButton) findViewById(R.id.pauseButton);
-        homeButton = (ImageButton) findViewById(R.id.pauseButton);
+        settingsButton = (ImageButton) findViewById(R.id.settingsButton);
+        homeButton = (ImageButton) findViewById(R.id.homeButton);
 
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +107,7 @@ public class PrestatiesActivity extends AppCompatActivity {
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish(); // Dit haalt het huidige scherm van de stack af in plaats van een nieuwe bovenop toevoegen.
+                finish();
             }
         });
     }
