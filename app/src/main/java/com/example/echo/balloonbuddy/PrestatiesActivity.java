@@ -79,7 +79,7 @@ public class PrestatiesActivity extends AppCompatActivity {
         Log.d("Table Data", "Y values: " + Integer.toString(y.size()));
 
         // DELETE DATA FROM TABLE SCORES
-        mDatabaseHelper.deleteAllData("scores");
+//        mDatabaseHelper.deleteAllData("scores");
 
         // PLOT THE GRAPH
         GraphView graph;
