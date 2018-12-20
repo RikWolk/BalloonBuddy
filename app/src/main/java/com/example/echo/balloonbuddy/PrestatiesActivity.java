@@ -3,6 +3,7 @@ package com.example.echo.balloonbuddy;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -46,6 +48,14 @@ public class PrestatiesActivity extends AppCompatActivity {
 
     public static ArrayList<String> x = new ArrayList<String>();
     public static ArrayList<String> y = new ArrayList<String>();
+
+    boolean vlucht1unlocked = true;
+    boolean vlucht100unlocked = false;
+    boolean vlucht250unlocked = true;
+
+    ImageView vlucht1image;
+    ImageView vlucht100image;
+    ImageView vlucht250image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +128,23 @@ public class PrestatiesActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        vlucht1image = (ImageView) findViewById(R.id.vlucht1image);
+        vlucht100image = (ImageView) findViewById(R.id.vlucht100image);
+        vlucht250image = (ImageView) findViewById(R.id.vlucht250image);
+
+        if(vlucht1unlocked) {
+            vlucht1image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
+        }
+
+        if(vlucht100unlocked) {
+            vlucht100image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
+        }
+
+        if(vlucht250unlocked) {
+            vlucht250image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
+        }
+
     }
 
     public DataPoint[] data(){
@@ -130,5 +157,4 @@ public class PrestatiesActivity extends AppCompatActivity {
         return values;
     }
 }
-
 
