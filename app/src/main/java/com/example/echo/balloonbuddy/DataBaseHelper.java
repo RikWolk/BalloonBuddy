@@ -42,25 +42,25 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     // ACHIEVEMENTS Table - column names
     private static final String UNLOCKED = "unlocked";
-    private static final String NAME = "unlocked";
+    private static final String NAME = "name";
     private static final String DESCRIPTION = "description";
 
     // SCORES Create Statements
-    private static final String CREATE_TABLE_SCORES = "CREATE TABLE "
-            + TABLE_SCORES + "(" + ID + " INTEGER PRIMARY KEY," + SCORE
-            + " INTEGER," + MISTAKES + " INTEGER," + CREATED_AT
-            + " DATETIME" + ")";
+    private static final String CREATE_TABLE_SCORES = "CREATE TABLE " + TABLE_SCORES
+            + "(" + ID + " INTEGER PRIMARY KEY," + SCORE
+            + " INTEGER," + MISTAKES + " INTEGER,"
+            + CREATED_AT + " DATETIME)";
 
     // SETTINGS Create Statement
     private static final String CREATE_TABLE_SETTINGS = "CREATE TABLE " + TABLE_SETTINGS
             + "(" + ID + " INTEGER PRIMARY KEY," + REMINDER + " INTEGER,"
-            + CREATED_AT + " DATETIME" + ")";
+            + CREATED_AT + " DATETIME)";
 
     // ACHIEVEMENTS Create Statement
-//    private static final String CREATE_TABLE_ACHIEVEMENTS = "CREATE TABLE " + TABLE_ACHIEVEMENTS
-//            + "(" + ID + " INTEGER PRIMARY KEY," + UNLOCKED + " INTEGER,"
-//            + NAME + " TEXT," + DESCRIPTION + " TEXT,"
-//            + CREATED_AT + " DATETIME" + ")";
+    private static final String CREATE_TABLE_ACHIEVEMENTS = "CREATE TABLE " + TABLE_ACHIEVEMENTS
+            + "(" + ID + " INTEGER PRIMARY KEY," + UNLOCKED + " INTEGER,"
+            + NAME + " TEXT," + DESCRIPTION + " TEXT,"
+            + CREATED_AT + " DATETIME)";
 
     public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -72,6 +72,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         // creating required tables
         db.execSQL(CREATE_TABLE_SCORES);
         db.execSQL(CREATE_TABLE_SETTINGS);
+        db.execSQL(CREATE_TABLE_ACHIEVEMENTS);
     }
 
     @Override
@@ -109,6 +110,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_SETTINGS, null, values);
     }
 
+    // RETURNS
     public Cursor getAllData(String table_name) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -117,21 +119,25 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
+    public void updateAchievement(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String UPDATE_SETTINGS = "UPDATE " + TABLE_ACHIEVEMENTS
+                + " SET " + UNLOCKED + " = " + 1
+                + " WHERE " + ID + " = " + id;
+
+        db.execSQL(UPDATE_SETTINGS);
+    }
+
 
     public void updateSettings(int id, int reminder) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(REMINDER, reminder);
-
         String UPDATE_SETTINGS = "UPDATE " + TABLE_SETTINGS
-                + " SET " + "'" + REMINDER + "' = " + reminder
-                + " WHERE '" + ID + "' = " + id;
+                + " SET " + REMINDER + " = " + reminder
+                + " WHERE " + ID + " = " + id;
 
         db.execSQL(UPDATE_SETTINGS);
-
-        // updating row
-//         return db.update(TABLE_SETTINGS, values, ID + " = ?", new String[] { String.valueOf(id) });
     }
 
     public void deleteAllData(String table_name) {
@@ -143,13 +149,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         while(data.moveToNext()) {
             String DELETE = "DELETE FROM " + table_name + " WHERE " + ID + " = " + data.getString(0);
             db.execSQL(DELETE);
-        }
-
-        query = "SELECT * FROM " + table_name;
-        data = db.rawQuery(query, null);
-
-        while(data.moveToNext()) {
-            Log.d("Table Data", "Row: " + data.getString(0));
         }
     }
 
