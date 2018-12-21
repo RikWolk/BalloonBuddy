@@ -32,11 +32,29 @@ public class  PrestatiesActivity extends AppCompatActivity {
 
     boolean vlucht1unlocked = true;
     boolean vlucht100unlocked = false;
-    boolean vlucht250unlocked = true;
+    boolean vlucht250unlocked = false;
+    boolean login7unlocked = true;
+    boolean login14unlocked = false;
+    boolean login28unlocked = false;
+    boolean ranglijst100unlocked = true;
+    boolean ranglijst15unlocked = false;
+    boolean ranglijst5unlocked = false;
+    boolean xp1000unlocked = true;
+    boolean xp2500unlocked = false;
+    boolean xp5000unlocked = false;
 
     ImageView vlucht1image;
     ImageView vlucht100image;
     ImageView vlucht250image;
+    ImageView login7image;
+    ImageView login14image;
+    ImageView login28image;
+    ImageView ranglijst100image;
+    ImageView ranglijst15image;
+    ImageView ranglijst5image;
+    ImageView xp1000image;
+    ImageView xp2500image;
+    ImageView xp5000image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,9 +128,19 @@ public class  PrestatiesActivity extends AppCompatActivity {
             }
         });
 
+        // Koppel variable aan xml element
         vlucht1image = (ImageView) findViewById(R.id.vlucht1image);
         vlucht100image = (ImageView) findViewById(R.id.vlucht100image);
         vlucht250image = (ImageView) findViewById(R.id.vlucht250image);
+        login7image  = (ImageView) findViewById(R.id.login7image);
+        login14image = (ImageView) findViewById(R.id.login14image);
+        login28image = (ImageView) findViewById(R.id.login28image);
+        ranglijst100image = (ImageView) findViewById(R.id.ranglijst100image);
+        ranglijst15image = (ImageView) findViewById(R.id.ranglijst15image);
+        ranglijst5image = (ImageView) findViewById(R.id.ranglijst5image);
+        xp1000image = (ImageView) findViewById(R.id.xp1000image);
+        xp2500image = (ImageView) findViewById(R.id.xp2500image);
+        xp5000image = (ImageView) findViewById(R.id.xp5000image);
 
         if(vlucht1unlocked) {
             vlucht1image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
@@ -126,6 +154,41 @@ public class  PrestatiesActivity extends AppCompatActivity {
             vlucht250image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
         }
 
+        if(login7unlocked) {
+            login7image.setImageResource(R.mipmap.icons_award_unlocked_v01);
+        }
+
+        if(login14unlocked) {
+            login14image.setImageResource(R.mipmap.icons_award_unlocked_v01);
+        }
+
+        if(login28unlocked) {
+            login28image.setImageResource(R.mipmap.icons_award_unlocked_v01);
+        }
+
+        if(ranglijst100unlocked) {
+            ranglijst100image.setImageResource(R.mipmap.icons_leaderboard_unlocked_v01);
+        }
+
+        if(ranglijst15unlocked) {
+            ranglijst15image.setImageResource(R.mipmap.icons_leaderboard_unlocked_v01);
+        }
+
+        if(ranglijst5unlocked) {
+            ranglijst5image.setImageResource(R.mipmap.icons_leaderboard_unlocked_v01);
+        }
+
+        if(xp1000unlocked) {
+            xp1000image.setImageResource(R.mipmap.icons_lintje_unlocked_v01);
+        }
+
+        if(xp2500unlocked) {
+            xp2500image.setImageResource(R.mipmap.icons_lintje_unlocked_v01);
+        }
+
+        if(xp5000unlocked) {
+            xp5000image.setImageResource(R.mipmap.icons_lintje_unlocked_v01);
+        }
     }
 
     public DataPoint[] data(){
