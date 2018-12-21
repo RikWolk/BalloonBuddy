@@ -17,7 +17,7 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.ArrayList;
 
-public class PrestatiesActivity extends AppCompatActivity {
+public class  PrestatiesActivity extends AppCompatActivity {
 
     private static final String TAG = "ListDataActivity";
 
