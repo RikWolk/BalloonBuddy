@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/settingsScreen"
+    android:id="@+id/gameScreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".GameActivity">
@@ -19,7 +19,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/background"/>
+        app:srcCompat="@drawable/background" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/options"
@@ -104,9 +104,7 @@
         android:id="@+id/rlView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
         android:background="@android:color/transparent"
-        >
-    </RelativeLayout>
+        android:visibility="gone"></RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

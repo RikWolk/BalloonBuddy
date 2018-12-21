@@ -16,9 +16,6 @@ public class PrestatiesActivity extends AppCompatActivity {
     boolean login7unlocked = true;
     boolean login14unlocked = false;
     boolean login28unlocked = false;
-    boolean ranglijst100unlocked = true;
-    boolean ranglijst15unlocked = false;
-    boolean ranglijst5unlocked = false;
     boolean xp1000unlocked = true;
     boolean xp2500unlocked = false;
     boolean xp5000unlocked = false;
@@ -29,9 +26,6 @@ public class PrestatiesActivity extends AppCompatActivity {
     ImageView login7image;
     ImageView login14image;
     ImageView login28image;
-    ImageView ranglijst100image;
-    ImageView ranglijst15image;
-    ImageView ranglijst5image;
     ImageView xp1000image;
     ImageView xp2500image;
     ImageView xp5000image;
@@ -70,59 +64,44 @@ public class PrestatiesActivity extends AppCompatActivity {
         login7image  = (ImageView) findViewById(R.id.login7image);
         login14image = (ImageView) findViewById(R.id.login14image);
         login28image = (ImageView) findViewById(R.id.login28image);
-        ranglijst100image = (ImageView) findViewById(R.id.ranglijst100image);
-        ranglijst15image = (ImageView) findViewById(R.id.ranglijst15image);
-        ranglijst5image = (ImageView) findViewById(R.id.ranglijst5image);
         xp1000image = (ImageView) findViewById(R.id.xp1000image);
         xp2500image = (ImageView) findViewById(R.id.xp2500image);
         xp5000image = (ImageView) findViewById(R.id.xp5000image);
 
         // Vervang image als aan unlock criterium is voldaan.
-        if(vlucht1unlocked == true){
+        if(vlucht1unlocked){
             vlucht1image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
         }
 
-        if(vlucht100unlocked == true){
+        if(vlucht100unlocked){
             vlucht100image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
         }
 
-        if(vlucht250unlocked == true){
+        if(vlucht250unlocked){
             vlucht250image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
         }
 
-        if(login7unlocked == true){
+        if(login7unlocked){
             login7image.setImageResource(R.mipmap.icons_award_unlocked_v01);
         }
 
-        if(login14unlocked == true){
+        if(login14unlocked){
             login14image.setImageResource(R.mipmap.icons_award_unlocked_v01);
         }
 
-        if(login28unlocked == true){
+        if(login28unlocked){
             login28image.setImageResource(R.mipmap.icons_award_unlocked_v01);
         }
 
-        if(ranglijst100unlocked == true){
-            ranglijst100image.setImageResource(R.mipmap.icons_leaderboard_unlocked_v01);
-        }
-
-        if(ranglijst15unlocked == true){
-            ranglijst15image.setImageResource(R.mipmap.icons_leaderboard_unlocked_v01);
-        }
-
-        if(ranglijst5unlocked == true){
-            ranglijst5image.setImageResource(R.mipmap.icons_leaderboard_unlocked_v01);
-        }
-
-        if(xp1000unlocked == true){
+        if(xp1000unlocked){
             xp1000image.setImageResource(R.mipmap.icons_lintje_unlocked_v01);
         }
 
-        if(xp2500unlocked == true){
+        if(xp2500unlocked){
             xp2500image.setImageResource(R.mipmap.icons_lintje_unlocked_v01);
         }
 
-        if(xp5000unlocked == true){
+        if(xp5000unlocked){
             xp5000image.setImageResource(R.mipmap.icons_lintje_unlocked_v01);
         }
 
