@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -14,10 +15,14 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
+    DataBaseHelper mDatabaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mDatabaseHelper = new DataBaseHelper(this);
 
         ImageButton settingsButton;
         ImageButton prestatiesButton;
@@ -52,6 +57,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // LOCAL NOTIFICATIONS
+
+        int reminderState = mDatabaseHelper.getReminderSetting();
+
+//        Log.d("ReminderState", "De state is: " + Integer.toString(reminderState));
+        Log.d("ReminderState", "De state is: " + reminderState);
+
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE); // Init alarm service
 
         Intent notificationIntent = new Intent(this, com.example.echo.balloonbuddy.AlarmReceiver.class); // Maak de notification intent
@@ -60,6 +71,6 @@ public class MainActivity extends AppCompatActivity {
         Calendar cal = Calendar.getInstance(); // Maak een kalender
 //        cal.add(Calendar.HOUR, 24); // Voeg aan de kalender 24u toe
         cal.add(Calendar.SECOND, 10);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast); // Gooi het alarm zodra de tijd dde kalender + 24u bereikt
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast); // Gooi het alarm zodra de tijd de kalender + 24u bereikt
     }
 }
