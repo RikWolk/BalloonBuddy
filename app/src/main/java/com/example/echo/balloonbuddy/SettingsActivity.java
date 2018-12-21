@@ -31,6 +31,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         mDatabaseHelper = new DataBaseHelper(this);
 
+//        mDatabaseHelper.insertSetting(1);
+
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,15 +55,16 @@ public class SettingsActivity extends AppCompatActivity {
 
                 Cursor data = mDatabaseHelper.getAllData("settings");
 
+                if(isChecked) {
+                    mDatabaseHelper.updateSettings(1, 1);
+                } else {
+                    mDatabaseHelper.updateSettings(1, 0);
+                }
+
                 while(data.moveToNext()) {
                     Log.d("Table Data", "Col ID: " + data.getString(0));
                     Log.d("Table Data", "Col Reminder: " + data.getString(1));
                 }
-
-//                if(isChecked) {
-//                    mDatabaseHelper.updateSettings(0, 1);
-//                }
-
             }
         });
     }

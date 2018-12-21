@@ -116,7 +116,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         String query = "SELECT * FROM " + table_name;
         Cursor data = db.rawQuery(query, null);
+
         return data;
+    }
+
+    // RETURNS
+    public int getReminderSetting() {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "SELECT reminder FROM " + TABLE_SETTINGS + " WHERE id = 1";
+        Cursor data = db.rawQuery(query, null);
+        data.moveToFirst();
+        int reminderState =  data.getInt(0);
+
+        return reminderState;
     }
 
     public void updateAchievement(int id) {
