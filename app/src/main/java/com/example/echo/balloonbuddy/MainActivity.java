@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,13 +58,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // LOCAL NOTIFICATIONS
-
         int reminderState = mDatabaseHelper.getReminderSetting();
+        Cursor data = mDatabaseHelper.getAllData("achievements");
+
+        while(data.moveToNext()) {
+            Log.d("Achievements Data", "Values: " + data.getString(2));
+        }
 
 //        Log.d("ReminderState", "De state is: " + Integer.toString(reminderState));
         Log.d("ReminderState", "De state is: " + reminderState);
 
+        // LOCAL NOTIFICATIONS
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE); // Init alarm service
 
         Intent notificationIntent = new Intent(this, com.example.echo.balloonbuddy.AlarmReceiver.class); // Maak de notification intent

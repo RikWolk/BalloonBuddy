@@ -47,18 +47,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     // SCORES Create Statements
     private static final String CREATE_TABLE_SCORES = "CREATE TABLE " + TABLE_SCORES
-            + "(" + ID + " INTEGER PRIMARY KEY," + SCORE
+            + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + SCORE
             + " INTEGER," + MISTAKES + " INTEGER,"
             + CREATED_AT + " DATETIME)";
 
     // SETTINGS Create Statement
     private static final String CREATE_TABLE_SETTINGS = "CREATE TABLE " + TABLE_SETTINGS
-            + "(" + ID + " INTEGER PRIMARY KEY," + REMINDER + " INTEGER,"
+            + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + REMINDER + " INTEGER,"
             + CREATED_AT + " DATETIME)";
 
     // ACHIEVEMENTS Create Statement
     private static final String CREATE_TABLE_ACHIEVEMENTS = "CREATE TABLE " + TABLE_ACHIEVEMENTS
-            + "(" + ID + " INTEGER PRIMARY KEY," + UNLOCKED + " INTEGER,"
+            + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + UNLOCKED + " INTEGER,"
             + NAME + " TEXT," + DESCRIPTION + " TEXT,"
             + CREATED_AT + " DATETIME)";
 
@@ -68,11 +68,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
         // creating required tables
         db.execSQL(CREATE_TABLE_SCORES);
         db.execSQL(CREATE_TABLE_SETTINGS);
         db.execSQL(CREATE_TABLE_ACHIEVEMENTS);
+
+        insertSettings(db);
+        insertAchievements(db);
     }
 
     @Override
@@ -98,19 +100,80 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_SCORES, null, values);
     }
 
-    public void insertSetting(int reminder) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-
-        values.put(REMINDER, reminder);
-        values.put(CREATED_AT, getDateTime());
-
-        // insert row
-        db.insert(TABLE_SETTINGS, null, values);
+    public void insertSettings(SQLiteDatabase db) {
+        ContentValues settingsValues = new ContentValues();
+        settingsValues.put(REMINDER, 1);
+        settingsValues.put(CREATED_AT, getDateTime());
+        db.insert(TABLE_SETTINGS, null, settingsValues);
     }
 
-    // RETURNS
+    public void insertAchievements(SQLiteDatabase db) {
+        ContentValues achievementsValues = new ContentValues();
+
+        achievementsValues.put(UNLOCKED, 1);
+        achievementsValues.put(NAME, "flights1");
+        achievementsValues.put(DESCRIPTION, "Maak de eerste vlucht");
+        achievementsValues.put(CREATED_AT, getDateTime());
+
+        db.insert(TABLE_ACHIEVEMENTS, null, achievementsValues);
+
+        achievementsValues.put(UNLOCKED, 0);
+        achievementsValues.put(NAME, "flights100");
+        achievementsValues.put(DESCRIPTION, "Maak 100 vluchten");
+        achievementsValues.put(CREATED_AT, getDateTime());
+
+        db.insert(TABLE_ACHIEVEMENTS, null, achievementsValues);
+
+        achievementsValues.put(UNLOCKED, 0);
+        achievementsValues.put(NAME, "flights250");
+        achievementsValues.put(DESCRIPTION, "Maak 250 vluchten");
+        achievementsValues.put(CREATED_AT, getDateTime());
+
+        db.insert(TABLE_ACHIEVEMENTS, null, achievementsValues);
+
+        achievementsValues.put(UNLOCKED, 1);
+        achievementsValues.put(NAME, "streak7");
+        achievementsValues.put(DESCRIPTION, "Vlieg 7 dagen achter elkaar");
+        achievementsValues.put(CREATED_AT, getDateTime());
+
+        db.insert(TABLE_ACHIEVEMENTS, null, achievementsValues);
+
+        achievementsValues.put(UNLOCKED, 1);
+        achievementsValues.put(NAME, "streak14");
+        achievementsValues.put(DESCRIPTION, "Vlieg 14 dagen achter elkaar");
+        achievementsValues.put(CREATED_AT, getDateTime());
+
+        db.insert(TABLE_ACHIEVEMENTS, null, achievementsValues);
+
+        achievementsValues.put(UNLOCKED, 0);
+        achievementsValues.put(NAME, "streak28");
+        achievementsValues.put(DESCRIPTION, "Vlieg 28 dagen achter elkaar");
+        achievementsValues.put(CREATED_AT, getDateTime());
+
+        db.insert(TABLE_ACHIEVEMENTS, null, achievementsValues);
+
+        achievementsValues.put(UNLOCKED, 0);
+        achievementsValues.put(NAME, "score1000");
+        achievementsValues.put(DESCRIPTION, "Haal een score van 1000");
+        achievementsValues.put(CREATED_AT, getDateTime());
+
+        db.insert(TABLE_ACHIEVEMENTS, null, achievementsValues);
+
+        achievementsValues.put(UNLOCKED, 0);
+        achievementsValues.put(NAME, "score2500");
+        achievementsValues.put(DESCRIPTION, "Haal een score van 2500");
+        achievementsValues.put(CREATED_AT, getDateTime());
+
+        db.insert(TABLE_ACHIEVEMENTS, null, achievementsValues);
+
+        achievementsValues.put(UNLOCKED, 0);
+        achievementsValues.put(NAME, "score5000");
+        achievementsValues.put(DESCRIPTION, "Haal een score van 5000");
+        achievementsValues.put(CREATED_AT, getDateTime());
+
+        db.insert(TABLE_ACHIEVEMENTS, null, achievementsValues);
+    }
+
     public Cursor getAllData(String table_name) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -120,7 +183,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    // RETURNS
     public int getReminderSetting() {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -165,7 +227,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // closing database
     public void closeDB() {
         SQLiteDatabase db = this.getReadableDatabase();
         if (db != null && db.isOpen())

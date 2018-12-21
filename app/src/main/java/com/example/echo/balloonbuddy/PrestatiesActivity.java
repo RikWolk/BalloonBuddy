@@ -30,19 +30,6 @@ public class  PrestatiesActivity extends AppCompatActivity {
     public static ArrayList<String> x = new ArrayList<String>();
     public static ArrayList<String> y = new ArrayList<String>();
 
-    boolean vlucht1unlocked = true;
-    boolean vlucht100unlocked = false;
-    boolean vlucht250unlocked = false;
-    boolean login7unlocked = true;
-    boolean login14unlocked = false;
-    boolean login28unlocked = false;
-    boolean ranglijst100unlocked = true;
-    boolean ranglijst15unlocked = false;
-    boolean ranglijst5unlocked = false;
-    boolean xp1000unlocked = true;
-    boolean xp2500unlocked = false;
-    boolean xp5000unlocked = false;
-
     ImageView vlucht1image;
     ImageView vlucht100image;
     ImageView vlucht250image;
@@ -70,17 +57,18 @@ public class  PrestatiesActivity extends AppCompatActivity {
         mDatabaseHelper.insertScore(220, 3);
         mDatabaseHelper.insertScore(250, 8);
 
-        // GET ALL THE DATA FROM TABLE SCORES
-        Cursor data = mDatabaseHelper.getAllData("scores");
+        // GET ALL THE DATA FROM TABLE SCORES AND ACHIEVEMENTS
+        Cursor scoresData = mDatabaseHelper.getAllData("scores");
+        Cursor achievementsData = mDatabaseHelper.getAllData("achievements");
 
         // CLEAR ANY LOCAL OLD TABLE DATA
         x.clear();
         y.clear();
 
         // ITERATE THROUGH TABLE DATA AND ADD IT TO X and Y ARRAYS
-        while(data.moveToNext()) {
-            x.add(data.getString(0));
-            y.add(data.getString(1));
+        while(scoresData.moveToNext()) {
+            x.add(scoresData.getString(0));
+            y.add(scoresData.getString(1));
         }
 
         // CHECK THE AMOUNT OF DATA
@@ -142,59 +130,55 @@ public class  PrestatiesActivity extends AppCompatActivity {
         xp2500image = (ImageView) findViewById(R.id.xp2500image);
         xp5000image = (ImageView) findViewById(R.id.xp5000image);
 
-        if(vlucht1unlocked) {
-            vlucht1image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
-        }
+        while(achievementsData.moveToNext()) {
+            int id = achievementsData.getInt(0);
+            int unlocked = achievementsData.getInt(1);
 
-        if(vlucht100unlocked) {
-            vlucht100image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
-        }
+            Log.d("Table Data", "Achievement ID: " + id);
+            Log.d("Table Data", "Ulocked status: " + unlocked);
 
-        if(vlucht250unlocked) {
-            vlucht250image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
-        }
+            if(id == 1 && unlocked == 1) {
+                vlucht1image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
+            }
 
-        if(login7unlocked) {
-            login7image.setImageResource(R.mipmap.icons_award_unlocked_v01);
-        }
+            if(id == 2 && unlocked == 1) {
+                vlucht100image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
+            }
 
-        if(login14unlocked) {
-            login14image.setImageResource(R.mipmap.icons_award_unlocked_v01);
-        }
+            if(id == 3 && unlocked == 1) {
+                vlucht250image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
+            }
 
-        if(login28unlocked) {
-            login28image.setImageResource(R.mipmap.icons_award_unlocked_v01);
-        }
+            if(id == 4 && unlocked == 1) {
+                login7image.setImageResource(R.mipmap.icons_award_unlocked_v01);
+            }
 
-        if(ranglijst100unlocked) {
-            ranglijst100image.setImageResource(R.mipmap.icons_leaderboard_unlocked_v01);
-        }
+            if(id == 5 && unlocked == 1) {
+                login14image.setImageResource(R.mipmap.icons_award_unlocked_v01);
+            }
 
-        if(ranglijst15unlocked) {
-            ranglijst15image.setImageResource(R.mipmap.icons_leaderboard_unlocked_v01);
-        }
+            if(id == 6 && unlocked == 1) {
+                login28image.setImageResource(R.mipmap.icons_award_unlocked_v01);
+            }
 
-        if(ranglijst5unlocked) {
-            ranglijst5image.setImageResource(R.mipmap.icons_leaderboard_unlocked_v01);
-        }
+            if(id == 7 && unlocked == 1) {
+                xp1000image.setImageResource(R.mipmap.icons_lintje_unlocked_v01);
+            }
 
-        if(xp1000unlocked) {
-            xp1000image.setImageResource(R.mipmap.icons_lintje_unlocked_v01);
-        }
+            if(id == 8 && unlocked == 1) {
+                xp2500image.setImageResource(R.mipmap.icons_lintje_unlocked_v01);
+            }
 
-        if(xp2500unlocked) {
-            xp2500image.setImageResource(R.mipmap.icons_lintje_unlocked_v01);
-        }
-
-        if(xp5000unlocked) {
-            xp5000image.setImageResource(R.mipmap.icons_lintje_unlocked_v01);
+            if(id == 9 && unlocked == 1) {
+                xp5000image.setImageResource(R.mipmap.icons_lintje_unlocked_v01);
+            }
         }
     }
 
     public DataPoint[] data(){
         int n = x.size();     //to find out the no. of data-points
         DataPoint[] values = new DataPoint[n];     //creating an object of type DataPoint[] of size 'n'
-        for(int i = 0; i < n; i++){
+        for(int i = 0; i < n; i++) {
             DataPoint v = new DataPoint(Double.parseDouble(x.get(i)),Double.parseDouble(y.get(i)));
             values[i] = v;
         }
