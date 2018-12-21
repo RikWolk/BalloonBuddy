@@ -36,9 +36,6 @@ public class  PrestatiesActivity extends AppCompatActivity {
     ImageView login7image;
     ImageView login14image;
     ImageView login28image;
-    ImageView ranglijst100image;
-    ImageView ranglijst15image;
-    ImageView ranglijst5image;
     ImageView xp1000image;
     ImageView xp2500image;
     ImageView xp5000image;
@@ -123,9 +120,6 @@ public class  PrestatiesActivity extends AppCompatActivity {
         login7image  = (ImageView) findViewById(R.id.login7image);
         login14image = (ImageView) findViewById(R.id.login14image);
         login28image = (ImageView) findViewById(R.id.login28image);
-        ranglijst100image = (ImageView) findViewById(R.id.ranglijst100image);
-        ranglijst15image = (ImageView) findViewById(R.id.ranglijst15image);
-        ranglijst5image = (ImageView) findViewById(R.id.ranglijst5image);
         xp1000image = (ImageView) findViewById(R.id.xp1000image);
         xp2500image = (ImageView) findViewById(R.id.xp2500image);
         xp5000image = (ImageView) findViewById(R.id.xp5000image);
@@ -175,11 +169,11 @@ public class  PrestatiesActivity extends AppCompatActivity {
         }
     }
 
-    public DataPoint[] data(){
+    public DataPoint[] data() {
         int n = x.size();     //to find out the no. of data-points
         DataPoint[] values = new DataPoint[n];     //creating an object of type DataPoint[] of size 'n'
         for(int i = 0; i < n; i++) {
-            DataPoint v = new DataPoint(Double.parseDouble(x.get(i)),Double.parseDouble(y.get(i)));
+            DataPoint v = new DataPoint(Double.parseDouble(x.get(i)), Double.parseDouble(y.get(i)));
             values[i] = v;
         }
         return values;

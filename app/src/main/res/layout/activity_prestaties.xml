@@ -92,7 +92,7 @@
             android:id="@+id/voortgangOverview"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
@@ -129,7 +129,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/achievementsOverview"
-            android:layout_width="280dp"
+            android:layout_width="250dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -157,6 +157,7 @@
                 android:id="@+id/vluchtenLijst"
                 android:layout_width="70dp"
                 android:layout_height="240dp"
+                android:layout_marginStart="8dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -178,7 +179,7 @@
                     android:text="Eerste vlucht"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
-                    android:textSize="9sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
                     android:id="@+id/vlucht100image"
@@ -194,7 +195,7 @@
                     android:text="100e vlucht"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
-                    android:textSize="9sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
                     android:id="@+id/vlucht250image"
@@ -209,14 +210,15 @@
                     android:text="250e vlucht"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
-                    android:textSize="9sp" />
+                    android:textSize="10sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/loginLijst"
-                android:layout_width="70dp"
+                android:layout_width="80dp"
                 android:layout_height="240dp"
+                android:layout_marginStart="8dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/vluchtenLijst"
@@ -238,7 +240,7 @@
                     android:text="7 dagen streak"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
-                    android:textSize="9sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
                     android:id="@+id/login14image"
@@ -254,7 +256,7 @@
                     android:text="14 dagen streak"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
-                    android:textSize="9sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
                     android:id="@+id/login28image"
@@ -269,75 +271,17 @@
                     android:text="28 dagen streak"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
-                    android:textSize="9sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/leaderboardLijst"
-                android:layout_width="70dp"
-                android:layout_height="240dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/loginLijst"
-                app:layout_constraintTop_toBottomOf="@+id/achievements">
-
-
-                <ImageView
-                    android:id="@+id/ranglijst100image"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/background_light"
-                    app:srcCompat="@mipmap/icons_leaderboard_locked_v01" />
-
-                <TextView
-                    android:id="@+id/ranglijst100text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:text="Plek in ranglijst"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="9sp" />
-
-                <ImageView
-                    android:id="@+id/ranglijst15image"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@mipmap/icons_leaderboard_locked_v01" />
-
-                <TextView
-                    android:id="@+id/ranglijst15text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:text="In de top 15"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="9sp" />
-
-                <ImageView
-                    android:id="@+id/ranglijst5image"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@mipmap/icons_leaderboard_locked_v01" />
-
-                <TextView
-                    android:id="@+id/ranglijst5text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="In de top 5"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="9sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/xpLijst"
                 android:layout_width="70dp"
                 android:layout_height="240dp"
+                android:layout_marginStart="8dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/leaderboardLijst"
+                app:layout_constraintStart_toEndOf="@+id/loginLijst"
                 app:layout_constraintTop_toBottomOf="@+id/achievements">
 
 
@@ -356,7 +300,7 @@
                     android:text="Score 1000"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
-                    android:textSize="9sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
                     android:id="@+id/xp2500image"
@@ -372,7 +316,7 @@
                     android:text="Score 2500"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
-                    android:textSize="9sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
                     android:id="@+id/xp5000image"
@@ -387,7 +331,7 @@
                     android:text="Score 5000"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
-                    android:textSize="9sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
         </android.support.constraint.ConstraintLayout>
