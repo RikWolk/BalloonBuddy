@@ -34,13 +34,14 @@ public class SettingsActivity extends AppCompatActivity {
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish(); // Dit haalt het huidige scherm van de stack af in plaats van een nieuwe toevoegen.
+                finish();
             }
         });
 
         prestatiesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 Intent intent = new Intent(SettingsActivity.this, PrestatiesActivity.class);
                 startActivity(intent);
             }
