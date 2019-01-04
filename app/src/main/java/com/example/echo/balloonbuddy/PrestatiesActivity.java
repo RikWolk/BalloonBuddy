@@ -112,6 +112,7 @@ public class  PrestatiesActivity extends AppCompatActivity {
     }
 
     public void graphPlotter() {
+        //Test
         GraphView graph;
         LineGraphSeries<DataPoint> series;
         graph = (GraphView) findViewById(R.id.graph);
