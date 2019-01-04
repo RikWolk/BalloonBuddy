@@ -43,11 +43,30 @@ public class  PrestatiesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        // INITIATE ACHIEVEMENT VIEW
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prestaties);
 
+        // GET DB AND MAKE LIST
         mListView = (ListView) findViewById(R.id.listView);
         mDatabaseHelper = new DataBaseHelper(this);
+
+        // ADD BUTTONS
+        ImageButton settingsButton;
+        ImageButton homeButton;
+
+        // LINK STUFF TO XML
+        settingsButton = (ImageButton) findViewById(R.id.settingsButton);
+        homeButton = (ImageButton) findViewById(R.id.homeButton);
+        vlucht1image = (ImageView) findViewById(R.id.vlucht1image);
+        vlucht100image = (ImageView) findViewById(R.id.vlucht100image);
+        vlucht250image = (ImageView) findViewById(R.id.vlucht250image);
+        login7image  = (ImageView) findViewById(R.id.login7image);
+        login14image = (ImageView) findViewById(R.id.login14image);
+        login28image = (ImageView) findViewById(R.id.login28image);
+        xp1000image = (ImageView) findViewById(R.id.xp1000image);
+        xp2500image = (ImageView) findViewById(R.id.xp2500image);
+        xp5000image = (ImageView) findViewById(R.id.xp5000image);
 
         // ADD SOME MORE DATA
         mDatabaseHelper.insertScore(200, 5);
@@ -68,34 +87,10 @@ public class  PrestatiesActivity extends AppCompatActivity {
             y.add(scoresData.getString(1));
         }
 
-        // CHECK THE AMOUNT OF DATA
-        Log.d("Table Data", "X values: " + Integer.toString(x.size()));
-        Log.d("Table Data", "Y values: " + Integer.toString(y.size()));
+        graphPlotter();
 
         // DELETE DATA FROM TABLE SCORES
 //        mDatabaseHelper.deleteAllData("scores");
-
-        // PLOT THE GRAPH
-        GraphView graph;
-        LineGraphSeries<DataPoint> series;
-        graph = (GraphView) findViewById(R.id.graph);
-        series = new LineGraphSeries<>(data());
-        series.setColor(Color.rgb(216, 57, 73));
-        series.setThickness(6);
-        series.setDrawBackground(true);
-        series.setBackgroundColor(Color.argb(60,95, 226, 156));
-        series.setDrawDataPoints(true);
-        graph.getGridLabelRenderer().setGridColor(Color.WHITE);
-        graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
-        graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
-        graph.getGridLabelRenderer().setHumanRounding(false);
-        graph.addSeries(series);
-
-        ImageButton settingsButton;
-        ImageButton homeButton;
-
-        settingsButton = (ImageButton) findViewById(R.id.settingsButton);
-        homeButton = (ImageButton) findViewById(R.id.homeButton);
 
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,17 +108,37 @@ public class  PrestatiesActivity extends AppCompatActivity {
             }
         });
 
-        // Koppel variable aan xml element
-        vlucht1image = (ImageView) findViewById(R.id.vlucht1image);
-        vlucht100image = (ImageView) findViewById(R.id.vlucht100image);
-        vlucht250image = (ImageView) findViewById(R.id.vlucht250image);
-        login7image  = (ImageView) findViewById(R.id.login7image);
-        login14image = (ImageView) findViewById(R.id.login14image);
-        login28image = (ImageView) findViewById(R.id.login28image);
-        xp1000image = (ImageView) findViewById(R.id.xp1000image);
-        xp2500image = (ImageView) findViewById(R.id.xp2500image);
-        xp5000image = (ImageView) findViewById(R.id.xp5000image);
+        achievementShower(achievementsData);
+    }
 
+    public void graphPlotter() {
+        GraphView graph;
+        LineGraphSeries<DataPoint> series;
+        graph = (GraphView) findViewById(R.id.graph);
+        series = new LineGraphSeries<>(data());
+        series.setColor(Color.rgb(216, 57, 73));
+        series.setThickness(6);
+        series.setDrawBackground(true);
+        series.setBackgroundColor(Color.argb(60,95, 226, 156));
+        series.setDrawDataPoints(true);
+        graph.getGridLabelRenderer().setGridColor(Color.WHITE);
+        graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
+        graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
+        graph.getGridLabelRenderer().setHumanRounding(false);
+        graph.addSeries(series);
+    }
+
+    public DataPoint[] data() {
+        int n = x.size();     //to find out the no. of data-points
+        DataPoint[] values = new DataPoint[n];     //creating an object of type DataPoint[] of size 'n'
+        for(int i = 0; i < n; i++) {
+            DataPoint v = new DataPoint(Double.parseDouble(x.get(i)), Double.parseDouble(y.get(i)));
+            values[i] = v;
+        }
+        return values;
+    }
+
+    public void achievementShower(Cursor achievementsData) {
         while(achievementsData.moveToNext()) {
             int id = achievementsData.getInt(0);
             int unlocked = achievementsData.getInt(1);
@@ -167,16 +182,6 @@ public class  PrestatiesActivity extends AppCompatActivity {
                 xp5000image.setImageResource(R.mipmap.icons_lintje_unlocked_v01);
             }
         }
-    }
-
-    public DataPoint[] data() {
-        int n = x.size();     //to find out the no. of data-points
-        DataPoint[] values = new DataPoint[n];     //creating an object of type DataPoint[] of size 'n'
-        for(int i = 0; i < n; i++) {
-            DataPoint v = new DataPoint(Double.parseDouble(x.get(i)), Double.parseDouble(y.get(i)));
-            values[i] = v;
-        }
-        return values;
     }
 }
 
