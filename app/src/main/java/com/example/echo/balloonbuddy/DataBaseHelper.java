@@ -204,7 +204,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(UPDATE_SETTINGS);
     }
 
-
     public void updateSettings(int id, int reminder) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -225,6 +224,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             String DELETE = "DELETE FROM " + table_name + " WHERE " + ID + " = " + data.getString(0);
             db.execSQL(DELETE);
         }
+    }
+
+    public void dropTable(String table_name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "DROP TABLE " + table_name;
+        db.execSQL(query);
     }
 
     public void closeDB() {

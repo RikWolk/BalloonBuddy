@@ -25,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
         mDatabaseHelper = new DataBaseHelper(this);
 
+//        mDatabaseHelper.dropTable("settings");
+//        mDatabaseHelper.dropTable("achievements");
+
         ImageButton settingsButton;
         ImageButton prestatiesButton;
         Button startButton;
@@ -59,13 +62,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         int reminderState = mDatabaseHelper.getReminderSetting();
-        Cursor data = mDatabaseHelper.getAllData("achievements");
-
-        while(data.moveToNext()) {
-            Log.d("Achievements Data", "Values: " + data.getString(2));
-        }
-
-//        Log.d("ReminderState", "De state is: " + Integer.toString(reminderState));
         Log.d("ReminderState", "De state is: " + reminderState);
 
         // LOCAL NOTIFICATIONS
