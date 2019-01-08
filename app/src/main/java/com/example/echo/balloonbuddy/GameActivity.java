@@ -6,11 +6,16 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,13 +33,23 @@ public class GameActivity extends AppCompatActivity {
 
     ImageButton restartButton;
     ImageButton pauseButton;
-    TextView teller;
-    int i = 0;
+    TextView scoreDisplay;
+    int timer = 0;
+    int score = 0;
 
+    // Houdt locatie balon bij
+    int balonCounter = 1;
 
     TextView textView1;
     TextView textView2;
     TextView textView3;
+
+    Button buttonOmhoog;
+    Button buttonOmlaag;
+    Button buttonOmhoog2;
+    Button buttonOmlaag2;
+
+    ImageView balonImage;
 
     Handler bluetoothIn;
 
@@ -59,9 +74,13 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        textView1 = (TextView) findViewById(R.id.textView1);
-        textView2 = (TextView) findViewById(R.id.textView2);
-        textView3 = (TextView) findViewById(R.id.textView3);
+        buttonOmhoog = (Button) findViewById(R.id.buttonOmhoog);
+        buttonOmlaag = (Button) findViewById(R.id.buttonOmlaag);
+        buttonOmhoog2 = (Button) findViewById(R.id.buttonOmhoog2);
+        buttonOmlaag2 = (Button) findViewById(R.id.buttonOmlaag2);
+
+        balonImage = (ImageView) findViewById(R.id.balonImage);
+
         //Link the buttons and textViews to respective views
 
         bluetoothIn = new Handler() {
@@ -76,28 +95,7 @@ public class GameActivity extends AppCompatActivity {
 
                     if (endOfLineIndex > 0) {
 
-                        String mic2 = recDataString.substring(midOfLineIndex);
-                        String mic1 = recDataString.substring(0, midOfLineIndex);
-
-                        mic2 = mic2.replace("&", "");
-                        mic2 = mic2.replace("*", "");
-                        mic2 = mic2.replace(" ", "");
-                        mic1 = mic1.replace(" ", "");
-
-                        textView1.setText(mic1);
-                        textView2.setText(mic2);
-
-//                        double mic1Data = new Double(mic1);
-//                        double mic2Data = Double.parseDouble(mic2);
-//                        double mic2Data = Double.valueOf(mic2);
-
                         recDataString.delete(0, recDataString.length());
-
-                        mic1 = "";
-                        mic2 = "";
-//                        mic1Data = 0.0;
-//                        mic2Data = 0.0;
-
 
                     }
 
@@ -109,6 +107,132 @@ public class GameActivity extends AppCompatActivity {
         btAdapter = BluetoothAdapter.getDefaultAdapter();       // get Bluetooth adapter
         checkBTState();
 
+        // Balon omhoog van midden
+        buttonOmhoog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (balonCounter == 1) {
+                    final ImageView balon = (ImageView) findViewById(R.id.balonImage);
+
+                    final ValueAnimator animatorBalon = ValueAnimator.ofFloat(0.75f, 0.0f);
+                    //animatorBalon.setRepeatCount(0);
+                    animatorBalon.setInterpolator(new LinearInterpolator());
+                    animatorBalon.setDuration(5000L);
+                    animatorBalon.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            final float progress = (float) animation.getAnimatedValue();
+                            final float height = balon.getHeight();
+                            final float translationY = height * progress;
+                            balon.setTranslationY(translationY);
+                            balon.setTranslationY(translationY - height);
+                        }
+                    });
+
+                    animatorBalon.start();
+                    balonCounter += 1;
+                }
+
+                else{
+
+                    }
+            }
+        });
+
+        // Balon omlaag van top
+        buttonOmlaag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (balonCounter == 2) {
+                    final ImageView balon = (ImageView) findViewById(R.id.balonImage);
+
+                    final ValueAnimator animatorBalon = ValueAnimator.ofFloat(0.0f, 0.75f);
+                    //animatorBalon.setRepeatCount(0);
+                    animatorBalon.setInterpolator(new LinearInterpolator());
+                    animatorBalon.setDuration(5000L);
+                    animatorBalon.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            final float progress = (float) animation.getAnimatedValue();
+                            final float height = balon.getHeight();
+                            final float translationY = height * progress;
+                            balon.setTranslationY(translationY);
+                            balon.setTranslationY(translationY - height);
+                        }
+                    });
+
+                    animatorBalon.start();
+                    balonCounter -= 1;
+                }
+
+                else{
+
+                }
+            }
+        });
+
+        // Omhoog van bottom
+        buttonOmhoog2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(balonCounter == 0){
+
+                    final ImageView balon = (ImageView) findViewById(R.id.balonImage);
+
+                    final ValueAnimator animatorBalon = ValueAnimator.ofFloat(0.75f, 0.0f);
+                    //animatorBalon.setRepeatCount(0);
+                    animatorBalon.setInterpolator(new LinearInterpolator());
+                    animatorBalon.setDuration(5000L);
+                    animatorBalon.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            final float progress = (float) animation.getAnimatedValue();
+                            final float height = balon.getHeight();
+                            final float translationY = height * progress;
+                            balon.setTranslationY(translationY);
+                        }
+                    });
+
+                    animatorBalon.start();
+                    balonCounter += 1;
+                }
+
+                else{
+
+                }
+            }
+        });
+
+        // Balon omlaag van midden
+        buttonOmlaag2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (balonCounter == 1) {
+                    final ImageView balon = (ImageView) findViewById(R.id.balonImage);
+
+                    final ValueAnimator animatorBalon = ValueAnimator.ofFloat(0.0f, 0.75f);
+                    //animatorBalon.setRepeatCount(0);
+                    animatorBalon.setInterpolator(new LinearInterpolator());
+                    animatorBalon.setDuration(5000L);
+                    animatorBalon.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            final float progress = (float) animation.getAnimatedValue();
+                            final float height = balon.getHeight();
+                            final float translationY = height * progress;
+                            balon.setTranslationY(translationY);
+                        }
+                    });
+
+                    animatorBalon.start();
+                    balonCounter -= 1;
+                }
+
+                else{
+
+                }
+            }
+        });
 
         pauseButton = (ImageButton) findViewById(R.id.pauseButton);
         restartButton = (ImageButton) findViewById(R.id.restartButton);
@@ -121,16 +245,22 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        teller = (TextView) findViewById(R.id.liveScore);
+        scoreDisplay = (TextView) findViewById(R.id.liveScore);
+        scoreDisplay.setText(String.valueOf(score));
 
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                i++;
-                teller.setText(String.valueOf(i));
+        new CountDownTimer(10000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                // Als state wijzigt cancel?
             }
-        },10000);
+
+            public void onFinish() {
+                score += 10;
+                scoreDisplay.setText(String.valueOf(score));
+                start();
+            }
+        }.start();
+
 
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,15 +271,14 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        // Repeating background
-
+        // Repeating background bergen
         final ImageView background1 = (ImageView) findViewById(R.id.backgroundImage1);
         final ImageView background2 = (ImageView) findViewById(R.id.backgroundImage2);
 
         final ValueAnimator animator = ValueAnimator.ofFloat(1.0f, 0.0f);
         animator.setRepeatCount(ValueAnimator.INFINITE);
         animator.setInterpolator(new LinearInterpolator());
-        animator.setDuration(10000L);
+        animator.setDuration(40000L);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) { final float progress = (float) animation.getAnimatedValue();
@@ -160,9 +289,47 @@ public class GameActivity extends AppCompatActivity {
                 }
         });
 
-        animator.start();
+        // Gras voorground animatie
+        final ImageView background_grass1 = (ImageView) findViewById(R.id.backgroundGrassImage1);
+        final ImageView background_grass2 = (ImageView) findViewById(R.id.backgroundGrassImage2);
 
+        final ValueAnimator animatorGrass = ValueAnimator.ofFloat(1.0f, 0.0f);
+        animatorGrass.setRepeatCount(ValueAnimator.INFINITE);
+        animatorGrass.setInterpolator(new LinearInterpolator());
+        animatorGrass.setDuration(15000L);
+        animatorGrass.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) { final float progress = (float) animation.getAnimatedValue();
+                final float width = background_grass2.getWidth();
+                final float translationX = width * progress;
+                background_grass2.setTranslationX(translationX);
+                background_grass1.setTranslationX(translationX - width);
+            }
+        });
+
+        // Wolken achtegrond animatie
+        final ImageView background_clouds1 = (ImageView) findViewById(R.id.backgroundCloudsImage1);
+        final ImageView background_clouds2 = (ImageView) findViewById(R.id.backgroundCloudsImage2);
+
+        final ValueAnimator animatorClouds = ValueAnimator.ofFloat(1.0f, 0.0f);
+        animatorClouds.setRepeatCount(ValueAnimator.INFINITE);
+        animatorClouds.setInterpolator(new LinearInterpolator());
+        animatorClouds.setDuration(30000L);
+        animatorClouds.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) { final float progress = (float) animation.getAnimatedValue();
+                final float width = background_clouds2.getWidth();
+                final float translationX = width * progress;
+                background_clouds2.setTranslationX(translationX);
+                background_clouds1.setTranslationX(translationX - width);
+            }
+        });
+
+        animator.start();
+        animatorGrass.start();
+        animatorClouds.start();
     }
+
 
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
 
@@ -284,5 +451,7 @@ public class GameActivity extends AppCompatActivity {
 
             }
         }
+
     }
+
 }

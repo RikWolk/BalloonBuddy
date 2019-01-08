@@ -30,7 +30,7 @@ public class DeviceListActivity extends Activity {
     TextView textView3;
 
     // EXTRA string to send on to mainactivity
-    public static String EXTRA_DEVICE_ADDRESS = "device_address";
+   public static String EXTRA_DEVICE_ADDRESS = "device_address";
 
     // Member fields
     private BluetoothAdapter mBtAdapter;
@@ -116,5 +116,5 @@ public class DeviceListActivity extends Activity {
             }
         }
     }
-}
 
+}
