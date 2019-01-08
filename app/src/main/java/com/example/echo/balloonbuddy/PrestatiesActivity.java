@@ -16,6 +16,31 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.ArrayList;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.listener.OnChartGestureListener;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.PointsGraphSeries;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class  PrestatiesActivity extends AppCompatActivity {
 
@@ -68,6 +93,15 @@ public class  PrestatiesActivity extends AppCompatActivity {
         xp2500image = (ImageView) findViewById(R.id.xp2500image);
         xp5000image = (ImageView) findViewById(R.id.xp5000image);
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_prestaties);
+
+        mListView = (ListView) findViewById(R.id.listView);
+        mDatabaseHelper = new DataBaseHelper(this);
+
         // ADD SOME MORE DATA
         mDatabaseHelper.insertScore(200, 5);
         mDatabaseHelper.insertScore(220, 3);
@@ -76,6 +110,9 @@ public class  PrestatiesActivity extends AppCompatActivity {
         // GET ALL THE DATA FROM TABLE SCORES AND ACHIEVEMENTS
         Cursor scoresData = mDatabaseHelper.getAllData("scores");
         Cursor achievementsData = mDatabaseHelper.getAllData("achievements");
+
+        // GET ALL THE DATA FROM TABLE SCORES
+        Cursor data = mDatabaseHelper.getAllData("scores");
 
         // CLEAR ANY LOCAL OLD TABLE DATA
         x.clear();
@@ -88,6 +125,14 @@ public class  PrestatiesActivity extends AppCompatActivity {
         }
 
         graphPlotter();
+        while(data.moveToNext()) {
+            x.add(data.getString(0));
+            y.add(data.getString(1));
+        }
+
+        // CHECK THE AMOUNT OF DATA
+        Log.d("Table Data", "X values: " + Integer.toString(x.size()));
+        Log.d("Table Data", "Y values: " + Integer.toString(y.size()));
 
         // DELETE DATA FROM TABLE SCORES
 //        mDatabaseHelper.deleteAllData("scores");
@@ -112,6 +157,7 @@ public class  PrestatiesActivity extends AppCompatActivity {
     }
 
     public void graphPlotter() {
+        // PLOT THE GRAPH
         GraphView graph;
         LineGraphSeries<DataPoint> series;
         graph = (GraphView) findViewById(R.id.graph);

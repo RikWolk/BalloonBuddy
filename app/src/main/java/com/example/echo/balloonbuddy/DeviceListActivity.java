@@ -115,6 +115,5 @@ public class DeviceListActivity extends Activity {
                 startActivityForResult(enableBtIntent, 1);
             }
         }
-    }
 
 }

@@ -61,7 +61,6 @@
         android:scaleType="fitXY"
         app:srcCompat="@drawable/background" />
 
-
     <ImageView
         android:id="@+id/backgroundGrassImage1"
         android:layout_width="0dp"
@@ -180,6 +179,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
+
         android:id="@+id/scoreOverview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

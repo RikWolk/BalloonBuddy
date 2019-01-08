@@ -16,6 +16,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,6 +44,9 @@ public class GameActivity extends AppCompatActivity {
 
     // Houdt locatie balon bij
     int balonCounter = 1;
+
+    TextView teller;
+    int i = 0;
 
     TextView textView1;
     TextView textView2;
@@ -81,6 +89,10 @@ public class GameActivity extends AppCompatActivity {
 
         balonImage = (ImageView) findViewById(R.id.balonImage);
 
+=======
+        textView1 = (TextView) findViewById(R.id.textView1);
+        textView2 = (TextView) findViewById(R.id.textView2);
+        textView3 = (TextView) findViewById(R.id.textView3);
         //Link the buttons and textViews to respective views
 
         bluetoothIn = new Handler() {
@@ -233,6 +245,25 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
         });
+                        String mic1 = recDataString.substring(0, endOfLineIndex);
+
+
+                        //mic1 geeft een 0,1 of 2 terug in string vorm.
+                        mic1 = mic1.replace("*", "");
+
+                        textView1.setText(mic1);
+
+                        recDataString.delete(0, recDataString.length());
+
+                    }
+
+                }
+            }
+
+        };
+
+        btAdapter = BluetoothAdapter.getDefaultAdapter();       // get Bluetooth adapter
+        checkBTState();
 
         pauseButton = (ImageButton) findViewById(R.id.pauseButton);
         restartButton = (ImageButton) findViewById(R.id.restartButton);
@@ -261,6 +292,16 @@ public class GameActivity extends AppCompatActivity {
             }
         }.start();
 
+        teller = (TextView) findViewById(R.id.liveScore);
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                i++;
+                teller.setText(String.valueOf(i));
+            }
+        },10000);
 
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,6 +313,7 @@ public class GameActivity extends AppCompatActivity {
         });
 
         // Repeating background bergen
+
         final ImageView background1 = (ImageView) findViewById(R.id.backgroundImage1);
         final ImageView background2 = (ImageView) findViewById(R.id.backgroundImage2);
 
@@ -329,7 +371,6 @@ public class GameActivity extends AppCompatActivity {
         animatorGrass.start();
         animatorClouds.start();
     }
-
 
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
 
@@ -451,7 +492,11 @@ public class GameActivity extends AppCompatActivity {
 
             }
         }
+<<<<<<< HEAD
 
     }
 
+=======
+    }
+>>>>>>> Rik
 }

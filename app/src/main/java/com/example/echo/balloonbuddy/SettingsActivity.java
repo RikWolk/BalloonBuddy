@@ -1,6 +1,7 @@
 package com.example.echo.balloonbuddy;
 
 import android.content.Intent;
+<<<<<<< HEAD
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,13 @@ public class SettingsActivity extends AppCompatActivity {
 
     DataBaseHelper mDatabaseHelper;
     public static Boolean reminderOn;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+
+public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +40,9 @@ public class SettingsActivity extends AppCompatActivity {
         mDatabaseHelper = new DataBaseHelper(this);
 
 //        mDatabaseHelper.insertSetting(1);
+
+        homeButton = (ImageButton) findViewById(R.id.homeButton);
+        prestatiesButton = (ImageButton) findViewById(R.id.prestatiesButton);
 
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
