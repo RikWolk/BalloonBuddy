@@ -2,6 +2,7 @@ package com.example.echo.balloonbuddy;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,31 +17,6 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.ArrayList;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
-
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.listener.OnChartGestureListener;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
-import com.jjoe64.graphview.series.PointsGraphSeries;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class  PrestatiesActivity extends AppCompatActivity {
 
@@ -93,15 +69,6 @@ public class  PrestatiesActivity extends AppCompatActivity {
         xp2500image = (ImageView) findViewById(R.id.xp2500image);
         xp5000image = (ImageView) findViewById(R.id.xp5000image);
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_prestaties);
-
-        mListView = (ListView) findViewById(R.id.listView);
-        mDatabaseHelper = new DataBaseHelper(this);
-
         // ADD SOME MORE DATA
         mDatabaseHelper.insertScore(200, 5);
         mDatabaseHelper.insertScore(220, 3);
@@ -110,9 +77,6 @@ public class  PrestatiesActivity extends AppCompatActivity {
         // GET ALL THE DATA FROM TABLE SCORES AND ACHIEVEMENTS
         Cursor scoresData = mDatabaseHelper.getAllData("scores");
         Cursor achievementsData = mDatabaseHelper.getAllData("achievements");
-
-        // GET ALL THE DATA FROM TABLE SCORES
-        Cursor data = mDatabaseHelper.getAllData("scores");
 
         // CLEAR ANY LOCAL OLD TABLE DATA
         x.clear();
@@ -125,14 +89,6 @@ public class  PrestatiesActivity extends AppCompatActivity {
         }
 
         graphPlotter();
-        while(data.moveToNext()) {
-            x.add(data.getString(0));
-            y.add(data.getString(1));
-        }
-
-        // CHECK THE AMOUNT OF DATA
-        Log.d("Table Data", "X values: " + Integer.toString(x.size()));
-        Log.d("Table Data", "Y values: " + Integer.toString(y.size()));
 
         // DELETE DATA FROM TABLE SCORES
 //        mDatabaseHelper.deleteAllData("scores");
@@ -157,7 +113,7 @@ public class  PrestatiesActivity extends AppCompatActivity {
     }
 
     public void graphPlotter() {
-        // PLOT THE GRAPH
+        //Test
         GraphView graph;
         LineGraphSeries<DataPoint> series;
         graph = (GraphView) findViewById(R.id.graph);
@@ -186,48 +142,47 @@ public class  PrestatiesActivity extends AppCompatActivity {
 
     public void achievementShower(Cursor achievementsData) {
         while(achievementsData.moveToNext()) {
-            int id = achievementsData.getInt(0);
+            int number = achievementsData.getInt(4);
             int unlocked = achievementsData.getInt(1);
 
-            Log.d("Table Data", "Achievement ID: " + id);
-            Log.d("Table Data", "Ulocked status: " + unlocked);
+            Log.d("Table Data", "Achievement number: " + number);
+//            Log.d("Table Data", "Unlocked status: " + unlocked);
 
-            if(id == 1 && unlocked == 1) {
+            if(number == 1 && unlocked == 1) {
                 vlucht1image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
             }
 
-            if(id == 2 && unlocked == 1) {
+            if(number == 2 && unlocked == 1) {
                 vlucht100image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
             }
 
-            if(id == 3 && unlocked == 1) {
+            if(number == 3 && unlocked == 1) {
                 vlucht250image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
             }
 
-            if(id == 4 && unlocked == 1) {
+            if(number == 4 && unlocked == 1) {
                 login7image.setImageResource(R.mipmap.icons_award_unlocked_v01);
             }
 
-            if(id == 5 && unlocked == 1) {
+            if(number == 5 && unlocked == 1) {
                 login14image.setImageResource(R.mipmap.icons_award_unlocked_v01);
             }
 
-            if(id == 6 && unlocked == 1) {
+            if(number == 6 && unlocked == 1) {
                 login28image.setImageResource(R.mipmap.icons_award_unlocked_v01);
             }
 
-            if(id == 7 && unlocked == 1) {
+            if(number == 7 && unlocked == 1) {
                 xp1000image.setImageResource(R.mipmap.icons_lintje_unlocked_v01);
             }
 
-            if(id == 8 && unlocked == 1) {
+            if(number == 8 && unlocked == 1) {
                 xp2500image.setImageResource(R.mipmap.icons_lintje_unlocked_v01);
             }
 
-            if(id == 9 && unlocked == 1) {
+            if(number == 9 && unlocked == 1) {
                 xp5000image.setImageResource(R.mipmap.icons_lintje_unlocked_v01);
             }
         }
     }
 }
-

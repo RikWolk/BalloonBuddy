@@ -248,7 +248,7 @@ public class GameActivity extends AppCompatActivity {
 
                 else{
 
-                    }
+                }
             }
         });
 
@@ -364,13 +364,13 @@ public class GameActivity extends AppCompatActivity {
         animator.setInterpolator(new LinearInterpolator());
         animator.setDuration(40000L);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) { final float progress = (float) animation.getAnimatedValue();
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) { final float progress = (float) animation.getAnimatedValue();
                 final float width = background2.getWidth();
                 final float translationX = width * progress;
                 background2.setTranslationX(translationX);
                 background1.setTranslationX(translationX - width);
-                }
+            }
         });
 
         // Gras voorground animatie
@@ -465,6 +465,7 @@ public class GameActivity extends AppCompatActivity {
         });
 
     }
+
 
 
 
@@ -595,7 +596,5 @@ public class GameActivity extends AppCompatActivity {
 
     }
     */
-
-
 
 }
