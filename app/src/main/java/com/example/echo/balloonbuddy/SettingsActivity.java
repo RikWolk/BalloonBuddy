@@ -1,5 +1,8 @@
 package com.example.echo.balloonbuddy;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +12,10 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Switch;
+
+import com.example.echo.balloonbuddy.AlarmService;
+
+import java.util.Calendar;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -27,11 +34,17 @@ public class SettingsActivity extends AppCompatActivity {
         homeButton = (ImageButton) findViewById(R.id.homeButton);
         prestatiesButton = (ImageButton) findViewById(R.id.prestatiesButton);
         reminder = (Switch) findViewById(R.id.reminder);
-        reminderOn = false;
+//        reminderOn = false;
 
         mDatabaseHelper = new DataBaseHelper(this);
 
-//        mDatabaseHelper.insertSetting(1);
+        int reminderState = mDatabaseHelper.getReminderSetting();
+
+        if(reminderState == 1) {
+            reminder.setChecked(true);
+        } else {
+            reminder.setChecked(false);
+        }
 
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,21 +62,20 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        final AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE); // Init alarm service
+        Intent notificationIntent = new Intent(this, com.example.echo.balloonbuddy.AlarmReceiver.class); // Maak de notification intent
+        final PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT); // Gooi de intent in een broadcast
+
         reminder.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Log.d("Switch", "staat de switch aan: " + isChecked);
-
-                Cursor data = mDatabaseHelper.getAllData("settings");
-
                 if(isChecked) {
                     mDatabaseHelper.updateSettings(1, 1);
+                    Calendar cal = Calendar.getInstance(); // Maak een kalender
+                    cal.add(Calendar.SECOND, 10);
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
                 } else {
                     mDatabaseHelper.updateSettings(1, 0);
-                }
-
-                while(data.moveToNext()) {
-                    Log.d("Table Data", "Col ID: " + data.getString(0));
-                    Log.d("Table Data", "Col Reminder: " + data.getString(1));
+                    alarmManager.cancel(broadcast);
                 }
             }
         });

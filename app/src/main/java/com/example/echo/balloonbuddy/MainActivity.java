@@ -17,6 +17,7 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity {
 
     DataBaseHelper mDatabaseHelper;
+    AlarmService mAlarmService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +25,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mDatabaseHelper = new DataBaseHelper(this);
-
+//        mDatabaseHelper.updateAchievement(3, 0);
 //        mDatabaseHelper.dropTable("settings");
 //        mDatabaseHelper.dropTable("achievements");
+//        mDatabaseHelper.deleteAllData("achievements");
 
         ImageButton settingsButton;
         ImageButton prestatiesButton;
@@ -64,15 +66,17 @@ public class MainActivity extends AppCompatActivity {
         int reminderState = mDatabaseHelper.getReminderSetting();
         Log.d("ReminderState", "De state is: " + reminderState);
 
-        // LOCAL NOTIFICATIONS
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE); // Init alarm service
-
         Intent notificationIntent = new Intent(this, com.example.echo.balloonbuddy.AlarmReceiver.class); // Maak de notification intent
         PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT); // Gooi de intent in een broadcast
 
-        Calendar cal = Calendar.getInstance(); // Maak een kalender
-//        cal.add(Calendar.HOUR, 24); // Voeg aan de kalender 24u toe
-        cal.add(Calendar.SECOND, 10);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast); // Gooi het alarm zodra de tijd de kalender + 24u bereikt
+        // LOCAL NOTIFICATIONS
+        if (reminderState == 1) {
+            Calendar cal = Calendar.getInstance(); // Maak een kalender
+            cal.add(Calendar.SECOND, 10);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast); // Gooi het alarm zodra de tijd de kalender + 24u bereikt
+        } else {
+            alarmManager.cancel(broadcast);
+        }
     }
 }
