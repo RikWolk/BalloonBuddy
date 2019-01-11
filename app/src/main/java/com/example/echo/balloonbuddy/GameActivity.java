@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,8 @@ import java.util.Timer;
 import java.util.UUID;
 
 public class GameActivity extends AppCompatActivity {
+
+
 
     boolean resume = true;
 
@@ -53,16 +56,40 @@ public class GameActivity extends AppCompatActivity {
 
     private int aantal = 0;
 
+    public ProgressBar mProgressBar;
+    private  int mProgressBarStatus = 34;
+    private Handler mHandler = new Handler();
+
+
     @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
+
+
         textView1 = (TextView) findViewById(R.id.textView1);
         textView2 = (TextView) findViewById(R.id.textView2);
         textView3 = (TextView) findViewById(R.id.textView3);
         //Link the buttons and textViews to respective views
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (mProgressBarStatus < 100){
+                    //mProgressBarStatus ++;
+                    android.os.SystemClock.sleep(50);
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mProgressBar.setProgress(mProgressBarStatus);
+                        }
+                    });
+                }
+            }
+        }).start();
 
         bluetoothIn = new Handler() {
             public void handleMessage(android.os.Message msg) {
