@@ -12,6 +12,10 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Switch;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.example.echo.balloonbuddy.AlarmService;
 
@@ -21,6 +25,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     DataBaseHelper mDatabaseHelper;
     public static Boolean reminderOn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

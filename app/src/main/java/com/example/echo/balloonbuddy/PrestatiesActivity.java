@@ -144,7 +144,7 @@ public class  PrestatiesActivity extends AppCompatActivity {
         while(achievementsData.moveToNext()) {
             int number = achievementsData.getInt(4);
             int unlocked = achievementsData.getInt(1);
-
+            
             Log.d("Table Data", "Achievement number: " + number + ", unlocked: " + unlocked);
 
             if(number == 1 && unlocked == 1) {
@@ -185,4 +185,3 @@ public class  PrestatiesActivity extends AppCompatActivity {
         }
     }
 }
-
