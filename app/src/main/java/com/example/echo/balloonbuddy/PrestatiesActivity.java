@@ -52,13 +52,17 @@ public class  PrestatiesActivity extends AppCompatActivity {
         mListView = (ListView) findViewById(R.id.listView);
         mDatabaseHelper = new DataBaseHelper(this);
 
-        // ADD BUTTONS
-        ImageButton settingsButton;
-        ImageButton homeButton;
+        mDatabaseHelper.insertScore(200, 5);
+        mDatabaseHelper.insertScore(220, 3);
+        mDatabaseHelper.insertScore(1200, 8);
+
+        mDatabaseHelper.updateAchievements();
+//        mDatabaseHelper.deleteAllData("achievements");
+//        mDatabaseHelper.insertAchievements2();
 
         // LINK STUFF TO XML
-        settingsButton = (ImageButton) findViewById(R.id.settingsButton);
-        homeButton = (ImageButton) findViewById(R.id.homeButton);
+        ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
+        ImageButton homeButton = (ImageButton) findViewById(R.id.homeButton);
         vlucht1image = (ImageView) findViewById(R.id.vlucht1image);
         vlucht100image = (ImageView) findViewById(R.id.vlucht100image);
         vlucht250image = (ImageView) findViewById(R.id.vlucht250image);
@@ -68,11 +72,6 @@ public class  PrestatiesActivity extends AppCompatActivity {
         xp1000image = (ImageView) findViewById(R.id.xp1000image);
         xp2500image = (ImageView) findViewById(R.id.xp2500image);
         xp5000image = (ImageView) findViewById(R.id.xp5000image);
-
-        // ADD SOME MORE DATA
-        mDatabaseHelper.insertScore(200, 5);
-        mDatabaseHelper.insertScore(220, 3);
-        mDatabaseHelper.insertScore(250, 8);
 
         // GET ALL THE DATA FROM TABLE SCORES AND ACHIEVEMENTS
         Cursor scoresData = mDatabaseHelper.getAllData("scores");
@@ -91,7 +90,8 @@ public class  PrestatiesActivity extends AppCompatActivity {
         graphPlotter();
 
         // DELETE DATA FROM TABLE SCORES
-//        mDatabaseHelper.deleteAllData("scores");
+        mDatabaseHelper.deleteAllData("scores");
+//        mDatabaseHelper.deleteAllData("achievements");
 
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,8 +145,7 @@ public class  PrestatiesActivity extends AppCompatActivity {
             int number = achievementsData.getInt(4);
             int unlocked = achievementsData.getInt(1);
 
-            Log.d("Table Data", "Achievement number: " + number);
-//            Log.d("Table Data", "Unlocked status: " + unlocked);
+            Log.d("Table Data", "Achievement number: " + number + ", unlocked: " + unlocked);
 
             if(number == 1 && unlocked == 1) {
                 vlucht1image.setImageResource(R.mipmap.icons_beker_unlocked_v01);

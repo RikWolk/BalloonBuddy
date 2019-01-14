@@ -109,7 +109,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void insertAchievements(SQLiteDatabase db) {
         ContentValues achievementsValues = new ContentValues();
 
-        achievementsValues.put(UNLOCKED, 1);
+        achievementsValues.put(UNLOCKED, 0);
         achievementsValues.put(NAME, "flights1");
         achievementsValues.put(DESCRIPTION, "Maak de eerste vlucht");
         achievementsValues.put(NUMBER, 1);
@@ -133,7 +133,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.insert(TABLE_ACHIEVEMENTS, null, achievementsValues);
 
-        achievementsValues.put(UNLOCKED, 1);
+        achievementsValues.put(UNLOCKED, 0);
         achievementsValues.put(NAME, "streak7");
         achievementsValues.put(DESCRIPTION, "Vlieg 7 dagen achter elkaar");
         achievementsValues.put(NUMBER, 4);
@@ -141,7 +141,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.insert(TABLE_ACHIEVEMENTS, null, achievementsValues);
 
-        achievementsValues.put(UNLOCKED, 1);
+        achievementsValues.put(UNLOCKED, 0);
         achievementsValues.put(NAME, "streak14");
         achievementsValues.put(DESCRIPTION, "Vlieg 14 dagen achter elkaar");
         achievementsValues.put(NUMBER, 5);
@@ -202,6 +202,39 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return reminderState;
     }
 
+    public void updateAchievements() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT COUNT(*) FROM scores";
+        Cursor data = db.rawQuery(query, null);
+        data.moveToFirst();
+        int count =  data.getInt(0);
+
+        query = "SELECT MAX(score) FROM scores";
+        data = db.rawQuery(query, null);
+        data.moveToFirst();
+        int highest =  data.getInt(0);
+
+        if(count > 0 && count < 100) {
+            updateAchievement(1, 1);
+        } else if(count >= 100 && count < 250) {
+            updateAchievement(2, 1);
+        } else if(count >= 250) {
+            updateAchievement(3, 1);
+        } else {
+            Log.d("TableData", "Count van scores is nul");
+        }
+
+        if(highest >= 1000 && highest < 2500) {
+            updateAchievement(7, 1);
+        } else if(highest >= 2500 && highest < 5000) {
+            updateAchievement(8, 1);
+        } else if(highest >= 5000) {
+            updateAchievement(9, 1);
+        } else {
+            Log.d("TableData", "Hoogste score lager dan 1000");
+        }
+    }
+
     public void updateAchievement(int number, int unlocked) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -234,10 +267,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             String DELETE = "DELETE FROM " + table_name + " WHERE " + ID + " = " + data.getString(0);
             db.execSQL(DELETE);
         }
-
-        Log.d("Achievements", "Achievements verwijderd, nu weer toevoegen");
-
-        insertAchievements(db);
     }
 
     public void dropTable(String table_name) {
