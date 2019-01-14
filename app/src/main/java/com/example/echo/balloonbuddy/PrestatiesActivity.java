@@ -143,48 +143,47 @@ public class  PrestatiesActivity extends AppCompatActivity {
 
     public void achievementShower(Cursor achievementsData) {
         while(achievementsData.moveToNext()) {
-            int id = achievementsData.getInt(0);
+            int number = achievementsData.getInt(4);
             int unlocked = achievementsData.getInt(1);
 
-            Log.d("Table Data", "Achievement ID: " + id);
-            Log.d("Table Data", "Ulocked status: " + unlocked);
+            Log.d("Table Data", "Achievement number: " + number);
+//            Log.d("Table Data", "Unlocked status: " + unlocked);
 
-            if(id == 1 && unlocked == 1) {
+            if(number == 1 && unlocked == 1) {
                 vlucht1image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
             }
 
-            if(id == 2 && unlocked == 1) {
+            if(number == 2 && unlocked == 1) {
                 vlucht100image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
             }
 
-            if(id == 3 && unlocked == 1) {
+            if(number == 3 && unlocked == 1) {
                 vlucht250image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
             }
 
-            if(id == 4 && unlocked == 1) {
+            if(number == 4 && unlocked == 1) {
                 login7image.setImageResource(R.mipmap.icons_award_unlocked_v01);
             }
 
-            if(id == 5 && unlocked == 1) {
+            if(number == 5 && unlocked == 1) {
                 login14image.setImageResource(R.mipmap.icons_award_unlocked_v01);
             }
 
-            if(id == 6 && unlocked == 1) {
+            if(number == 6 && unlocked == 1) {
                 login28image.setImageResource(R.mipmap.icons_award_unlocked_v01);
             }
 
-            if(id == 7 && unlocked == 1) {
+            if(number == 7 && unlocked == 1) {
                 xp1000image.setImageResource(R.mipmap.icons_lintje_unlocked_v01);
             }
 
-            if(id == 8 && unlocked == 1) {
+            if(number == 8 && unlocked == 1) {
                 xp2500image.setImageResource(R.mipmap.icons_lintje_unlocked_v01);
             }
 
-            if(id == 9 && unlocked == 1) {
+            if(number == 9 && unlocked == 1) {
                 xp5000image.setImageResource(R.mipmap.icons_lintje_unlocked_v01);
             }
         }
     }
 }
-
