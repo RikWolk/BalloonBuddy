@@ -13,7 +13,7 @@
         android:screenOrientation="landscape"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DeviceListActivity"/>
+        <activity android:name=".DeviceListActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,9 +23,14 @@
         </activity>
         <activity android:name=".SettingsActivity" />
         <activity android:name=".GameActivity" />
-        <receiver android:name=".AlarmReceiver"/>
+
+        <receiver android:name=".AlarmReceiver" />
+
         <activity android:name=".PrestatiesActivity" />
-        <activity android:name=".PauseActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+        <activity
+            android:name=".PauseActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+        <activity android:name=".EndSessionActivity"></activity>
     </application>
 
 </manifest>

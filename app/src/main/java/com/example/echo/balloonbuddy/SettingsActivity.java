@@ -38,9 +38,6 @@ public class SettingsActivity extends AppCompatActivity {
 
 //        mDatabaseHelper.insertSetting(1);
 
-        homeButton = (ImageButton) findViewById(R.id.homeButton);
-        prestatiesButton = (ImageButton) findViewById(R.id.prestatiesButton);
-
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

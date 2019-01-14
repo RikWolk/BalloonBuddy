@@ -441,8 +441,11 @@ public class GameActivity extends AppCompatActivity {
             public void onFinish()
 
             {
+                Intent intent = new Intent(GameActivity.this, EndSessionActivity.class);
+                Bundle score_data = new Bundle();
+                score_data.putString("score", scoreDisplay.getText().toString());
+                intent.putExtras(score_data);
                 finish();
-                Intent intent = new Intent(GameActivity.this, MainActivity.class);
                 startActivity(intent);
             }
 
