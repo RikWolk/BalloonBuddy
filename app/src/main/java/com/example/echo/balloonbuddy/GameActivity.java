@@ -52,15 +52,6 @@ public class GameActivity extends AppCompatActivity {
     // Houdt locatie balon bij
     int balonCounter = 1;
 
-    Button buttonOmhoog;
-    Button buttonOmlaag;
-    Button buttonOmhoog2;
-    Button buttonOmlaag2;
-
-    Button state0Button;
-    Button state1Button;
-    Button state2Button;
-
     ImageView balonImage;
 
     Handler bluetoothIn;
@@ -89,11 +80,6 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-
-        //buttonOmhoog = (Button) findViewById(R.id.buttonOmhoog);
-        //buttonOmlaag = (Button) findViewById(R.id.buttonOmlaag);
-        //buttonOmhoog2 = (Button) findViewById(R.id.buttonOmhoog2);
-        //buttonOmlaag2 = (Button) findViewById(R.id.buttonOmlaag2);
 
         balonImage = (ImageView) findViewById(R.id.balonImage);
 
@@ -155,14 +141,10 @@ public class GameActivity extends AppCompatActivity {
         btAdapter = BluetoothAdapter.getDefaultAdapter();       // get Bluetooth adapter
         //checkBTState();
 
-        /*
-        state0Button = (Button) findViewById(R.id.state0Button);
-        state1Button = (Button) findViewById(R.id.state1Button);
-        state2Button = (Button) findViewById(R.id.state2Button);
-
         scoreDisplay = (TextView) findViewById(R.id.liveScore);
         scoreDisplay.setText(String.valueOf(score));
 
+        /*
         // Balon omhoog van midden
         buttonOmhoog.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -318,49 +300,8 @@ public class GameActivity extends AppCompatActivity {
 
         animator.start();
 
-        /*
-        // Gras voorground animatie
-        final ImageView background_grass1 = (ImageView) findViewById(R.id.backgroundGrassImage1);
-        final ImageView background_grass2 = (ImageView) findViewById(R.id.backgroundGrassImage2);
-
-        final ValueAnimator animatorGrass = ValueAnimator.ofFloat(1.0f, 0.0f);
-        animatorGrass.setRepeatCount(ValueAnimator.INFINITE);
-        animatorGrass.setInterpolator(new LinearInterpolator());
-        animatorGrass.setDuration(15000L);
-        animatorGrass.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) { final float progress = (float) animation.getAnimatedValue();
-                final float width = background_grass2.getWidth();
-                final float translationX = width * progress;
-                background_grass2.setTranslationX(translationX);
-                background_grass1.setTranslationX(translationX - width);
-            }
-        });
-
-        // Wolken achtegrond animatie
-        final ImageView background_clouds1 = (ImageView) findViewById(R.id.backgroundCloudsImage1);
-        final ImageView background_clouds2 = (ImageView) findViewById(R.id.backgroundCloudsImage2);
-
-        final ValueAnimator animatorClouds = ValueAnimator.ofFloat(1.0f, 0.0f);
-        animatorClouds.setRepeatCount(ValueAnimator.INFINITE);
-        animatorClouds.setInterpolator(new LinearInterpolator());
-        animatorClouds.setDuration(30000L);
-        animatorClouds.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) { final float progress = (float) animation.getAnimatedValue();
-                final float width = background_clouds2.getWidth();
-                final float translationX = width * progress;
-                background_clouds2.setTranslationX(translationX);
-                background_clouds1.setTranslationX(translationX - width);
-            }
-        });
-
-        animatorGrass.start();
-        animatorClouds.start();
-        */
-
         // Sessie timer
-        final int sessieTijd = 300000;
+        final int sessieTijd = 120000;
 
         final CountDownTimer sessieTimer = new CountDownTimer(sessieTijd , 1000)
         {
