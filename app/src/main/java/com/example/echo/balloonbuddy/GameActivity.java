@@ -81,6 +81,8 @@ public class GameActivity extends AppCompatActivity {
                         //mic1 geeft een 0,1 of 2 terug in string vorm.
                         mic1 = mic1.replace("*", "");
 
+                        //
+
                         textView1.setText(mic1);
 
                         recDataString.delete(0, recDataString.length());
