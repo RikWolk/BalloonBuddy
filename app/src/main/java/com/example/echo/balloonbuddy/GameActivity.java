@@ -26,6 +26,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Message;
+import android.os.SystemClock;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,15 +52,6 @@ public class GameActivity extends AppCompatActivity {
     // Houdt locatie balon bij
     int balonCounter = 1;
 
-    Button buttonOmhoog;
-    Button buttonOmlaag;
-    Button buttonOmhoog2;
-    Button buttonOmlaag2;
-
-    Button state0Button;
-    Button state1Button;
-    Button state2Button;
-
     ImageView balonImage;
 
     Handler bluetoothIn;
@@ -77,21 +70,16 @@ public class GameActivity extends AppCompatActivity {
     //private ConnectedThread mConnectedThread;
 
     // SPP UUID service - this should work for most devices
-    //private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     // String for MAC address
     private static String address;
 
     @SuppressLint("HandlerLeak")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-
-        buttonOmhoog = (Button) findViewById(R.id.buttonOmhoog);
-        buttonOmlaag = (Button) findViewById(R.id.buttonOmlaag);
-        buttonOmhoog2 = (Button) findViewById(R.id.buttonOmhoog2);
-        buttonOmlaag2 = (Button) findViewById(R.id.buttonOmlaag2);
 
         balonImage = (ImageView) findViewById(R.id.balonImage);
 
@@ -112,11 +100,35 @@ public class GameActivity extends AppCompatActivity {
                         //mic1 geeft een 0,1 of 2 terug in string vorm.
                         mic1 = mic1.replace("*", "");
 
-                        textView1.setText(mic1);
+                        //textView1.setText(mic1);
+                        micState = mic1;
+
+                        if(micState.contains("0")){
+                            {
+
+                            }
+                        }
+
+                        if(micState.contains("1")){
+                            score += 1;
+                            scoreDisplay.setText(String.valueOf(score));
+                        }
+
+                        if(micState.contains("2")){
+                            if(score == 0){
+
+                                }
+
+                            else{
+                                score -= 1;
+                                scoreDisplay.setText(String.valueOf(score));
+                            }
+                        }
+
+
+                        //Toast.makeText(getBaseContext(), micState, Toast.LENGTH_SHORT).show();
 
                         recDataString.delete(0, recDataString.length());
-
-                        //micState = mic1;
 
                     }
 
@@ -129,98 +141,10 @@ public class GameActivity extends AppCompatActivity {
         btAdapter = BluetoothAdapter.getDefaultAdapter();       // get Bluetooth adapter
         //checkBTState();
 
-        state0Button = (Button) findViewById(R.id.state0Button);
-        state1Button = (Button) findViewById(R.id.state1Button);
-        state2Button = (Button) findViewById(R.id.state2Button);
-
         scoreDisplay = (TextView) findViewById(R.id.liveScore);
         scoreDisplay.setText(String.valueOf(score));
-        state0Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                micState = "0";
-                Toast.makeText(getBaseContext(), "State 0 selected", Toast.LENGTH_LONG).show();
-                if(micState == "0"){
-                    new CountDownTimer(100000, 1000) {
 
-                        public void onTick(long millisUntilFinished) {
-                            if(micState != "0"){
-                                cancel();
-                            }
-                        }
-
-                        public void onFinish() {
-                            start();
-                        }
-                    }.start();
-                }
-
-            }
-        });
-
-        state1Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                micState = "1";
-                Toast.makeText(getBaseContext(), "State 1 selected", Toast.LENGTH_LONG).show();
-                if(micState == "1"){
-                    new CountDownTimer(100000, 1000) {
-
-                        public void onTick(long millisUntilFinished) {
-                            if(micState != "1"){
-                                cancel();
-                            }
-
-                            else{
-                                score += 1;
-                                scoreDisplay.setText(String.valueOf(score));
-                            }
-                        }
-
-                        public void onFinish() {
-                            start();
-                        }
-                    }.start();
-                }
-            }
-        });
-
-        state2Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                micState = "2";
-                Toast.makeText(getBaseContext(), "State 2 selected", Toast.LENGTH_LONG).show();
-
-                if(micState == "2"){
-                    new CountDownTimer(100000, 1000) {
-
-                        public void onTick(long millisUntilFinished) {
-                            if(micState != "2"){
-                                cancel();
-                            }
-
-                            else{
-                                if(score == 0){
-
-                                }
-
-                                else{
-                                    score -= 1;
-                                    scoreDisplay.setText(String.valueOf(score));
-                                }
-
-                            }
-                        }
-
-                        public void onFinish() {
-                            start();
-                        }
-                    }.start();
-                }
-
-            }
-        });
-
+        /*
         // Balon omhoog van midden
         buttonOmhoog.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -343,6 +267,7 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
         });
+        */
 
         pauseButton = (ImageButton) findViewById(R.id.pauseButton);
         restartButton = (ImageButton) findViewById(R.id.restartButton);
@@ -362,7 +287,7 @@ public class GameActivity extends AppCompatActivity {
         final ValueAnimator animator = ValueAnimator.ofFloat(1.0f, 0.0f);
         animator.setRepeatCount(ValueAnimator.INFINITE);
         animator.setInterpolator(new LinearInterpolator());
-        animator.setDuration(40000L);
+        animator.setDuration(20000L);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) { final float progress = (float) animation.getAnimatedValue();
@@ -373,65 +298,12 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        // Gras voorground animatie
-        final ImageView background_grass1 = (ImageView) findViewById(R.id.backgroundGrassImage1);
-        final ImageView background_grass2 = (ImageView) findViewById(R.id.backgroundGrassImage2);
-
-        final ValueAnimator animatorGrass = ValueAnimator.ofFloat(1.0f, 0.0f);
-        animatorGrass.setRepeatCount(ValueAnimator.INFINITE);
-        animatorGrass.setInterpolator(new LinearInterpolator());
-        animatorGrass.setDuration(15000L);
-        animatorGrass.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) { final float progress = (float) animation.getAnimatedValue();
-                final float width = background_grass2.getWidth();
-                final float translationX = width * progress;
-                background_grass2.setTranslationX(translationX);
-                background_grass1.setTranslationX(translationX - width);
-            }
-        });
-
-        // Wolken achtegrond animatie
-        final ImageView background_clouds1 = (ImageView) findViewById(R.id.backgroundCloudsImage1);
-        final ImageView background_clouds2 = (ImageView) findViewById(R.id.backgroundCloudsImage2);
-
-        final ValueAnimator animatorClouds = ValueAnimator.ofFloat(1.0f, 0.0f);
-        animatorClouds.setRepeatCount(ValueAnimator.INFINITE);
-        animatorClouds.setInterpolator(new LinearInterpolator());
-        animatorClouds.setDuration(30000L);
-        animatorClouds.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) { final float progress = (float) animation.getAnimatedValue();
-                final float width = background_clouds2.getWidth();
-                final float translationX = width * progress;
-                background_clouds2.setTranslationX(translationX);
-                background_clouds1.setTranslationX(translationX - width);
-            }
-        });
-
         animator.start();
-        animatorGrass.start();
-        animatorClouds.start();
 
         // Sessie timer
-        /*
-        new CountDownTimer(600000, 600000) {
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            public void onFinish() {
-                finish();
-                Intent intent = new Intent(GameActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        }.start();
-        */
-
-        int sessieTijd = 600000;
+        final int sessieTijd = 120000;
 
         final CountDownTimer sessieTimer = new CountDownTimer(sessieTijd , 1000)
-
         {
             public void onTick(long millisUntilFinished)
             {
@@ -451,13 +323,11 @@ public class GameActivity extends AppCompatActivity {
 
         }.start();
 
+
         // Pauze menu
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                animator.pause();
-                animatorGrass.pause();
-                animatorClouds.pause();
                 micState = "0";
                 sessieTimer.cancel();
 
@@ -469,16 +339,12 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-
-
-
     /*
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
 
         return  device.createRfcommSocketToServiceRecord(BTMODULEUUID);
         //creates secure outgoing connecetion with BT device using UUID
     }
-
 
     @Override
     public void onResume() {
@@ -518,13 +384,12 @@ public class GameActivity extends AppCompatActivity {
         //If it is not an exception will be thrown in the write method and finish() will be called
         mConnectedThread.write("x");
     }
-    */
 
-    /*
     @Override
     public void onPause()
     {
         super.onPause();
+
         try
         {
             //Don't leave Bluetooth sockets open when leaving activity
@@ -598,6 +463,6 @@ public class GameActivity extends AppCompatActivity {
         }
 
     }
-    */
+     */
 
 }
