@@ -35,7 +35,7 @@
         app:srcCompat="@drawable/background" />
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/uitleg"
+        android:id="@+id/options"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

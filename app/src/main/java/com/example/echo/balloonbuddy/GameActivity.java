@@ -71,21 +71,33 @@ public class GameActivity extends AppCompatActivity {
                     String readMessage = (String) msg.obj;
                     recDataString.append(readMessage);
 
+                    int midOfLineIndex = recDataString.indexOf("&");
                     int endOfLineIndex = recDataString.indexOf("*");
 
                     if (endOfLineIndex > 0) {
 
-                        String mic1 = recDataString.substring(0, endOfLineIndex);
+                        String mic2 = recDataString.substring(midOfLineIndex);
+                        String mic1 = recDataString.substring(0, midOfLineIndex);
 
-
-                        //mic1 geeft een 0,1 of 2 terug in string vorm.
-                        mic1 = mic1.replace("*", "");
-
-                        //
+                        mic2 = mic2.replace("&", "");
+                        mic2 = mic2.replace("*", "");
+                        mic2 = mic2.replace(" ", "");
+                        mic1 = mic1.replace(" ", "");
 
                         textView1.setText(mic1);
+                        textView2.setText(mic2);
+
+//                        double mic1Data = new Double(mic1);
+//                        double mic2Data = Double.parseDouble(mic2);
+//                        double mic2Data = Double.valueOf(mic2);
 
                         recDataString.delete(0, recDataString.length());
+
+                        mic1 = "";
+                        mic2 = "";
+//                        mic1Data = 0.0;
+//                        mic2Data = 0.0;
+
 
                     }
 
