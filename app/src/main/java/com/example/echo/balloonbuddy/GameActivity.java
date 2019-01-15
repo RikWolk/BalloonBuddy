@@ -85,6 +85,13 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         gameTimer.start();
+        gameTimer.setListener(new GameTimer.ChangeListener() {
+            @Override
+            public void onChange() {
+                Log.d("GAME ACTIVITY", "BAKFIETS");
+                onTimerFinish();
+            }
+        });
 
         balonImage = (ImageView) findViewById(R.id.balonImage);
 
@@ -108,18 +115,18 @@ public class GameActivity extends AppCompatActivity {
                         //textView1.setText(mic1);
                         micState = mic1;
 
-                        if(micState.contains("0")){
+                        if(micState.contains("0")) {
                             {
 
                             }
                         }
 
-                        if(micState.contains("1")){
+                        if(micState.contains("1")) {
                             score += 1;
                             scoreDisplay.setText(String.valueOf(score));
                         }
 
-                        if(micState.contains("2")){
+                        if(micState.contains("2")) {
                             if(score == 0){
 
                                 }
@@ -130,17 +137,13 @@ public class GameActivity extends AppCompatActivity {
                             }
                         }
 
-
                         //Toast.makeText(getBaseContext(), micState, Toast.LENGTH_SHORT).show();
 
                         recDataString.delete(0, recDataString.length());
 
                     }
-
                 }
-
             }
-
         };
 
         btAdapter = BluetoothAdapter.getDefaultAdapter();       // get Bluetooth adapter
@@ -305,24 +308,6 @@ public class GameActivity extends AppCompatActivity {
 
         animator.start();
 
-        // Sessie timer
-        final int sessieTijd = 120000;
-
-        final CountDownTimer sessieTimer = new CountDownTimer(sessieTijd , 1000) {
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            public void onFinish() {
-                Intent intent = new Intent(GameActivity.this, EndSessionActivity.class);
-                Bundle score_data = new Bundle();
-                score_data.putString("score", scoreDisplay.getText().toString());
-                intent.putExtras(score_data);
-                finish();
-                startActivity(intent);
-            }
-        }.start();
-
         // Pauze menu
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -337,12 +322,11 @@ public class GameActivity extends AppCompatActivity {
                 // De GameTimer die gaande is op stop zetten
                 gameTimer.cancel();
 
+                // Gooi de pauze activity
                 Intent intent = new Intent(GameActivity.this, PauseActivity.class);
                 startActivity(intent);
             }
-
         });
-
     }
 
     @Override
@@ -355,6 +339,15 @@ public class GameActivity extends AppCompatActivity {
             gameTimer = new GameTimer(timeRemaining, 1000);
             gameTimer.start();
         }
+    }
+
+    private void onTimerFinish() {
+        Intent intent = new Intent(GameActivity.this, EndSessionActivity.class);
+        Bundle score_data = new Bundle();
+        score_data.putString("score", scoreDisplay.getText().toString());
+        intent.putExtras(score_data);
+        finish();
+        startActivity(intent);
     }
 
     /*
