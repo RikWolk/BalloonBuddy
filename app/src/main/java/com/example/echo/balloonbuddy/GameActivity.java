@@ -67,6 +67,9 @@ public class GameActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private Timer sessieTimer = new Timer();
 
+    public GameTimer gameTimer = new GameTimer(10000, 1000);
+    int timeRemaining;
+
     //private ConnectedThread mConnectedThread;
 
     // SPP UUID service - this should work for most devices
@@ -80,6 +83,8 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        gameTimer.start();
 
         balonImage = (ImageView) findViewById(R.id.balonImage);
 
@@ -303,16 +308,12 @@ public class GameActivity extends AppCompatActivity {
         // Sessie timer
         final int sessieTijd = 120000;
 
-        final CountDownTimer sessieTimer = new CountDownTimer(sessieTijd , 1000)
-        {
-            public void onTick(long millisUntilFinished)
-            {
+        final CountDownTimer sessieTimer = new CountDownTimer(sessieTijd , 1000) {
+            public void onTick(long millisUntilFinished) {
 
             }
 
-            public void onFinish()
-
-            {
+            public void onFinish() {
                 Intent intent = new Intent(GameActivity.this, EndSessionActivity.class);
                 Bundle score_data = new Bundle();
                 score_data.putString("score", scoreDisplay.getText().toString());
@@ -320,9 +321,7 @@ public class GameActivity extends AppCompatActivity {
                 finish();
                 startActivity(intent);
             }
-
         }.start();
-
 
         // Pauze menu
         pauseButton.setOnClickListener(new View.OnClickListener() {
@@ -331,12 +330,31 @@ public class GameActivity extends AppCompatActivity {
                 micState = "0";
                 sessieTimer.cancel();
 
+                // De tijd die nog over is ophalen uit de GameTimer en opslaan in de GameActivity
+                timeRemaining = gameTimer.returnTimeRmaining();
+                Log.d("GAME ACTIVITY", "DIT IS DE TIME REMAINING VARIABELE: " + timeRemaining);
+
+                // De GameTimer die gaande is op stop zetten
+                gameTimer.cancel();
+
                 Intent intent = new Intent(GameActivity.this, PauseActivity.class);
                 startActivity(intent);
             }
 
         });
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Als de GameActivity weer door gaat, moet de GameTimer weer gestart worden.
+        // De if-statement staat hier om het bij de eerste keer opstarten goed te laten gaan
+        if(timeRemaining != 0) {
+            gameTimer = new GameTimer(timeRemaining, 1000);
+            gameTimer.start();
+        }
     }
 
     /*
