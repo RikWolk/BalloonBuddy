@@ -32,11 +32,14 @@ public class DeviceListActivity extends Activity {
 
     TextView stap1;
     TextView stap2;
+    TextView stap3;
+    TextView stap4;
+    TextView stap5;
 
 
 
     // EXTRA string to send on to mainactivity
-   public static String EXTRA_DEVICE_ADDRESS = "device_address";
+    public static String EXTRA_DEVICE_ADDRESS = "device_address";
 
     // Member fields
     private BluetoothAdapter mBtAdapter;
@@ -51,6 +54,16 @@ public class DeviceListActivity extends Activity {
 
         stap1 = (TextView) findViewById(R.id.stap1);
         stap2 = (TextView) findViewById(R.id.stap2);
+        stap3 = (TextView) findViewById(R.id.stap3);
+        stap4 = (TextView) findViewById(R.id.stap4);
+        stap5 = (TextView) findViewById(R.id.stap5);
+
+
+        stap1.setText("Zet BlueTooth op de mobiel aan.");
+        stap2.setText("Zorg dat BalloonBuddy in de BlueTooth lijst staat.");
+        stap3.setText("Zet het BalloonBuddy apperaat aan.");
+        stap4.setText("Wacht tot het groene lampje aanstaat.");
+        stap5.setText("Start de game!");
 
     }
 
@@ -81,7 +94,6 @@ public class DeviceListActivity extends Activity {
                     address = device.getAddress();
 
                     address = address.replaceAll("\\r|\\n", "");
-                    stap1.setText(address);
 
                     connectButton.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -108,8 +120,8 @@ public class DeviceListActivity extends Activity {
 
     private void checkBTState() {
         // Check device has Bluetooth and that it is turned on
-        mBtAdapter = BluetoothAdapter.getDefaultAdapter(); // CHECK THIS OUT THAT IT WORKS!!!
-        if (mBtAdapter == null) {
+        mBtAdapter=BluetoothAdapter.getDefaultAdapter(); // CHECK THIS OUT THAT IT WORKS!!!
+        if(mBtAdapter==null) {
             Toast.makeText(getBaseContext(), "Device does not support Bluetooth", Toast.LENGTH_SHORT).show();
         } else {
             if (mBtAdapter.isEnabled()) {
@@ -121,5 +133,5 @@ public class DeviceListActivity extends Activity {
             }
         }
     }
-
 }
+

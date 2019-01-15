@@ -76,7 +76,7 @@ public class GameActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private Timer sessieTimer = new Timer();
 
-    //private ConnectedThread mConnectedThread;
+    private ConnectedThread mConnectedThread;
 
     // SPP UUID service - this should work for most devices
     private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -398,7 +398,7 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    /*
+
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
 
         return  device.createRfcommSocketToServiceRecord(BTMODULEUUID);
@@ -522,6 +522,6 @@ public class GameActivity extends AppCompatActivity {
         }
 
     }
-     */
+
 
 }
