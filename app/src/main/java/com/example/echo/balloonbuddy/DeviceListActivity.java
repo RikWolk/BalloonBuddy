@@ -36,7 +36,7 @@ public class DeviceListActivity extends Activity {
 
 
     // EXTRA string to send on to mainactivity
-    public static String EXTRA_DEVICE_ADDRESS = "device_address";
+   public static String EXTRA_DEVICE_ADDRESS = "device_address";
 
     // Member fields
     private BluetoothAdapter mBtAdapter;
@@ -108,8 +108,8 @@ public class DeviceListActivity extends Activity {
 
     private void checkBTState() {
         // Check device has Bluetooth and that it is turned on
-        mBtAdapter=BluetoothAdapter.getDefaultAdapter(); // CHECK THIS OUT THAT IT WORKS!!!
-        if(mBtAdapter==null) {
+        mBtAdapter = BluetoothAdapter.getDefaultAdapter(); // CHECK THIS OUT THAT IT WORKS!!!
+        if (mBtAdapter == null) {
             Toast.makeText(getBaseContext(), "Device does not support Bluetooth", Toast.LENGTH_SHORT).show();
         } else {
             if (mBtAdapter.isEnabled()) {
@@ -121,5 +121,5 @@ public class DeviceListActivity extends Activity {
             }
         }
     }
-}
 
+}
