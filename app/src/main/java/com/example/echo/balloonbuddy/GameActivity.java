@@ -94,8 +94,6 @@ public class GameActivity extends AppCompatActivity {
 
     public ProgressBar mProgressBar;
     private int mProgressBarStatus = 50;
-    private int mProgressBarBalance = 50;
-    private int scoreOld;
     private Handler mHandler = new Handler();
 
     @SuppressLint("HandlerLeak")
@@ -112,47 +110,43 @@ public class GameActivity extends AppCompatActivity {
         //textView3 = (TextView) findViewById(R.id.textView3);
         //Link the buttons and textViews to respective views
 
+        scoreDisplay = (TextView) findViewById(R.id.liveScore);
+        scoreDisplay.setText(String.valueOf(score));
 
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (mProgressBarStatus < 100){
-                    //mProgressBarStatus ++;
-                    SystemClock.sleep(50);
+                while (1 == 1){
+                    if(micState == "0"){
+
+                    }
+                    if(micState == "1" && mProgressBarStatus < 100){
+                        if (mProgressBarStatus < 0){
+                            mProgressBarStatus = 0;
+                            mProgressBarStatus ++;
+                        }
+                        else {
+                            mProgressBarStatus ++;
+                        }
+                    }
+                    if(micState == "2" && mProgressBarStatus > 0){
+                        if (mProgressBarStatus > 100){
+                            mProgressBarStatus = 100;
+                            mProgressBarStatus --;
+                        }
+                        else{
+                            mProgressBarStatus --;
+                        }
+
+                    }
+                    //mProgressBarBalance = mProgressBarBalance + score;
+                    //scoreBalance = scoreOld - score;
+                    SystemClock.sleep(1000);
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            //mProgressBarBalance = mProgressBarBalance + score;
-                            if (scoreOld - score == 1){
-                                mProgressBarBalance += 1;
-                            }
-                            if (scoreOld - score == -1){
-                                mProgressBarBalance -= 1;
-                            }
-                            if (scoreOld - score == 0){
-                            }
-
-
-
-                            scoreDisplay = (TextView) findViewById(R.id.liveScore);
-                            scoreDisplay.setText(String.valueOf(mProgressBarBalance));
-                            if(micState == "0" && mProgressBarBalance > 0 && mProgressBarBalance < 100){
-                                mProgressBar.setProgress(mProgressBarBalance);
-                            }
-                            if(micState == "1" && mProgressBarBalance > 0 && mProgressBarBalance < 100){
-                                mProgressBar.setProgress(mProgressBarBalance);
-                            }
-                            if(micState == "2" && mProgressBarBalance > 0 && mProgressBarBalance < 100){
-                                mProgressBar.setProgress(mProgressBarBalance);
-                            }
-                            if (mProgressBarBalance == 0){
-                                mProgressBar.setProgress(0);
-                            }
-                            if (mProgressBarBalance == 100){
-                                mProgressBar.setProgress(100);
-                            }
-
+                            mProgressBar.setProgress(mProgressBarStatus);
                         }
                     });
                 }
@@ -242,7 +236,6 @@ public class GameActivity extends AppCompatActivity {
                             }
 
                             else{
-                                scoreOld = score;
                                 score += 1;
                                 scoreDisplay.setText(String.valueOf(score));
                             }
@@ -276,7 +269,6 @@ public class GameActivity extends AppCompatActivity {
                                 }
 
                                 else{
-                                    scoreOld = score;
                                     score -= 1;
                                     scoreDisplay.setText(String.valueOf(score));
                                 }
