@@ -195,130 +195,35 @@ public class GameActivity extends AppCompatActivity {
                 scoreDisplay = (TextView) findViewById(R.id.liveScore);
                 scoreDisplay.setText(String.valueOf(score));
 
-        /*
-        // Balon omhoog van midden
-        buttonOmhoog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (balonCounter == 1) {
-                    final ImageView balon = (ImageView) findViewById(R.id.balonImage);
-                    final ValueAnimator animatorBalon = ValueAnimator.ofFloat(0.75f, 0.0f);
-                    animatorBalon.setInterpolator(new LinearInterpolator());
-                    animatorBalon.setDuration(5000L);
-                    animatorBalon.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animation) {
-                            final float progress = (float) animation.getAnimatedValue();
-                            final float height = balon.getHeight();
-                            final float translationY = height * progress;
-                            balon.setTranslationY(translationY);
-                            balon.setTranslationY(translationY - height);
-                        }
-                    });
-                    animatorBalon.start();
-                    balonCounter += 1;
-                }
-                else{
-                }
-            }
-        });
-        // Balon omlaag van top
-        buttonOmlaag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (balonCounter == 2) {
-                    final ImageView balon = (ImageView) findViewById(R.id.balonImage);
-                    final ValueAnimator animatorBalon = ValueAnimator.ofFloat(0.0f, 0.75f);
-                    animatorBalon.setInterpolator(new LinearInterpolator());
-                    animatorBalon.setDuration(5000L);
-                    animatorBalon.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animation) {
-                            final float progress = (float) animation.getAnimatedValue();
-                            final float height = balon.getHeight();
-                            final float translationY = height * progress;
-                            balon.setTranslationY(translationY);
-                            balon.setTranslationY(translationY - height);
-                        }
-                    });
-                    animatorBalon.start();
-                    balonCounter -= 1;
-                }
-                else{
-                }
-            }
-        });
-        // Omhoog van bottom
-        buttonOmhoog2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(balonCounter == 0){
-                    final ImageView balon = (ImageView) findViewById(R.id.balonImage);
-                    final ValueAnimator animatorBalon = ValueAnimator.ofFloat(0.75f, 0.0f);
-                    animatorBalon.setInterpolator(new LinearInterpolator());
-                    animatorBalon.setDuration(5000L);
-                    animatorBalon.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animation) {
-                            final float progress = (float) animation.getAnimatedValue();
-                            final float height = balon.getHeight();
-                            final float translationY = height * progress;
-                            balon.setTranslationY(translationY);
-                        }
-                    });
-                    animatorBalon.start();
-                    balonCounter += 1;
-                }
-                else{
-                }
-            }
-        });
-        // Balon omlaag van midden
-        buttonOmlaag2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (balonCounter == 1) {
-                    final ImageView balon = (ImageView) findViewById(R.id.balonImage);
-                    final ValueAnimator animatorBalon = ValueAnimator.ofFloat(0.0f, 0.75f);
-                    animatorBalon.setInterpolator(new LinearInterpolator());
-                    animatorBalon.setDuration(5000L);
-                    animatorBalon.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animation) {
-                            final float progress = (float) animation.getAnimatedValue();
-                            final float height = balon.getHeight();
-                            final float translationY = height * progress;
-                            balon.setTranslationY(translationY);
-                        }
-                    });
-                    animatorBalon.start();
-                    balonCounter -= 1;
-                }
-                else{
-                }
-            }
-        });
-        */
-
-        new Handler().postDelayed(new Runnable() {
+        BallonHandler = new Handler();
+        BallonHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (gameState == 0 && balonCounter == 0) {
+                if(recreatePushed == true){
+                    BallonHandler.removeCallbacksAndMessages(null);
+                    Log.d("Test", "recreate activated");
+                    recreatePushed = false;
+                }
+
+                else if (gameState == 0 && balonCounter == 0) {
                     //Toast.makeText(getBaseContext(), "Test state 0 - 0", Toast.LENGTH_SHORT).show();
                     Log.d("Test", "0 - 0");
                     // Geen beweging
+                    BallonHandler.postDelayed(this, 6000);
                 }
 
                 else if (gameState == 0 && balonCounter == 1) {
                     //Toast.makeText(getBaseContext(), "Test state 1 - 0", Toast.LENGTH_SHORT).show();
                     Log.d("Test", "0 - 1");
                     // Geen beweging
+                    BallonHandler.postDelayed(this, 6000);
                 }
 
                 else if (gameState == 0 && balonCounter == 2) {
                     //Toast.makeText(getBaseContext(), "Test state 1 - 0", Toast.LENGTH_SHORT).show();
                     Log.d("Test", "0 - 2");
                     // Geen beweging
+                    BallonHandler.postDelayed(this, 6000);
                 }
 
                 else if (gameState == 1 && balonCounter == 0) {
@@ -341,6 +246,7 @@ public class GameActivity extends AppCompatActivity {
                     });
                     animatorBalon.start();
                     balonCounter += 1;
+                    BallonHandler.postDelayed(this, 6000);
                 }
 
                 else if (gameState == 1 && balonCounter == 1) {
@@ -364,18 +270,21 @@ public class GameActivity extends AppCompatActivity {
                     });
                     animatorBalon.start();
                     balonCounter += 1;
+                    BallonHandler.postDelayed(this, 6000);
                 }
 
                 else if (gameState == 1 && balonCounter == 2) {
                     //Toast.makeText(getBaseContext(), "Test state 1 - 0", Toast.LENGTH_SHORT).show();
                     Log.d("Test", "1 - 2");
                     // Geen beweging (is al aan top)
+                    BallonHandler.postDelayed(this, 6000);
                 }
 
                 else if (gameState == 2 && balonCounter == 0) {
                     //Toast.makeText(getBaseContext(), "Test state 0 - 0", Toast.LENGTH_SHORT).show();
                     Log.d("Test", "2 - 0");
                     // Geen beweging (is al aan bottom)
+                    BallonHandler.postDelayed(this, 6000);
                 }
 
                 else if (gameState == 2 && balonCounter == 1) {
@@ -398,6 +307,7 @@ public class GameActivity extends AppCompatActivity {
                     });
                     animatorBalon.start();
                     balonCounter -= 1;
+                    BallonHandler.postDelayed(this, 6000);
                 }
 
                 else if (gameState == 2 && balonCounter == 2) {
@@ -420,8 +330,8 @@ public class GameActivity extends AppCompatActivity {
                     });
                     animatorBalon.start();
                     balonCounter -= 1;
+                    BallonHandler.postDelayed(this, 6000);
                 }
-                BallonHandler.postDelayed(this, 6000);
             }
         }, 1000);
 
@@ -470,6 +380,7 @@ public class GameActivity extends AppCompatActivity {
 
                     {
                         Intent intent = new Intent(GameActivity.this, EndSessionActivity.class);
+                        recreatePushed = true;
                         Bundle score_data = new Bundle();
                         score_data.putString("score", scoreDisplay.getText().toString());
                         intent.putExtras(score_data);
