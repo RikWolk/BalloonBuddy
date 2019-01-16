@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Message;
@@ -49,9 +51,6 @@ public class GameActivity extends AppCompatActivity {
 
     TextView textView1;
 
-    // Houdt locatie balon bij
-    int balonCounter = 1;
-
     ImageView balonImage;
 
     Handler bluetoothIn;
@@ -70,10 +69,19 @@ public class GameActivity extends AppCompatActivity {
     //private ConnectedThread mConnectedThread;
 
     // SPP UUID service - this should work for most devices
-    private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    //private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     // String for MAC address
-    private static String address;
+    //private static String address;
+
+    public ProgressBar mProgressBar;
+    public int gameState = 0;
+    private int mProgressBarStatus = 50;
+    private Handler mHandler = new Handler();
+
+    private Handler BallonHandler = new Handler();
+    public Animation balonAnimation;
+    int balonCounter = 1;
 
     @SuppressLint("HandlerLeak")
     @Override
@@ -82,67 +90,113 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         balonImage = (ImageView) findViewById(R.id.balonImage);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
 
-        //Link the buttons and textViews to respective views
-        bluetoothIn = new Handler() {
-            public void handleMessage(android.os.Message msg) {
-                if (msg.what == handlerState) {
-
-                    String readMessage = (String) msg.obj;
-                    recDataString.append(readMessage);
-
-                    int endOfLineIndex = recDataString.indexOf("*");
-
-                    if (endOfLineIndex > 0) {
-
-                        String mic1 = recDataString.substring(0, endOfLineIndex);
-
-                        //mic1 geeft een 0,1 of 2 terug in string vorm.
-                        mic1 = mic1.replace("*", "");
-
-                        //textView1.setText(mic1);
-                        micState = mic1;
-
-                        if(micState.contains("0")){
-                            {
-
-                            }
-                        }
-
-                        if(micState.contains("1")){
-                            score += 1;
-                            scoreDisplay.setText(String.valueOf(score));
-                        }
-
-                        if(micState.contains("2")){
-                            if(score == 0){
-
-                                }
-
-                            else{
-                                score -= 1;
-                                scoreDisplay.setText(String.valueOf(score));
-                            }
-                        }
-
-
-                        //Toast.makeText(getBaseContext(), micState, Toast.LENGTH_SHORT).show();
-
-                        recDataString.delete(0, recDataString.length());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (1 == 1) {
+                    if (gameState == 0) {
 
                     }
 
-                }
+                    if (gameState == 1 && mProgressBarStatus < 100) {
+                        if (mProgressBarStatus < 0) {
+                            mProgressBarStatus = 0;
+                            mProgressBarStatus++;
+                        }
 
-            }
+                        else {
+                            mProgressBarStatus++;
+                        }
+                    }
 
-        };
+                    if (gameState == 2 && mProgressBarStatus > 0) {
+                        if (mProgressBarStatus > 100) {
+                            mProgressBarStatus = 100;
+                            mProgressBarStatus--;
+                            }
 
-        btAdapter = BluetoothAdapter.getDefaultAdapter();       // get Bluetooth adapter
-        //checkBTState();
+                            else {
+                                mProgressBarStatus--;
+                            }
 
-        scoreDisplay = (TextView) findViewById(R.id.liveScore);
-        scoreDisplay.setText(String.valueOf(score));
+                            }
+                            //mProgressBarBalance = mProgressBarBalance + score;
+                            //scoreBalance = scoreOld - score;
+                            SystemClock.sleep(1000);
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mProgressBar.setProgress(mProgressBarStatus);
+                                }
+                            });
+                        }
+                    }
+                }).start();
+
+                //Link the buttons and textViews to respective views
+                bluetoothIn = new Handler() {
+                    public void handleMessage(android.os.Message msg) {
+                        if (msg.what == handlerState) {
+
+                            String readMessage = (String) msg.obj;
+                            recDataString.append(readMessage);
+
+                            int endOfLineIndex = recDataString.indexOf("*");
+
+                            if (endOfLineIndex > 0) {
+
+                                String mic1 = recDataString.substring(0, endOfLineIndex);
+
+                                //mic1 geeft een 0,1 of 2 terug in string vorm.
+                                mic1 = mic1.replace("*", "");
+
+                                //textView1.setText(mic1);
+                                micState = mic1;
+
+                                if (micState.contains("0")) {
+                                    {
+                                        gameState = 0;
+                                    }
+                                }
+
+                                if (micState.contains("1")) {
+                                    gameState = 1;
+                                    score += 1;
+                                    scoreDisplay.setText(String.valueOf(score));
+                                }
+
+                                if (micState.contains("2")) {
+//                            if(score == 0){
+//
+//                            }
+//                            else{
+                                    score -= 1;
+                                    scoreDisplay.setText(String.valueOf(score));
+//                            }
+                                    gameState = 2;
+                                }
+
+
+                                //Toast.makeText(getBaseContext(), micState, Toast.LENGTH_SHORT).show();
+
+                                recDataString.delete(0, recDataString.length());
+
+                            }
+
+                        }
+
+                    }
+
+
+                };
+
+                btAdapter = BluetoothAdapter.getDefaultAdapter();       // get Bluetooth adapter
+                //checkBTState();
+
+                scoreDisplay = (TextView) findViewById(R.id.liveScore);
+                scoreDisplay.setText(String.valueOf(score));
 
         /*
         // Balon omhoog van midden
@@ -151,7 +205,6 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (balonCounter == 1) {
                     final ImageView balon = (ImageView) findViewById(R.id.balonImage);
-
                     final ValueAnimator animatorBalon = ValueAnimator.ofFloat(0.75f, 0.0f);
                     animatorBalon.setInterpolator(new LinearInterpolator());
                     animatorBalon.setDuration(5000L);
@@ -165,24 +218,19 @@ public class GameActivity extends AppCompatActivity {
                             balon.setTranslationY(translationY - height);
                         }
                     });
-
                     animatorBalon.start();
                     balonCounter += 1;
                 }
-
                 else{
-
                 }
             }
         });
-
         // Balon omlaag van top
         buttonOmlaag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (balonCounter == 2) {
                     final ImageView balon = (ImageView) findViewById(R.id.balonImage);
-
                     final ValueAnimator animatorBalon = ValueAnimator.ofFloat(0.0f, 0.75f);
                     animatorBalon.setInterpolator(new LinearInterpolator());
                     animatorBalon.setDuration(5000L);
@@ -196,25 +244,19 @@ public class GameActivity extends AppCompatActivity {
                             balon.setTranslationY(translationY - height);
                         }
                     });
-
                     animatorBalon.start();
                     balonCounter -= 1;
                 }
-
                 else{
-
                 }
             }
         });
-
         // Omhoog van bottom
         buttonOmhoog2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(balonCounter == 0){
-
                     final ImageView balon = (ImageView) findViewById(R.id.balonImage);
-
                     final ValueAnimator animatorBalon = ValueAnimator.ofFloat(0.75f, 0.0f);
                     animatorBalon.setInterpolator(new LinearInterpolator());
                     animatorBalon.setDuration(5000L);
@@ -227,24 +269,19 @@ public class GameActivity extends AppCompatActivity {
                             balon.setTranslationY(translationY);
                         }
                     });
-
                     animatorBalon.start();
                     balonCounter += 1;
                 }
-
                 else{
-
                 }
             }
         });
-
         // Balon omlaag van midden
         buttonOmlaag2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (balonCounter == 1) {
                     final ImageView balon = (ImageView) findViewById(R.id.balonImage);
-
                     final ValueAnimator animatorBalon = ValueAnimator.ofFloat(0.0f, 0.75f);
                     animatorBalon.setInterpolator(new LinearInterpolator());
                     animatorBalon.setDuration(5000L);
@@ -257,17 +294,74 @@ public class GameActivity extends AppCompatActivity {
                             balon.setTranslationY(translationY);
                         }
                     });
-
                     animatorBalon.start();
                     balonCounter -= 1;
                 }
-
                 else{
-
                 }
             }
         });
         */
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //while(1 == 1) {
+                if (gameState == 0 && balonCounter == 0) {
+                    //Toast.makeText(getBaseContext(), "Test state 0 - 0", Toast.LENGTH_SHORT).show();
+                    Log.d("Test", "0 - 0");
+                }
+
+                if (gameState == 0 && balonCounter == 1) {
+                    Log.d("Test", "0 - 1");
+                    final ImageView balon = (ImageView) findViewById(R.id.balonImage);
+                    final ValueAnimator animatorBalon = ValueAnimator.ofFloat(0.75f, 0.0f);
+                    animatorBalon.setInterpolator(new LinearInterpolator());
+                    animatorBalon.setDuration(5000L);
+                    animatorBalon.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            final float progress = (float) animation.getAnimatedValue();
+                            final float height = balon.getHeight();
+                            final float translationY = height * progress;
+                            balon.setTranslationY(translationY);
+                            balon.setTranslationY(translationY - height);
+                        }
+                    });
+                    animatorBalon.start();
+                    balonCounter += 1;
+
+                }
+
+                if (gameState == 1 && balonCounter == 0) {
+                    //Toast.makeText(getBaseContext(), "Test state 1 - 0", Toast.LENGTH_SHORT).show();
+                    Log.d("Test", "1 - 0");
+                }
+
+                if (gameState == 1 && balonCounter == 1) {
+                    //Toast.makeText(getBaseContext(), "Test state 1 - 1", Toast.LENGTH_SHORT).show();
+                    Log.d("Test", "1 - 1");
+                }
+
+                if (gameState == 1 && balonCounter == 2) {
+                    //Toast.makeText(getBaseContext(), "Test state 2 - 1", Toast.LENGTH_SHORT).show();
+                    Log.d("Test", "1 - 2");
+                }
+
+                if (gameState == 2 && balonCounter == 1) {
+                    //Toast.makeText(getBaseContext(), "Test state 2 - 1", Toast.LENGTH_SHORT).show();
+                    Log.d("Test", "2 - 1");
+                }
+
+                if (gameState == 2 && balonCounter == 2) {
+                    //Toast.makeText(getBaseContext(), "Test state 2 - 2", Toast.LENGTH_SHORT).show();
+                    Log.d("Test", "2 - 2");
+                }
+                //SystemClock.sleep(5000);
+                handler.postDelayed(this, 5000);
+            }
+            //}
+        }, 5000);
 
         pauseButton = (ImageButton) findViewById(R.id.pauseButton);
         restartButton = (ImageButton) findViewById(R.id.restartButton);
@@ -277,7 +371,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 recreate();
-            }
+                }
         });
 
         // Repeating background bergen
@@ -290,7 +384,8 @@ public class GameActivity extends AppCompatActivity {
         animator.setDuration(20000L);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public void onAnimationUpdate(ValueAnimator animation) { final float progress = (float) animation.getAnimatedValue();
+            public void onAnimationUpdate(ValueAnimator animation) {
+                final float progress = (float) animation.getAnimatedValue();
                 final float width = background2.getWidth();
                 final float translationX = width * progress;
                 background2.setTranslationX(translationX);
@@ -303,25 +398,23 @@ public class GameActivity extends AppCompatActivity {
         // Sessie timer
         final int sessieTijd = 120000;
 
-        final CountDownTimer sessieTimer = new CountDownTimer(sessieTijd , 1000)
-        {
-            public void onTick(long millisUntilFinished)
-            {
+        final CountDownTimer sessieTimer = new CountDownTimer(sessieTijd, 1000) {
+            public void onTick(long millisUntilFinished) {
 
-            }
+                    }
 
-            public void onFinish()
+                    public void onFinish()
 
-            {
-                Intent intent = new Intent(GameActivity.this, EndSessionActivity.class);
-                Bundle score_data = new Bundle();
-                score_data.putString("score", scoreDisplay.getText().toString());
-                intent.putExtras(score_data);
-                finish();
-                startActivity(intent);
-            }
+                    {
+                        Intent intent = new Intent(GameActivity.this, EndSessionActivity.class);
+                        Bundle score_data = new Bundle();
+                        score_data.putString("score", scoreDisplay.getText().toString());
+                        intent.putExtras(score_data);
+                        finish();
+                        startActivity(intent);
+                    }
 
-        }.start();
+                }.start();
 
 
         // Pauze menu
@@ -330,14 +423,13 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 micState = "0";
                 sessieTimer.cancel();
+                    Intent intent = new Intent(GameActivity.this, PauseActivity.class);
+                    startActivity(intent);
+                    }
 
-                Intent intent = new Intent(GameActivity.this, PauseActivity.class);
-                startActivity(intent);
+                });
+
             }
-
-        });
-
-    }
 
     /*
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
@@ -463,6 +555,5 @@ public class GameActivity extends AppCompatActivity {
         }
 
     }
-     */
-
+    */
 }
