@@ -23,13 +23,22 @@ public class DeviceListActivity extends Activity {
 
 
     // declare button for launching website and textview for connection status
-    Button tlbutton;
     TextView textView1;
-    TextView textView2;
-    TextView textView3;
+
+    Button connectButton;
+
+    private static String address;
+
+    TextView stap1;
+    TextView stap2;
+    TextView stap3;
+    TextView stap4;
+    TextView stap5;
+
+
 
     // EXTRA string to send on to mainactivity
-   public static String EXTRA_DEVICE_ADDRESS = "device_address";
+    public static String EXTRA_DEVICE_ADDRESS = "device_address";
 
     // Member fields
     private BluetoothAdapter mBtAdapter;
@@ -39,7 +48,24 @@ public class DeviceListActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_list);
+
+        connectButton = (Button) findViewById(R.id.connectButton);
+
+        stap1 = (TextView) findViewById(R.id.stap1);
+        stap2 = (TextView) findViewById(R.id.stap2);
+        stap3 = (TextView) findViewById(R.id.stap3);
+        stap4 = (TextView) findViewById(R.id.stap4);
+        stap5 = (TextView) findViewById(R.id.stap5);
+
+
+        stap1.setText("Zet BlueTooth op de mobiel aan.");
+        stap2.setText("Zorg dat BalloonBuddy in de BlueTooth lijst staat.");
+        stap3.setText("Zet het BalloonBuddy apperaat aan.");
+        stap4.setText("Wacht tot het groene lampje aanstaat.");
+        stap5.setText("Start de game!");
+
     }
+
 
     @Override
     public void onResume()
@@ -48,24 +74,10 @@ public class DeviceListActivity extends Activity {
         //***************
         checkBTState();
 
-        textView1 = (TextView) findViewById(R.id.connecting);
-        textView1.setTextSize(40);
-        textView1.setText("");
-
-        textView2 = (TextView) findViewById(R.id.connecting);
-        textView2.setTextSize(40);
-        textView2.setText("");
-
-        textView3 = (TextView) findViewById(R.id.connecting);
-        textView3.setTextSize(40);
-        textView3.setText("");
         // Initialize array adapter for paired devices
         mPairedDevicesArrayAdapter = new ArrayAdapter<String>(this, R.layout.device_name);
 
         // Find and set up the ListView for paired devices
-        ListView pairedListView = (ListView) findViewById(R.id.paired_devices);
-        pairedListView.setAdapter(mPairedDevicesArrayAdapter);
-        pairedListView.setOnItemClickListener(mDeviceClickListener);
 
         // Get the local Bluetooth adapter
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -75,35 +87,40 @@ public class DeviceListActivity extends Activity {
 
         // Add previosuly paired devices to the array
         if (pairedDevices.size() > 0) {
-            findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);//make title viewable
             for (BluetoothDevice device : pairedDevices) {
+                //String name = device.getName().toString();
+                if(device.getName().toString().contains("BalloonBuddy")){
+                    address = device.getAddress();
+
+                    address = address.replaceAll("\\r|\\n", "");
+
+                    connectButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            //textView1.setText("Maakt connectie...");
+                            String test = address;
+
+                            Intent i = new Intent(DeviceListActivity.this, GameActivity.class);
+                            i.putExtra(EXTRA_DEVICE_ADDRESS, test);
+                            startActivity(i);
+
+                        }
+                    });
+                }
+
                 mPairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
             }
-        } else {
-
         }
+
+
+
     }
-
-    // Set up on-click listener for the list (nicked this - unsure)
-    private OnItemClickListener mDeviceClickListener = new OnItemClickListener() {
-        public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
-
-            textView1.setText("Connecting...");
-            // Get the device MAC address, which is the last 17 chars in the View
-            String info = ((TextView) v).getText().toString();
-            String address = info.substring(info.length() - 17);
-
-            // Make an intent to start next activity while taking an extra which is the MAC address.
-            Intent i = new Intent(DeviceListActivity.this, GameActivity.class);
-            i.putExtra(EXTRA_DEVICE_ADDRESS, address);
-            startActivity(i);
-        }
-    };
 
     private void checkBTState() {
         // Check device has Bluetooth and that it is turned on
-        mBtAdapter = BluetoothAdapter.getDefaultAdapter(); // CHECK THIS OUT THAT IT WORKS!!!
-        if (mBtAdapter == null) {
+        mBtAdapter=BluetoothAdapter.getDefaultAdapter(); // CHECK THIS OUT THAT IT WORKS!!!
+        if(mBtAdapter==null) {
             Toast.makeText(getBaseContext(), "Device does not support Bluetooth", Toast.LENGTH_SHORT).show();
         } else {
             if (mBtAdapter.isEnabled()) {
@@ -115,5 +132,5 @@ public class DeviceListActivity extends Activity {
             }
         }
     }
-
 }
+
