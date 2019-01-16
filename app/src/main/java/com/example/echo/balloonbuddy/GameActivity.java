@@ -70,7 +70,7 @@ public class GameActivity extends AppCompatActivity {
     public GameTimer gameTimer = new GameTimer(10000, 1000);
     int timeRemaining;
 
-    //private ConnectedThread mConnectedThread;
+    private ConnectedThread mConnectedThread;
 
     // SPP UUID service - this should work for most devices
     private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -339,27 +339,6 @@ public class GameActivity extends AppCompatActivity {
             gameTimer = new GameTimer(timeRemaining, 1000);
             gameTimer.start();
         }
-    }
-
-    private void onTimerFinish() {
-        Intent intent = new Intent(GameActivity.this, EndSessionActivity.class);
-        Bundle score_data = new Bundle();
-        score_data.putString("score", scoreDisplay.getText().toString());
-        intent.putExtras(score_data);
-        finish();
-        startActivity(intent);
-    }
-
-    /*
-    private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
-
-        return  device.createRfcommSocketToServiceRecord(BTMODULEUUID);
-        //creates secure outgoing connecetion with BT device using UUID
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
 
         //Get MAC address from DeviceListActivity via intent
         Intent intent = getIntent();
@@ -376,18 +355,16 @@ public class GameActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(), "Socket creation failed", Toast.LENGTH_LONG).show();
         }
         // Establish the Bluetooth socket connection.
-        try
-        {
+        try {
             btSocket.connect();
         } catch (IOException e) {
-            try
-            {
+            try {
                 btSocket.close();
-            } catch (IOException e2)
-            {
+            } catch (IOException e2) {
                 //insert code to deal with this
             }
         }
+
         mConnectedThread = new ConnectedThread(btSocket);
         mConnectedThread.start();
 
@@ -408,6 +385,22 @@ public class GameActivity extends AppCompatActivity {
         } catch (IOException e2) {
             //insert code to deal with this
         }
+    }
+
+    private void onTimerFinish() {
+        Intent intent = new Intent(GameActivity.this, EndSessionActivity.class);
+        Bundle score_data = new Bundle();
+        score_data.putString("score", scoreDisplay.getText().toString());
+        intent.putExtras(score_data);
+        finish();
+        startActivity(intent);
+    }
+
+
+    private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
+
+        return  device.createRfcommSocketToServiceRecord(BTMODULEUUID);
+        //creates secure outgoing connecetion with BT device using UUID
     }
 
     //Checks that the Android device Bluetooth is available and prompts to be turned on if off
@@ -460,6 +453,7 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
         }
+
         //write method
         public void write(String input) {
             byte[] msgBuffer = input.getBytes();           //converts entered String into bytes
@@ -472,8 +466,5 @@ public class GameActivity extends AppCompatActivity {
 
             }
         }
-
     }
-     */
-
 }

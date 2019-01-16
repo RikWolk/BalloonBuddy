@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-
 public class DeviceListActivity extends Activity {
     // Debugging for LOGCAT
     private static final String TAG = "DeviceListActivity";
