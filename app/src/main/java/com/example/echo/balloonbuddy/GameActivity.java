@@ -41,6 +41,7 @@ import java.util.UUID;
 public class GameActivity extends AppCompatActivity {
 
     boolean resume = true;
+    boolean recreatePushed = false;
 
     DataBaseHelper mDatabaseHelper;
 
@@ -56,12 +57,18 @@ public class GameActivity extends AppCompatActivity {
     Handler bluetoothIn;
     Handler ScoreCounter;
 
+    Handler BallonHandler;
+
+    Runnable BallonRunnable;
+
     final int handlerState = 0;                        //used to identify handler message
     private BluetoothAdapter btAdapter = null;
     private BluetoothSocket btSocket = null;
     private StringBuilder recDataString = new StringBuilder();
 
     private String micState;
+
+    boolean isPaused = false;
 
     private Handler handler = new Handler();
     private Timer sessieTimer = new Timer();
@@ -79,8 +86,6 @@ public class GameActivity extends AppCompatActivity {
     private int mProgressBarStatus = 50;
     private Handler mHandler = new Handler();
 
-    private Handler BallonHandler = new Handler();
-    public Animation balonAnimation;
     int balonCounter = 1;
 
     @SuppressLint("HandlerLeak")
@@ -156,9 +161,7 @@ public class GameActivity extends AppCompatActivity {
                                 micState = mic1;
 
                                 if (micState.contains("0")) {
-                                    {
-                                        gameState = 0;
-                                    }
+                                    gameState = 0;
                                 }
 
                                 if (micState.contains("1")) {
@@ -168,13 +171,8 @@ public class GameActivity extends AppCompatActivity {
                                 }
 
                                 if (micState.contains("2")) {
-//                            if(score == 0){
-//
-//                            }
-//                            else{
                                     score -= 1;
                                     scoreDisplay.setText(String.valueOf(score));
-//                            }
                                     gameState = 2;
                                 }
 
@@ -188,7 +186,6 @@ public class GameActivity extends AppCompatActivity {
                         }
 
                     }
-
 
                 };
 
@@ -306,16 +303,109 @@ public class GameActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                //while(1 == 1) {
                 if (gameState == 0 && balonCounter == 0) {
                     //Toast.makeText(getBaseContext(), "Test state 0 - 0", Toast.LENGTH_SHORT).show();
                     Log.d("Test", "0 - 0");
+                    // Geen beweging
                 }
 
-                if (gameState == 0 && balonCounter == 1) {
+                else if (gameState == 0 && balonCounter == 1) {
+                    //Toast.makeText(getBaseContext(), "Test state 1 - 0", Toast.LENGTH_SHORT).show();
                     Log.d("Test", "0 - 1");
+                    // Geen beweging
+                }
+
+                else if (gameState == 0 && balonCounter == 2) {
+                    //Toast.makeText(getBaseContext(), "Test state 1 - 0", Toast.LENGTH_SHORT).show();
+                    Log.d("Test", "0 - 2");
+                    // Geen beweging
+                }
+
+                else if (gameState == 1 && balonCounter == 0) {
+                    //Toast.makeText(getBaseContext(), "Test state 0 - 0", Toast.LENGTH_SHORT).show();
+                    Log.d("Test", "1 - 0");
+                    // Van bottom naar midden
+
                     final ImageView balon = (ImageView) findViewById(R.id.balonImage);
                     final ValueAnimator animatorBalon = ValueAnimator.ofFloat(0.75f, 0.0f);
+                    animatorBalon.setInterpolator(new LinearInterpolator());
+                    animatorBalon.setDuration(5000L);
+                    animatorBalon.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            final float progress = (float) animation.getAnimatedValue();
+                            final float height = balon.getHeight();
+                            final float translationY = height * progress;
+                            balon.setTranslationY(translationY);
+                        }
+                    });
+                    animatorBalon.start();
+                    balonCounter += 1;
+                }
+
+                else if (gameState == 1 && balonCounter == 1) {
+                    //Toast.makeText(getBaseContext(), "Test state 1 - 0", Toast.LENGTH_SHORT).show();
+                    Log.d("Test", "1 - 1");
+                    // Van midden naar top
+
+                    final ImageView balon = (ImageView) findViewById(R.id.balonImage);
+                    final ValueAnimator animatorBalon = ValueAnimator.ofFloat(1.00f, 0.0f);
+                    animatorBalon.setInterpolator(new LinearInterpolator());
+                    animatorBalon.setDuration(5000L);
+                    animatorBalon.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            final float progress = (float) animation.getAnimatedValue();
+                            final float height = balon.getHeight();
+                            final float translationY = height * progress;
+                            balon.setTranslationY(translationY );
+                            balon.setTranslationY(translationY - height);
+                        }
+                    });
+                    animatorBalon.start();
+                    balonCounter += 1;
+                }
+
+                else if (gameState == 1 && balonCounter == 2) {
+                    //Toast.makeText(getBaseContext(), "Test state 1 - 0", Toast.LENGTH_SHORT).show();
+                    Log.d("Test", "1 - 2");
+                    // Geen beweging (is al aan top)
+                }
+
+                else if (gameState == 2 && balonCounter == 0) {
+                    //Toast.makeText(getBaseContext(), "Test state 0 - 0", Toast.LENGTH_SHORT).show();
+                    Log.d("Test", "2 - 0");
+                    // Geen beweging (is al aan bottom)
+                }
+
+                else if (gameState == 2 && balonCounter == 1) {
+                    //Toast.makeText(getBaseContext(), "Test state 1 - 0", Toast.LENGTH_SHORT).show();
+                    Log.d("Test", "2 - 1");
+                    // Van midden naar bottom
+
+                    final ImageView balon = (ImageView) findViewById(R.id.balonImage);
+                    final ValueAnimator animatorBalon = ValueAnimator.ofFloat(0.0f, 0.75f);
+                    animatorBalon.setInterpolator(new LinearInterpolator());
+                    animatorBalon.setDuration(5000L);
+                    animatorBalon.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            final float progress = (float) animation.getAnimatedValue();
+                            final float height = balon.getHeight();
+                            final float translationY = height * progress;
+                            balon.setTranslationY(translationY);
+                        }
+                    });
+                    animatorBalon.start();
+                    balonCounter -= 1;
+                }
+
+                else if (gameState == 2 && balonCounter == 2) {
+                    //Toast.makeText(getBaseContext(), "Test state 1 - 0", Toast.LENGTH_SHORT).show();
+                    Log.d("Test", "2 - 2");
+                    // Van top naar midden
+                    final ImageView balon = (ImageView) findViewById(R.id.balonImage);
+                    final ValueAnimator animatorBalon = ValueAnimator.ofFloat(0.0f, 1.00f);
                     animatorBalon.setInterpolator(new LinearInterpolator());
                     animatorBalon.setDuration(5000L);
                     animatorBalon.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -329,39 +419,11 @@ public class GameActivity extends AppCompatActivity {
                         }
                     });
                     animatorBalon.start();
-                    balonCounter += 1;
-
+                    balonCounter -= 1;
                 }
-
-                if (gameState == 1 && balonCounter == 0) {
-                    //Toast.makeText(getBaseContext(), "Test state 1 - 0", Toast.LENGTH_SHORT).show();
-                    Log.d("Test", "1 - 0");
-                }
-
-                if (gameState == 1 && balonCounter == 1) {
-                    //Toast.makeText(getBaseContext(), "Test state 1 - 1", Toast.LENGTH_SHORT).show();
-                    Log.d("Test", "1 - 1");
-                }
-
-                if (gameState == 1 && balonCounter == 2) {
-                    //Toast.makeText(getBaseContext(), "Test state 2 - 1", Toast.LENGTH_SHORT).show();
-                    Log.d("Test", "1 - 2");
-                }
-
-                if (gameState == 2 && balonCounter == 1) {
-                    //Toast.makeText(getBaseContext(), "Test state 2 - 1", Toast.LENGTH_SHORT).show();
-                    Log.d("Test", "2 - 1");
-                }
-
-                if (gameState == 2 && balonCounter == 2) {
-                    //Toast.makeText(getBaseContext(), "Test state 2 - 2", Toast.LENGTH_SHORT).show();
-                    Log.d("Test", "2 - 2");
-                }
-                //SystemClock.sleep(5000);
-                handler.postDelayed(this, 5000);
+                BallonHandler.postDelayed(this, 6000);
             }
-            //}
-        }, 5000);
+        }, 1000);
 
         pauseButton = (ImageButton) findViewById(R.id.pauseButton);
         restartButton = (ImageButton) findViewById(R.id.restartButton);
@@ -370,6 +432,7 @@ public class GameActivity extends AppCompatActivity {
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                recreatePushed = true;
                 recreate();
                 }
         });
@@ -421,8 +484,8 @@ public class GameActivity extends AppCompatActivity {
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                micState = "0";
-                sessieTimer.cancel();
+                    micState = "0";
+                    isPaused = true;
                     Intent intent = new Intent(GameActivity.this, PauseActivity.class);
                     startActivity(intent);
                     }
