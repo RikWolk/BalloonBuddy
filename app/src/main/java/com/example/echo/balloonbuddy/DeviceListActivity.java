@@ -48,6 +48,7 @@ public class DeviceListActivity extends Activity {
         setContentView(R.layout.activity_device_list);
 
         connectButton = (Button) findViewById(R.id.connectButton);
+        connectieText = (TextView) findViewById(R.id.connectieText);
 
         stap1 = (TextView) findViewById(R.id.stap1);
         stap2 = (TextView) findViewById(R.id.stap2);
@@ -94,10 +95,11 @@ public class DeviceListActivity extends Activity {
                         @Override
                         public void onClick(View v) {
 
-                            //connectieText.setText("Maakt connectie...");
-                           // connectieText.setVisibility(TextView.VISIBLE);
-                           // connectButton.setVisibility(View.INVISIBLE);
-
+                            connectieText.setText("Maakt connectie...");
+                            connectButton.setEnabled(false);
+                            connectButton.setVisibility(TextView.INVISIBLE);
+                            connectieText.setVisibility(TextView.VISIBLE);
+//lol
                             String test = address;
 
                             Intent i = new Intent(DeviceListActivity.this, GameActivity.class);
