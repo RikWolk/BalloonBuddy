@@ -22,10 +22,6 @@ public class DeviceListActivity extends Activity {
     private static final String TAG = "DeviceListActivity";
     private static final boolean D = true;
 
-
-    // declare button for launching website and textview for connection status
-    TextView textView1;
-
     Button connectButton;
 
     private static String address;
@@ -35,6 +31,7 @@ public class DeviceListActivity extends Activity {
     TextView stap3;
     TextView stap4;
     TextView stap5;
+    TextView connectieText;
 
 
 
@@ -58,13 +55,11 @@ public class DeviceListActivity extends Activity {
         stap4 = (TextView) findViewById(R.id.stap4);
         stap5 = (TextView) findViewById(R.id.stap5);
 
-
-        stap1.setText("Zet BlueTooth op de mobiel aan.");
-        stap2.setText("Zorg dat BalloonBuddy in de BlueTooth lijst staat.");
-        stap3.setText("Zet het BalloonBuddy apperaat aan.");
-        stap4.setText("Wacht tot het groene lampje aanstaat.");
-        stap5.setText("Start de game!");
-
+        stap1.setText("1) Zet BlueTooth op de mobiel aan.");
+        stap2.setText("2) Zorg dat BalloonBuddy in de BlueTooth lijst staat.");
+        stap3.setText("3) Zet het BalloonBuddy apparaat aan.");
+        stap4.setText("4) Wacht tot het groene lampje aanstaat.");
+        stap5.setText("5) Start het spel!");
     }
 
 
@@ -99,7 +94,10 @@ public class DeviceListActivity extends Activity {
                         @Override
                         public void onClick(View v) {
 
-                            //textView1.setText("Maakt connectie...");
+                            //connectieText.setText("Maakt connectie...");
+                           // connectieText.setVisibility(TextView.VISIBLE);
+                           // connectButton.setVisibility(View.INVISIBLE);
+
                             String test = address;
 
                             Intent i = new Intent(DeviceListActivity.this, GameActivity.class);

@@ -515,7 +515,7 @@ public class GameActivity extends AppCompatActivity {
                 mmOutStream.write(msgBuffer);                //write bytes over BT connection via outstream
             } catch (IOException e) {
                 //if you cannot write, close the application
-                Toast.makeText(getBaseContext(), "Connection Failure", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Kan geen connectie maken.", Toast.LENGTH_LONG).show();
                 finish();
 
             }
