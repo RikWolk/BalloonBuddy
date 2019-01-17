@@ -40,7 +40,6 @@ import java.util.UUID;
 
 public class GameActivity extends AppCompatActivity {
 
-    boolean resume = true;
     boolean recreatePushed = false;
 
     DataBaseHelper mDatabaseHelper;
@@ -55,11 +54,9 @@ public class GameActivity extends AppCompatActivity {
     ImageView balonImage;
 
     Handler bluetoothIn;
-    Handler ScoreCounter;
 
     Handler BallonHandler;
 
-    Runnable BallonRunnable;
 
     final int handlerState = 0;                        //used to identify handler message
     private BluetoothAdapter btAdapter = null;
@@ -68,7 +65,7 @@ public class GameActivity extends AppCompatActivity {
 
     private String micState;
 
-    boolean isPaused = false;
+    //boolean isPaused = false;
 
     private Handler handler = new Handler();
     private Timer sessieTimer = new Timer();
@@ -206,28 +203,28 @@ public class GameActivity extends AppCompatActivity {
                 }
 
                 else if (gameState == 0 && balonCounter == 0) {
-                    //Toast.makeText(getBaseContext(), "Test state 0 - 0", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Test state 0 - 0", Toast.LENGTH_SHORT).show();
                     Log.d("Test", "0 - 0");
                     // Geen beweging
                     BallonHandler.postDelayed(this, 6000);
                 }
 
                 else if (gameState == 0 && balonCounter == 1) {
-                    //Toast.makeText(getBaseContext(), "Test state 1 - 0", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Test state 0 - 1", Toast.LENGTH_SHORT).show();
                     Log.d("Test", "0 - 1");
                     // Geen beweging
                     BallonHandler.postDelayed(this, 6000);
                 }
 
                 else if (gameState == 0 && balonCounter == 2) {
-                    //Toast.makeText(getBaseContext(), "Test state 1 - 0", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Test state 0 - 2", Toast.LENGTH_SHORT).show();
                     Log.d("Test", "0 - 2");
                     // Geen beweging
                     BallonHandler.postDelayed(this, 6000);
                 }
 
                 else if (gameState == 1 && balonCounter == 0) {
-                    //Toast.makeText(getBaseContext(), "Test state 0 - 0", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Test state 1 - 0", Toast.LENGTH_SHORT).show();
                     Log.d("Test", "1 - 0");
                     // Van bottom naar midden
 
@@ -250,7 +247,7 @@ public class GameActivity extends AppCompatActivity {
                 }
 
                 else if (gameState == 1 && balonCounter == 1) {
-                    //Toast.makeText(getBaseContext(), "Test state 1 - 0", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Test state 1 - 1", Toast.LENGTH_SHORT).show();
                     Log.d("Test", "1 - 1");
                     // Van midden naar top
 
@@ -274,21 +271,21 @@ public class GameActivity extends AppCompatActivity {
                 }
 
                 else if (gameState == 1 && balonCounter == 2) {
-                    //Toast.makeText(getBaseContext(), "Test state 1 - 0", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Test state 1 - 2", Toast.LENGTH_SHORT).show();
                     Log.d("Test", "1 - 2");
                     // Geen beweging (is al aan top)
                     BallonHandler.postDelayed(this, 6000);
                 }
 
                 else if (gameState == 2 && balonCounter == 0) {
-                    //Toast.makeText(getBaseContext(), "Test state 0 - 0", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Test state 2 - 0", Toast.LENGTH_SHORT).show();
                     Log.d("Test", "2 - 0");
                     // Geen beweging (is al aan bottom)
                     BallonHandler.postDelayed(this, 6000);
                 }
 
                 else if (gameState == 2 && balonCounter == 1) {
-                    //Toast.makeText(getBaseContext(), "Test state 1 - 0", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Test state 2 - 1", Toast.LENGTH_SHORT).show();
                     Log.d("Test", "2 - 1");
                     // Van midden naar bottom
 
@@ -311,7 +308,7 @@ public class GameActivity extends AppCompatActivity {
                 }
 
                 else if (gameState == 2 && balonCounter == 2) {
-                    //Toast.makeText(getBaseContext(), "Test state 1 - 0", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Test state 2 - 2", Toast.LENGTH_SHORT).show();
                     Log.d("Test", "2 - 2");
                     // Van top naar midden
                     final ImageView balon = (ImageView) findViewById(R.id.balonImage);
@@ -347,7 +344,7 @@ public class GameActivity extends AppCompatActivity {
                 }
         });
 
-        // Repeating background bergen
+        // Repeating background
         final ImageView background1 = (ImageView) findViewById(R.id.backgroundImage1);
         final ImageView background2 = (ImageView) findViewById(R.id.backgroundImage2);
 
@@ -396,7 +393,6 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                     micState = "0";
-                    isPaused = true;
                     Intent intent = new Intent(GameActivity.this, PauseActivity.class);
                     startActivity(intent);
                     }
