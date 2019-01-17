@@ -4,9 +4,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
@@ -31,6 +29,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     // Common column names
     private static final String ID = "id";
+    private static final String NUMBER = "number";
     private static final String CREATED_AT = "created_at";
 
     // SCORES Table - column nmaes
@@ -47,19 +46,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     // SCORES Create Statements
     private static final String CREATE_TABLE_SCORES = "CREATE TABLE " + TABLE_SCORES
-            + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + SCORE
-            + " INTEGER," + MISTAKES + " INTEGER,"
-            + CREATED_AT + " DATETIME)";
+            + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + SCORE
+            + " INTEGER, " + MISTAKES + " INTEGER," + CREATED_AT + " DATETIME)";
 
     // SETTINGS Create Statement
     private static final String CREATE_TABLE_SETTINGS = "CREATE TABLE " + TABLE_SETTINGS
-            + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + REMINDER + " INTEGER,"
-            + CREATED_AT + " DATETIME)";
+            + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + REMINDER + " INTEGER, "
+            + NUMBER + " INTEGER, " + CREATED_AT + " DATETIME)";
 
     // ACHIEVEMENTS Create Statement
     private static final String CREATE_TABLE_ACHIEVEMENTS = "CREATE TABLE " + TABLE_ACHIEVEMENTS
-            + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + UNLOCKED + " INTEGER,"
-            + NAME + " TEXT," + DESCRIPTION + " TEXT,"
+            + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + UNLOCKED + " INTEGER, "
+            + NAME + " TEXT, " + DESCRIPTION + " TEXT, " + NUMBER + " INTEGER, "
             + CREATED_AT + " DATETIME)";
 
     public DataBaseHelper(Context context) {
@@ -82,6 +80,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         // on upgrade drop older tables
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SCORES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SETTINGS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ACHIEVEMENTS);
 
         // create new tables
         onCreate(db);
@@ -89,7 +88,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void insertScore(int score, int mistakes) {
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
 
         values.put(SCORE, score);
@@ -103,6 +101,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void insertSettings(SQLiteDatabase db) {
         ContentValues settingsValues = new ContentValues();
         settingsValues.put(REMINDER, 1);
+        settingsValues.put(NUMBER, 1);
         settingsValues.put(CREATED_AT, getDateTime());
         db.insert(TABLE_SETTINGS, null, settingsValues);
     }
@@ -110,9 +109,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void insertAchievements(SQLiteDatabase db) {
         ContentValues achievementsValues = new ContentValues();
 
-        achievementsValues.put(UNLOCKED, 1);
+        achievementsValues.put(UNLOCKED, 0);
         achievementsValues.put(NAME, "flights1");
         achievementsValues.put(DESCRIPTION, "Maak de eerste vlucht");
+        achievementsValues.put(NUMBER, 1);
         achievementsValues.put(CREATED_AT, getDateTime());
 
         db.insert(TABLE_ACHIEVEMENTS, null, achievementsValues);
@@ -120,6 +120,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         achievementsValues.put(UNLOCKED, 0);
         achievementsValues.put(NAME, "flights100");
         achievementsValues.put(DESCRIPTION, "Maak 100 vluchten");
+        achievementsValues.put(NUMBER, 2);
         achievementsValues.put(CREATED_AT, getDateTime());
 
         db.insert(TABLE_ACHIEVEMENTS, null, achievementsValues);
@@ -127,20 +128,23 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         achievementsValues.put(UNLOCKED, 0);
         achievementsValues.put(NAME, "flights250");
         achievementsValues.put(DESCRIPTION, "Maak 250 vluchten");
+        achievementsValues.put(NUMBER, 3);
         achievementsValues.put(CREATED_AT, getDateTime());
 
         db.insert(TABLE_ACHIEVEMENTS, null, achievementsValues);
 
-        achievementsValues.put(UNLOCKED, 1);
+        achievementsValues.put(UNLOCKED, 0);
         achievementsValues.put(NAME, "streak7");
         achievementsValues.put(DESCRIPTION, "Vlieg 7 dagen achter elkaar");
+        achievementsValues.put(NUMBER, 4);
         achievementsValues.put(CREATED_AT, getDateTime());
 
         db.insert(TABLE_ACHIEVEMENTS, null, achievementsValues);
 
-        achievementsValues.put(UNLOCKED, 1);
+        achievementsValues.put(UNLOCKED, 0);
         achievementsValues.put(NAME, "streak14");
         achievementsValues.put(DESCRIPTION, "Vlieg 14 dagen achter elkaar");
+        achievementsValues.put(NUMBER, 5);
         achievementsValues.put(CREATED_AT, getDateTime());
 
         db.insert(TABLE_ACHIEVEMENTS, null, achievementsValues);
@@ -148,6 +152,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         achievementsValues.put(UNLOCKED, 0);
         achievementsValues.put(NAME, "streak28");
         achievementsValues.put(DESCRIPTION, "Vlieg 28 dagen achter elkaar");
+        achievementsValues.put(NUMBER, 6);
         achievementsValues.put(CREATED_AT, getDateTime());
 
         db.insert(TABLE_ACHIEVEMENTS, null, achievementsValues);
@@ -155,6 +160,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         achievementsValues.put(UNLOCKED, 0);
         achievementsValues.put(NAME, "score1000");
         achievementsValues.put(DESCRIPTION, "Haal een score van 1000");
+        achievementsValues.put(NUMBER, 7);
         achievementsValues.put(CREATED_AT, getDateTime());
 
         db.insert(TABLE_ACHIEVEMENTS, null, achievementsValues);
@@ -162,6 +168,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         achievementsValues.put(UNLOCKED, 0);
         achievementsValues.put(NAME, "score2500");
         achievementsValues.put(DESCRIPTION, "Haal een score van 2500");
+        achievementsValues.put(NUMBER, 8);
         achievementsValues.put(CREATED_AT, getDateTime());
 
         db.insert(TABLE_ACHIEVEMENTS, null, achievementsValues);
@@ -169,6 +176,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         achievementsValues.put(UNLOCKED, 0);
         achievementsValues.put(NAME, "score5000");
         achievementsValues.put(DESCRIPTION, "Haal een score van 5000");
+        achievementsValues.put(NUMBER, 9);
         achievementsValues.put(CREATED_AT, getDateTime());
 
         db.insert(TABLE_ACHIEVEMENTS, null, achievementsValues);
@@ -186,7 +194,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public int getReminderSetting() {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String query = "SELECT reminder FROM " + TABLE_SETTINGS + " WHERE id = 1";
+        String query = "SELECT reminder FROM " + TABLE_SETTINGS + " WHERE number = 1";
         Cursor data = db.rawQuery(query, null);
         data.moveToFirst();
         int reminderState =  data.getInt(0);
@@ -194,25 +202,59 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return reminderState;
     }
 
-    public void updateAchievement(int id) {
+    public void updateAchievements() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT COUNT(*) FROM scores";
+        Cursor data = db.rawQuery(query, null);
+        data.moveToFirst();
+        int count =  data.getInt(0);
+
+        query = "SELECT MAX(score) FROM scores";
+        data = db.rawQuery(query, null);
+        data.moveToFirst();
+        int highest =  data.getInt(0);
+
+        if(count > 0 && count < 100) {
+            updateAchievement(1, 1);
+        } else if(count >= 100 && count < 250) {
+            updateAchievement(2, 1);
+        } else if(count >= 250) {
+            updateAchievement(3, 1);
+        } else {
+            Log.d("TableData", "Count van scores is nul");
+        }
+
+        if(highest >= 1000 && highest < 2500) {
+            updateAchievement(7, 1);
+        } else if(highest >= 2500 && highest < 5000) {
+            updateAchievement(8, 1);
+        } else if(highest >= 5000) {
+            updateAchievement(9, 1);
+        } else {
+            Log.d("TableData", "Hoogste score lager dan 1000");
+        }
+    }
+
+    public void updateAchievement(int number, int unlocked) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String UPDATE_SETTINGS = "UPDATE " + TABLE_ACHIEVEMENTS
-                + " SET " + UNLOCKED + " = " + 1
-                + " WHERE " + ID + " = " + id;
+                + " SET " + UNLOCKED + " = " + unlocked
+                + " WHERE " + NUMBER + " = " + number;
 
         db.execSQL(UPDATE_SETTINGS);
     }
 
-
-    public void updateSettings(int id, int reminder) {
+    public void updateSettings(int number, int reminder) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String UPDATE_SETTINGS = "UPDATE " + TABLE_SETTINGS
                 + " SET " + REMINDER + " = " + reminder
-                + " WHERE " + ID + " = " + id;
+                + " WHERE " + NUMBER + " = " + number;
 
         db.execSQL(UPDATE_SETTINGS);
+
+        getReminderSetting();
     }
 
     public void deleteAllData(String table_name) {
@@ -225,6 +267,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             String DELETE = "DELETE FROM " + table_name + " WHERE " + ID + " = " + data.getString(0);
             db.execSQL(DELETE);
         }
+    }
+
+    public void dropTable(String table_name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "DROP TABLE " + table_name;
+        db.execSQL(query);
     }
 
     public void closeDB() {
