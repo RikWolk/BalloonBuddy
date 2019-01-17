@@ -7,13 +7,10 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -26,12 +23,11 @@ import java.util.UUID;
 
 public class GameActivity extends AppCompatActivity {
 
-    DataBaseHelper mDatabaseHelper;
-
     ImageButton restartButton;
     ImageButton pauseButton;
     TextView scoreDisplay;
     int score = 0;
+    int mistakes = 0;
 
     ImageView background1;
     ImageView background2;
@@ -54,7 +50,7 @@ public class GameActivity extends AppCompatActivity {
     
     private Timer sessieTimer = new Timer();
 
-    public GameTimer gameTimer = new GameTimer(100000, 1000);
+    public GameTimer gameTimer = new GameTimer(10000, 1000);
     int timeRemaining;
 
     private ConnectedThread mConnectedThread;
@@ -71,7 +67,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        btAdapter = BluetoothAdapter.getDefaultAdapter();       // get Bluetooth adapter
+        btAdapter = BluetoothAdapter.getDefaultAdapter();
 
         scoreDisplay = (TextView) findViewById(R.id.liveScore);
         scoreDisplay.setText(String.valueOf(score));
@@ -195,13 +191,13 @@ public class GameActivity extends AppCompatActivity {
 
     private void micStateWrong() {
         Log.d("GAMEACTIVITY", "DIT IS DE TWEE");
+        mistakes--;
         ProgressbarChanger.down(mProgressBar);
         if(balloonState != -2) {
             BalloonMover.down(balloon, GameActivity.this, balloonState);
             balloonState--;
         }
     }
-
 
     private void resumeTimer() {
         // Als de GameActivity weer door gaat, moet de GameTimer weer gestart worden.
@@ -217,6 +213,7 @@ public class GameActivity extends AppCompatActivity {
         Intent intent = new Intent(GameActivity.this, EndSessionActivity.class);
         Bundle score_data = new Bundle();
         score_data.putString("score", scoreDisplay.getText().toString());
+        score_data.putString("mistakes", Integer.toString(mistakes));
         intent.putExtras(score_data);
         finish();
         startActivity(intent);

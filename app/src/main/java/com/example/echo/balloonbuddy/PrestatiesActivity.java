@@ -20,9 +20,7 @@ import java.util.ArrayList;
 
 public class  PrestatiesActivity extends AppCompatActivity {
 
-    private static final String TAG = "ListDataActivity";
-
-    private LineChart nChart;
+//    private LineChart nChart;
 
     DataBaseHelper mDatabaseHelper;
 
@@ -49,16 +47,10 @@ public class  PrestatiesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_prestaties);
 
         // GET DB AND MAKE LIST
-        mListView = (ListView) findViewById(R.id.listView);
+//        mListView = (ListView) findViewById(R.id.listView);
         mDatabaseHelper = new DataBaseHelper(this);
 
-        mDatabaseHelper.insertScore(200, 5);
-        mDatabaseHelper.insertScore(220, 3);
-        mDatabaseHelper.insertScore(1200, 8);
-
         mDatabaseHelper.updateAchievements();
-//        mDatabaseHelper.deleteAllData("achievements");
-//        mDatabaseHelper.insertAchievements2();
 
         // LINK STUFF TO XML
         ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
@@ -88,10 +80,6 @@ public class  PrestatiesActivity extends AppCompatActivity {
         }
 
         graphPlotter();
-
-        // DELETE DATA FROM TABLE SCORES
-        mDatabaseHelper.deleteAllData("scores");
-//        mDatabaseHelper.deleteAllData("achievements");
 
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override

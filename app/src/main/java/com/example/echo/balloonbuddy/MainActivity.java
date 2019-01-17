@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         // LOCAL NOTIFICATIONS
         if (reminderState == 1) {
             Calendar cal = Calendar.getInstance(); // Maak een kalender
-            cal.add(Calendar.SECOND, 10);
+            cal.add(Calendar.SECOND, 86400);
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast); // Gooi het alarm zodra de tijd de kalender + 24u bereikt
         } else {
             alarmManager.cancel(broadcast);
