@@ -16,11 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-
 public class DeviceListActivity extends Activity {
     // Debugging for LOGCAT
     private static final String TAG = "DeviceListActivity";
-    private static final boolean D = true;
 
     Button connectButton;
 
@@ -32,8 +30,6 @@ public class DeviceListActivity extends Activity {
     TextView stap4;
     TextView stap5;
     TextView connectieText;
-
-
 
     // EXTRA string to send on to mainactivity
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
@@ -63,7 +59,6 @@ public class DeviceListActivity extends Activity {
         stap5.setText("5) Start het spel!");
     }
 
-
     @Override
     public void onResume()
     {
@@ -73,8 +68,6 @@ public class DeviceListActivity extends Activity {
 
         // Initialize array adapter for paired devices
         mPairedDevicesArrayAdapter = new ArrayAdapter<String>(this, R.layout.device_name);
-
-        // Find and set up the ListView for paired devices
 
         // Get the local Bluetooth adapter
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -99,23 +92,18 @@ public class DeviceListActivity extends Activity {
                             connectButton.setEnabled(false);
                             connectButton.setVisibility(TextView.INVISIBLE);
                             connectieText.setVisibility(TextView.VISIBLE);
-//lol
+
                             String test = address;
 
                             Intent i = new Intent(DeviceListActivity.this, GameActivity.class);
                             i.putExtra(EXTRA_DEVICE_ADDRESS, test);
                             startActivity(i);
-
                         }
                     });
                 }
-
                 mPairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
             }
         }
-
-
-
     }
 
     private void checkBTState() {
@@ -127,7 +115,7 @@ public class DeviceListActivity extends Activity {
             if (mBtAdapter.isEnabled()) {
                 Log.d(TAG, "...Bluetooth ON...");
             } else {
-                //Prompt user to turn on Bluetooth
+                //Zorgt dat de BlueTooth wordt aangezet.
                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(enableBtIntent, 1);
             }
