@@ -87,7 +87,7 @@ public class GameActivity extends AppCompatActivity {
         gameTimer.setListener(new GameTimer.ChangeListener() {
             @Override
             public void onChange() {
-                Log.d("GAME ACTIVITY", "BAKFIETS");
+                Log.d("GAME ACTIVITY", "SESSIE IS KLAAR");
                 onTimerFinish();
             }
         });
@@ -105,11 +105,9 @@ public class GameActivity extends AppCompatActivity {
                     if (endOfLineIndex > 0) {
                         String mic = recDataString.substring(0, endOfLineIndex);
 
-                        //mic1 geeft een 0,1 of 2 terug in string vorm.
                         mic = mic.replace("*", "");
                         mic = mic.replaceAll("\\r|\\n", "");
 
-                        //textView1.setText(mic1);
                         micState = mic;
 
                         if(micState.contains("0")) {
@@ -117,37 +115,19 @@ public class GameActivity extends AppCompatActivity {
                         }
 
                         if(micState.contains("1")) {
-//                            score += 1;
-//                            scoreDisplay.setText(String.valueOf(score));
                             Log.d("GAMEACTIVITY", "DIT IS DE EEN");
                         }
 
                         if(micState.contains("2")) {
                             Log.d("GAMEACTIVITY", "DIT IS DE TWEE");
-//                            if(score == 0) {
-//
-//                            } else {
-//                                score -= 1;
-//                                scoreDisplay.setText(String.valueOf(score));
-//                            }
                         }
 
                         Toast.makeText(getBaseContext(), micState, Toast.LENGTH_SHORT).show();
-
                         recDataString.delete(0, recDataString.length());
                     }
                 }
             }
         };
-
-        // Herstart de activity
-        restartButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gameTimer.cancel();
-                recreate();
-            }
-        });
 
         animator = ValueAnimator.ofFloat(1.0f, 0.0f);
         animator.setRepeatCount(ValueAnimator.INFINITE);
@@ -175,7 +155,6 @@ public class GameActivity extends AppCompatActivity {
 
                 // De tijd die nog over is ophalen uit de GameTimer en opslaan in de GameActivity
                 timeRemaining = gameTimer.returnTimeRmaining();
-                Log.d("GAME ACTIVITY", "DIT IS DE TIME REMAINING VARIABELE: " + timeRemaining);
 
                 // De GameTimer die gaande is op stop zetten
                 gameTimer.cancel();
@@ -183,6 +162,15 @@ public class GameActivity extends AppCompatActivity {
                 // Gooi de pauze activity
                 Intent intent = new Intent(GameActivity.this, PauseActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        // Herstart de activity
+        restartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gameTimer.cancel();
+                recreate();
             }
         });
     }
