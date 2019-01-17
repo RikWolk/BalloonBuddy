@@ -8,22 +8,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class DeviceListActivity extends Activity {
     // Debugging for LOGCAT
     private static final String TAG = "DeviceListActivity";
-    private static final boolean D = true;
-
-
-    // declare button for launching website and textview for connection status
-    TextView textView1;
 
     Button connectButton;
 
@@ -34,8 +26,6 @@ public class DeviceListActivity extends Activity {
     TextView stap3;
     TextView stap4;
     TextView stap5;
-
-
 
     // EXTRA string to send on to mainactivity
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
@@ -57,13 +47,11 @@ public class DeviceListActivity extends Activity {
         stap4 = (TextView) findViewById(R.id.stap4);
         stap5 = (TextView) findViewById(R.id.stap5);
 
-
         stap1.setText("Zet BlueTooth op de mobiel aan.");
         stap2.setText("Zorg dat BalloonBuddy in de BlueTooth lijst staat.");
         stap3.setText("Zet het BalloonBuddy apperaat aan.");
         stap4.setText("Wacht tot het groene lampje aanstaat.");
         stap5.setText("Start de game!");
-
     }
 
 
@@ -71,9 +59,15 @@ public class DeviceListActivity extends Activity {
     public void onResume()
     {
         super.onResume();
-        //***************
+
+        // Check of bluetooth aan staat
         checkBTState();
 
+        // Maak connectie met het apparaat
+        connectDevice();
+    }
+
+    private void connectDevice() {
         // Initialize array adapter for paired devices
         mPairedDevicesArrayAdapter = new ArrayAdapter<String>(this, R.layout.device_name);
 
@@ -98,23 +92,21 @@ public class DeviceListActivity extends Activity {
                         @Override
                         public void onClick(View v) {
 
+//                            connectButton.setEnabled(false);
+                            connectButton.setClickable(false);
+
                             //textView1.setText("Maakt connectie...");
                             String test = address;
 
                             Intent i = new Intent(DeviceListActivity.this, GameActivity.class);
                             i.putExtra(EXTRA_DEVICE_ADDRESS, test);
                             startActivity(i);
-
                         }
                     });
                 }
-
                 mPairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
             }
         }
-
-
-
     }
 
     private void checkBTState() {
