@@ -65,18 +65,16 @@ public class GameActivity extends AppCompatActivity {
 
     private String micState;
 
-    //boolean isPaused = false;
-
     private Handler handler = new Handler();
     private Timer sessieTimer = new Timer();
 
-    //private ConnectedThread mConnectedThread;
+    private ConnectedThread mConnectedThread;
 
     // SPP UUID service - this should work for most devices
-    //private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     // String for MAC address
-    //private static String address;
+    private static String address;
 
     public ProgressBar mProgressBar;
     public int gameState = 0;
@@ -187,7 +185,7 @@ public class GameActivity extends AppCompatActivity {
                 };
 
                 btAdapter = BluetoothAdapter.getDefaultAdapter();       // get Bluetooth adapter
-                //checkBTState();
+                checkBTState();
 
                 scoreDisplay = (TextView) findViewById(R.id.liveScore);
                 scoreDisplay.setText(String.valueOf(score));
@@ -401,7 +399,6 @@ public class GameActivity extends AppCompatActivity {
 
             }
 
-    /*
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
 
         return  device.createRfcommSocketToServiceRecord(BTMODULEUUID);
@@ -525,5 +522,5 @@ public class GameActivity extends AppCompatActivity {
         }
 
     }
-    */
+
 }
