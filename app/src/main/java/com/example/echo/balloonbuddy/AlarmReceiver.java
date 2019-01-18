@@ -32,9 +32,9 @@ public class AlarmReceiver extends BroadcastReceiver{
 
         Notification.Builder builder = new Notification.Builder(context);
 
-        Notification notification = builder.setContentTitle("Demo App Notification")
-                .setContentText("New Notification From Demo App..")
-                .setTicker("New Message Alert!")
+        Notification notification = builder.setContentTitle("Oefen herinnering")
+                .setContentText("Je hebt al 24 uur niet geoefend met Balloon Buddy")
+                .setTicker("Oefen herinnering")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(pendingIntent).build();
 
