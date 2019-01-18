@@ -191,7 +191,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:text="100e vlucht"
+                    android:text="20e vlucht"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
                     android:textSize="10sp" />
@@ -206,7 +206,7 @@
                     android:id="@+id/vlucht250text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="250e vlucht"
+                    android:text="50e vlucht"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
                     android:textSize="10sp" />
@@ -236,7 +236,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:text="7 dagen streak"
+                    android:text="Minder dan 25 fouten"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
                     android:textSize="10sp" />
@@ -252,7 +252,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:text="14 dagen streak"
+                    android:text="Minder dan 10 fouten"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
                     android:textSize="10sp" />
@@ -267,7 +267,7 @@
                     android:id="@+id/login28text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="28 dagen streak"
+                    android:text="Nul tot vijf fouten"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
                     android:textSize="10sp" />
@@ -296,7 +296,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:text="Score 1000"
+                    android:text="Score 50"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
                     android:textSize="10sp" />
@@ -312,7 +312,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:text="Score 2500"
+                    android:text="Score 150"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
                     android:textSize="10sp" />
@@ -327,7 +327,7 @@
                     android:id="@+id/xp5000text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Score 5000"
+                    android:text="Score 300"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
                     android:textSize="10sp" />

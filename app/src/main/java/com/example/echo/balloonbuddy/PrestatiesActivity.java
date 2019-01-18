@@ -1,6 +1,7 @@
 package com.example.echo.balloonbuddy;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -45,6 +46,7 @@ public class  PrestatiesActivity extends AppCompatActivity {
         // INITIATE ACHIEVEMENT VIEW
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prestaties);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         // GET DB AND MAKE LIST
 //        mListView = (ListView) findViewById(R.id.listView);

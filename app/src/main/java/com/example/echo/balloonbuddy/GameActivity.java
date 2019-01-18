@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -66,6 +67,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         btAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -103,7 +105,7 @@ public class GameActivity extends AppCompatActivity {
 
                     int endOfLineIndex = recDataString.indexOf("*");
 
-                    if (endOfLineIndex > 0) {
+                    if (endOfLineIndex >= 0) {
                         String mic = recDataString.substring(0, endOfLineIndex);
 
                         mic = mic.replace("*", "");
@@ -134,9 +136,6 @@ public class GameActivity extends AppCompatActivity {
 
                 // De tijd die nog over is ophalen uit de GameTimer en opslaan in de GameActivity
                 timeRemaining = gameTimer.returnTimeRmaining();
-
-                // De GameTimer die gaande is op stop zetten
-                gameTimer.cancel();
 
                 // Gooi de pauze activity
                 Intent intent = new Intent(GameActivity.this, PauseActivity.class);
@@ -169,6 +168,9 @@ public class GameActivity extends AppCompatActivity {
         super.onPause();
 
         bga.pause();
+
+        // De GameTimer die gaande is op stop zetten
+        gameTimer.cancel();
 
         try {
             //Don't leave Bluetooth sockets open when leaving activity

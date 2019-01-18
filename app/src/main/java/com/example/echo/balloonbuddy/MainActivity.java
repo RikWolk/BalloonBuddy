@@ -4,13 +4,13 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.content.pm.ActivityInfo;
 
 import java.util.Calendar;
 
@@ -23,12 +23,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         mDatabaseHelper = new DataBaseHelper(this);
-//        mDatabaseHelper.updateAchievement(3, 0);
-//        mDatabaseHelper.dropTable("settings");
-//        mDatabaseHelper.dropTable("achievements");
-//        mDatabaseHelper.deleteAllData("achievements");
 
         ImageButton settingsButton;
         ImageButton prestatiesButton;

@@ -214,24 +214,39 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         data.moveToFirst();
         int highest =  data.getInt(0);
 
-        if(count > 0 && count < 100) {
+        query = "SELECT MIN(mistakes) FROM scores";
+        data = db.rawQuery(query, null);
+        data.moveToFirst();
+        int lowest =  data.getInt(0);
+
+        if(count > 0 && count < 20) {
             updateAchievement(1, 1);
-        } else if(count >= 100 && count < 250) {
+        } else if(count >= 20 && count < 50) {
             updateAchievement(2, 1);
-        } else if(count >= 250) {
+        } else if(count >= 50) {
             updateAchievement(3, 1);
         } else {
             Log.d("TableData", "Count van scores is nul");
         }
 
-        if(highest >= 1000 && highest < 2500) {
+        if(lowest >= 0 && lowest <= 5) {
+            updateAchievement(4, 1);
+        } else if(lowest > 5 && lowest < 10) {
+            updateAchievement(5, 1);
+        } else if(lowest < 25) {
+            updateAchievement(6, 1);
+        } else {
+            Log.d("TableData", "Laagste mistakes hoger dan 24");
+        }
+
+        if(highest >= 50 && highest < 150) {
             updateAchievement(7, 1);
-        } else if(highest >= 2500 && highest < 5000) {
+        } else if(highest >= 150 && highest < 300) {
             updateAchievement(8, 1);
-        } else if(highest >= 5000) {
+        } else if(highest >= 300) {
             updateAchievement(9, 1);
         } else {
-            Log.d("TableData", "Hoogste score lager dan 1000");
+            Log.d("TableData", "Hoogste score lager dan 50");
         }
     }
 
