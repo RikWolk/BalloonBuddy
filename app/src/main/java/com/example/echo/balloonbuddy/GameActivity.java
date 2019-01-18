@@ -48,8 +48,6 @@ public class GameActivity extends AppCompatActivity {
     private StringBuilder recDataString = new StringBuilder();
 
     private String micState;
-    
-    private Timer sessieTimer = new Timer();
 
     public GameTimer gameTimer = new GameTimer(10000, 1000);
     int timeRemaining;
@@ -132,7 +130,6 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 micState = "0";
-                sessieTimer.cancel();
 
                 // De tijd die nog over is ophalen uit de GameTimer en opslaan in de GameActivity
                 timeRemaining = gameTimer.returnTimeRmaining();
@@ -206,6 +203,13 @@ public class GameActivity extends AppCompatActivity {
         // De if-statement staat hier om het bij de eerste keer opstarten goed te laten gaan
         if(timeRemaining != 0) {
             gameTimer = new GameTimer(timeRemaining, 1000);
+            gameTimer.setListener(new GameTimer.ChangeListener() {
+                @Override
+                public void onChange() {
+                    Log.d("GAME ACTIVITY", "SESSIE IS KLAAR");
+                    onTimerFinish();
+                }
+            });
             gameTimer.start();
             bga.resume();
         }
