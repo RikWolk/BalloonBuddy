@@ -146,6 +146,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:minHeight="40dp"
+            android:maxHeight="50dp"
             android:layout_toStartOf="@+id/duimOmhoogImage"
             android:layout_toEndOf="@+id/duimOnlaagImage" />
 

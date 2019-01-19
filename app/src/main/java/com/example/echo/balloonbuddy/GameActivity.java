@@ -49,7 +49,7 @@ public class GameActivity extends AppCompatActivity {
 
     private String micState;
 
-    public GameTimer gameTimer = new GameTimer(10000, 1000);
+    public GameTimer gameTimer = new GameTimer(600000, 1000);
     int timeRemaining;
 
     private ConnectedThread mConnectedThread;
@@ -145,6 +145,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 gameTimer.cancel();
+                mProgressBar.setProgress(50);
                 recreate();
             }
         });
@@ -190,7 +191,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void micStateWrong() {
         Log.d("GAMEACTIVITY", "DIT IS DE TWEE");
-        mistakes--;
+        mistakes++;
         ProgressbarChanger.down(mProgressBar);
         if(balloonState != -2) {
             BalloonMover.down(balloon, GameActivity.this, balloonState);
