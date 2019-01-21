@@ -9,19 +9,14 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class DeviceListActivity extends Activity {
-    // Debugging for LOGCAT
+    // Debugging voor LOGCAT
     private static final String TAG = "DeviceListActivity";
-
-    Button connectButton;
 
     private static String address;
 
@@ -32,13 +27,15 @@ public class DeviceListActivity extends Activity {
     TextView stap5;
     TextView connectieText;
 
-    // EXTRA string to send on to mainactivity
+    Button connectButton;
+
+    // String die meegegeven dient te worden naar de GameActivity
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
 
-    // Member fields
     private BluetoothAdapter mBtAdapter;
     private ArrayAdapter<String> mPairedDevicesArrayAdapter;
 
+    // Maak de activity aan
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +62,7 @@ public class DeviceListActivity extends Activity {
     public void onResume()
     {
         super.onResume();
-        //***************
+        
         checkBTState();
 
         // Initialize array adapter for paired devices
