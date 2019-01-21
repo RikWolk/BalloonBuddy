@@ -52,6 +52,11 @@ public class  PrestatiesActivity extends AppCompatActivity {
 //        mListView = (ListView) findViewById(R.id.listView);
         mDatabaseHelper = new DataBaseHelper(this);
 
+//        mDatabaseHelper.deleteAllData("achievements");
+//        mDatabaseHelper.deleteAllData("scores");
+//        mDatabaseHelper.dropTable("achievements");
+//        mDatabaseHelper.dropTable("scores");
+
         mDatabaseHelper.updateAchievements();
 
         // LINK STUFF TO XML

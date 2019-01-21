@@ -90,7 +90,7 @@ public class DeviceListActivity extends Activity {
                         @Override
                         public void onClick(View v) {
 
-                            connectieText.setText("Maakt connectie...");
+                            connectieText.setText("Maakt verbinding...");
                             connectButton.setEnabled(false);
                             connectButton.setVisibility(TextView.INVISIBLE);
                             connectieText.setVisibility(TextView.VISIBLE);
