@@ -5,28 +5,17 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Switch;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageButton;
-
-import com.example.echo.balloonbuddy.AlarmService;
-
 import java.util.Calendar;
 
 public class SettingsActivity extends AppCompatActivity {
 
     DataBaseHelper mDatabaseHelper;
-    public static Boolean reminderOn;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -49,7 +49,8 @@ public class GameActivity extends AppCompatActivity {
 
     private String micState;
 
-    public GameTimer gameTimer = new GameTimer(600000, 1000);
+//    public GameTimer gameTimer = new GameTimer(600000, 1000);
+    public GameTimer gameTimer = new GameTimer(10000, 1000);
     int timeRemaining;
 
     private ConnectedThread mConnectedThread;

@@ -15,17 +15,14 @@ import android.widget.ListView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.ArrayList;
 
 public class  PrestatiesActivity extends AppCompatActivity {
 
-//    private LineChart nChart;
-
     DataBaseHelper mDatabaseHelper;
-
-    private ListView mListView;
 
     public static ArrayList<String> x = new ArrayList<String>();
     public static ArrayList<String> y = new ArrayList<String>();
@@ -49,13 +46,7 @@ public class  PrestatiesActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         // GET DB AND MAKE LIST
-//        mListView = (ListView) findViewById(R.id.listView);
         mDatabaseHelper = new DataBaseHelper(this);
-
-//        mDatabaseHelper.deleteAllData("achievements");
-//        mDatabaseHelper.deleteAllData("scores");
-//        mDatabaseHelper.dropTable("achievements");
-//        mDatabaseHelper.dropTable("scores");
 
         mDatabaseHelper.updateAchievements();
 
@@ -118,6 +109,10 @@ public class  PrestatiesActivity extends AppCompatActivity {
         series.setDrawBackground(true);
         series.setBackgroundColor(Color.argb(60,95, 226, 156));
         series.setDrawDataPoints(true);
+
+        graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
+        graph.getGridLabelRenderer().setVerticalAxisTitle("Score");
+        graph.getGridLabelRenderer().setVerticalAxisTitleColor(Color.WHITE);
         graph.getGridLabelRenderer().setGridColor(Color.WHITE);
         graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
         graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);

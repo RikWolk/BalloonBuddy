@@ -222,8 +222,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         if(count > 0 && count < 20) {
             updateAchievement(1, 1);
         } else if(count >= 20 && count < 50) {
+            updateAchievement(1, 1);
             updateAchievement(2, 1);
         } else if(count >= 50) {
+            updateAchievement(1, 1);
+            updateAchievement(2, 1);
             updateAchievement(3, 1);
         } else {
             Log.d("TableData", "Count van scores is nul");
@@ -232,8 +235,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         if(lowest >= 0 && lowest <= 5) {
             updateAchievement(4, 1);
         } else if(lowest > 5 && lowest < 10) {
+            updateAchievement(4, 1);
             updateAchievement(5, 1);
         } else if(lowest < 25) {
+            updateAchievement(4, 1);
+            updateAchievement(5, 1);
             updateAchievement(6, 1);
         } else {
             Log.d("TableData", "Laagste mistakes hoger dan 24");
@@ -242,8 +248,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         if(highest >= 50 && highest < 150) {
             updateAchievement(7, 1);
         } else if(highest >= 150 && highest < 300) {
+            updateAchievement(7, 1);
             updateAchievement(8, 1);
         } else if(highest >= 300) {
+            updateAchievement(7, 1);
+            updateAchievement(8, 1);
             updateAchievement(9, 1);
         } else {
             Log.d("TableData", "Hoogste score lager dan 50");
@@ -296,9 +305,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             db.close();
     }
 
-    /**
-     * get datetime
-     * */
     private String getDateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date date = new Date();

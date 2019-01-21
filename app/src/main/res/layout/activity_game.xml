@@ -12,14 +12,14 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/background_full_loop" />
+        app:srcCompat="@drawable/background_loop" />
 
     <ImageView
         android:id="@+id/backgroundImage2"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/background_full_loop" />
+        app:srcCompat="@drawable/background_loop" />
 
     <ImageView
         android:id="@+id/ballonImage"
@@ -148,6 +148,7 @@
             android:layout_marginBottom="8dp"
             android:minHeight="40dp"
             android:maxHeight="50dp"
+            android:progressTint="@color/colorStartButton"
             android:layout_toStartOf="@+id/duimOmhoogImage"
             android:layout_toEndOf="@+id/duimOnlaagImage" />
 

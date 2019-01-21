@@ -35,16 +35,16 @@ public class EndSessionActivity extends AppCompatActivity {
         mistakesDisplay = score_data.getString("mistakes");
 
         scoreInsert = Integer.parseInt(scoreDisplay);
-        mistakesInsert = Integer.parseInt(mistakesDisplay);
+        mistakesInsert = Integer.parseInt(mistakesDisplay) / 2;
 
         score.setText(String.valueOf("Score : " + scoreDisplay));
-        mistakes.setText(String.valueOf("Fouten: " + mistakesDisplay));
+        mistakes.setText(String.valueOf(mistakesInsert + " seconden door elkaar heen gesproken"));
 
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
-                mDataBaseHelper.insertScore(Integer.parseInt(scoreDisplay), Integer.parseInt(mistakesDisplay));
+                mDataBaseHelper.insertScore(scoreInsert, mistakesInsert);
                 Intent intent = new Intent(EndSessionActivity.this, MainActivity.class);
                 startActivity(intent);
             }
