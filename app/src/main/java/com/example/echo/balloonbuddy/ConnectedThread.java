@@ -3,7 +3,6 @@ package com.example.echo.balloonbuddy;
 import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 import java.io.IOException;
 import java.io.InputStream;
@@ -66,11 +65,10 @@ public class ConnectedThread extends Thread {
         try {
             mmOutStream.write(msgBuffer);
         } catch (IOException e) {
-            //if you cannot write, close the application
+            // Als schijven niet lukt is de connectie down. Sluit dan af
             gameTimer.cancel();
             gameActivity.finish();
-            Toast.makeText(gameActivity.getBaseContext(), "Connection Failure", Toast.LENGTH_LONG).show();
-            Log.d("CONNECTEDTHREAD", "HAHA: " + e);
+            Toast.makeText(gameActivity.getBaseContext(), "Verbinding met apparaat verbroken", Toast.LENGTH_SHORT).show();
         }
     }
 }
