@@ -18,6 +18,7 @@ public class DeviceListActivity extends Activity {
     // Debugging voor LOGCAT
     private static final String TAG = "DeviceListActivity";
 
+    // Aanmaken van variabelen
     private static String address;
 
     TextView stap1;
@@ -42,15 +43,18 @@ public class DeviceListActivity extends Activity {
         setContentView(R.layout.activity_device_list);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+        // Text en button voor verbinding
         connectButton = (Button) findViewById(R.id.connectButton);
         connectieText = (TextView) findViewById(R.id.connectieText);
 
+        // Text field met uitleg
         stap1 = (TextView) findViewById(R.id.stap1);
         stap2 = (TextView) findViewById(R.id.stap2);
         stap3 = (TextView) findViewById(R.id.stap3);
         stap4 = (TextView) findViewById(R.id.stap4);
         stap5 = (TextView) findViewById(R.id.stap5);
 
+        // Zet tekst in de fields
         stap1.setText("1) Zet BlueTooth op de mobiel aan.");
         stap2.setText("2) Zorg dat BalloonBuddy in de BlueTooth lijst staat.");
         stap3.setText("3) Zet het BalloonBuddy apparaat aan.");
@@ -58,42 +62,53 @@ public class DeviceListActivity extends Activity {
         stap5.setText("5) Start het spel!");
     }
 
+
+    // Deze methode gaat van kracht zodra een activity vervolgd wordt
     @Override
     public void onResume()
     {
         super.onResume();
-        
+
+        // Voer een check uit of het mobieltje bluetooth heeft, en of het aanstaat
         checkBTState();
 
-        // Initialize array adapter for paired devices
+        // Maak een ArrayAdapter waarin alle gepairde apparaten zichtbaar zijn
         mPairedDevicesArrayAdapter = new ArrayAdapter<String>(this, R.layout.device_name);
 
-        // Get the local Bluetooth adapter
+        // Haal de lokale bluetooth adapter op
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        // Get a set of currently paired devices and append to 'pairedDevices'
+        // Haal de huidige lijst gepaarde apparaten op en voeg dat toe aan pairedDevices
         Set<BluetoothDevice> pairedDevices = mBtAdapter.getBondedDevices();
 
-        // Add previosuly paired devices to the array
+        // Check of de lijst gepaarde apparaten heeft
         if (pairedDevices.size() > 0) {
+            // Loop door de lijst met apparaten heen
             for (BluetoothDevice device : pairedDevices) {
-                //String name = device.getName().toString();
-                if(device.getName().toString().contains("BalloonBuddy")){
+                // Zoek naar de naam BalloonBuddy
+                if(device.getName().toString().contains("BalloonBuddy")) {
+                    // Haal het adres op van dat apparaat
                     address = device.getAddress();
 
+                    // Vervang een stuk tekst in het adres
                     address = address.replaceAll("\\r|\\n", "");
 
+                    // Zorg dat de button aangeklikt kan worden
                     connectButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
+                            // Verander de tekst
                             connectieText.setText("Maakt verbinding...");
+                            // Verberg de button
                             connectButton.setEnabled(false);
                             connectButton.setVisibility(TextView.INVISIBLE);
+                            // Laat de tekst zien
                             connectieText.setVisibility(TextView.VISIBLE);
 
+                            // Rik?
                             String test = address;
 
+                            // Maak een nieuwe activity aan, geef address mee en sluit huidige activity
                             Intent i = new Intent(DeviceListActivity.this, GameActivity.class);
                             i.putExtra(EXTRA_DEVICE_ADDRESS, test);
                             startActivity(i);
@@ -101,21 +116,27 @@ public class DeviceListActivity extends Activity {
                         }
                     });
                 }
+
+                // Voeg apparaat toe aan array
                 mPairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
             }
         }
     }
 
+    // Methode om checkts uit te voeren op de bluetooth verbinding
     private void checkBTState() {
-        // Check device has Bluetooth and that it is turned on
-        mBtAdapter=BluetoothAdapter.getDefaultAdapter(); // CHECK THIS OUT THAT IT WORKS!!!
-        if(mBtAdapter==null) {
-            Toast.makeText(getBaseContext(), "Device does not support Bluetooth", Toast.LENGTH_SHORT).show();
+        // Check of het apparaat bluetooth heeft
+        mBtAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        if(mBtAdapter == null) {
+            // Als de mobiel geen bluetooth ondersteunt, laat een toast zien
+            Toast.makeText(getBaseContext(), "Uw telefoon ondersteunt geen bluetooth", Toast.LENGTH_SHORT).show();
         } else {
             if (mBtAdapter.isEnabled()) {
-                Log.d(TAG, "...Bluetooth ON...");
+                // Als de bluetooth op de mobiel aan staat, gooi een log
+                Log.d(TAG, "Bluetooth AAN");
             } else {
-                //Zorgt dat de BlueTooth wordt aangezet.
+                // Als de bluetooth uit staat, zorg dat de BlueTooth wordt aangezet middels een pop-up
                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(enableBtIntent, 1);
             }
