@@ -119,40 +119,59 @@ public class  PrestatiesActivity extends AppCompatActivity {
 
         // Koppel de UI aan de variabelen
         graph = (GraphView) findViewById(R.id.graph);
+
+        // Variabelen moet een nieuwe LineGraphSeries zijn
         series = new LineGraphSeries<>(data());
-        series.setColor(Color.rgb(216, 57, 73));
+
+        // Zorg dat de data op een bepaalde manier gestyled en weergegeven wordt
         series.setThickness(6);
         series.setDrawBackground(true);
-        series.setBackgroundColor(Color.argb(60,95, 226, 156));
         series.setDrawDataPoints(true);
+        series.setColor(Color.rgb(216, 57, 73));
+        series.setBackgroundColor(Color.argb(60,95, 226, 156));
 
+        // Zorg dat de graph zelf op een bepaalde manier gestyled en weergegeven wordt
         graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
         graph.getGridLabelRenderer().setVerticalAxisTitle("Score");
         graph.getGridLabelRenderer().setVerticalAxisTitleColor(Color.WHITE);
-        graph.getGridLabelRenderer().setGridColor(Color.WHITE);
         graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
         graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
+        graph.getGridLabelRenderer().setGridColor(Color.WHITE);
         graph.getGridLabelRenderer().setHumanRounding(false);
+
+        // Voeg data toe aan de grafiek
         graph.addSeries(series);
     }
 
+    // Data teruggeven in de vorm van de DataPoint[]
     public DataPoint[] data() {
-        int n = x.size();     //to find out the no. of data-points
-        DataPoint[] values = new DataPoint[n];     //creating an object of type DataPoint[] of size 'n'
+        // Vind het nummer van totaal aantal data punten
+        int n = x.size();
+
+        // Maakt een object van het type DataPoint[] met de grootte van 'n'
+        DataPoint[] values = new DataPoint[n];
+
+        // Loop de data heen en voeg het toe aan variabele 'values'
         for(int i = 0; i < n; i++) {
             DataPoint v = new DataPoint(Double.parseDouble(x.get(i)), Double.parseDouble(y.get(i)));
             values[i] = v;
         }
+
+        // Geef de data terug
         return values;
     }
 
+    // Methode voor het laten zien van de achievements (welke zijn locked, welke zijn unlocked)
     public void achievementShower(Cursor achievementsData) {
+        // Loop door de achievement data heen
         while(achievementsData.moveToNext()) {
+            // De achievement die nu in de loop zit
             int number = achievementsData.getInt(4);
-            int unlocked = achievementsData.getInt(1);
-            
-            Log.d("Table Data", "Achievement number: " + number + ", unlocked: " + unlocked);
 
+            // Of deze achievement unlocked is, of niet
+            int unlocked = achievementsData.getInt(1);
+
+            // Laat het juiste plaatje zien als de achievement unlocked is
             if(number == 1 && unlocked == 1) {
                 vlucht1image.setImageResource(R.mipmap.icons_beker_unlocked_v01);
             }

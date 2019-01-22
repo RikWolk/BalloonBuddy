@@ -15,7 +15,13 @@ import java.util.Calendar;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    // Maak een databasehelper aan
     DataBaseHelper mDatabaseHelper;
+
+    // Variabelen voor UI componenten
+    ImageButton homeButton;
+    ImageButton prestatiesButton;
+    Switch reminder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,25 +29,26 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        ImageButton homeButton;
-        ImageButton prestatiesButton;
-        Switch reminder;
-
+        // Variabelen koppelen aan UI componenten
         homeButton = (ImageButton) findViewById(R.id.homeButton);
         prestatiesButton = (ImageButton) findViewById(R.id.prestatiesButton);
         reminder = (Switch) findViewById(R.id.reminder);
-//        reminderOn = false;
 
+        // Geef de context mee aan de databasehelper
         mDatabaseHelper = new DataBaseHelper(this);
 
+        // Haal de huidge setting van de reminder op
         int reminderState = mDatabaseHelper.getReminderSetting();
 
+        // Als de setting uit de database 1 is, zet dan de toggle switch op AAN
         if(reminderState == 1) {
             reminder.setChecked(true);
         } else {
+            // Zet de switch anders op UIT
             reminder.setChecked(false);
         }
 
+        // De home button eindigt de huidige activity
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,6 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        // Deze knop laat het prestaties schermm verschijnen
         prestatiesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,19 +69,36 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        final AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE); // Init alarm service
-        Intent notificationIntent = new Intent(this, com.example.echo.balloonbuddy.AlarmReceiver.class); // Maak de notification intent
-        final PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT); // Gooi de intent in een broadcast
+        // Init alarm service
+        final AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
+        // Maak de notification intent
+        Intent notificationIntent = new Intent(this, com.example.echo.balloonbuddy.AlarmReceiver.class);
+
+        // Gooi de intent in een broadcast
+        final PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Dit luisterd naar een verandering in de Switch
         reminder.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Als de switch aan staat, voer het volgende uit
                 if(isChecked) {
+                    // Update het record in de tabel
                     mDatabaseHelper.updateSettings(1, 1);
-                    Calendar cal = Calendar.getInstance(); // Maak een kalender
+
+                    // Maak een kalender voor de tijd
+                    Calendar cal = Calendar.getInstance();
+
+                    // Voeg er 24 uur aan toe
                     cal.add(Calendar.SECOND, 86400);
+
+                    // Gooi het alarm zodra de tijd van de kalender + 24u bereikt is
                     alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
                 } else {
+                    // Als de Switch uit staat, update dan het record in de tabel
                     mDatabaseHelper.updateSettings(1, 0);
+
+                    // Cancel dan ook het alarm
                     alarmManager.cancel(broadcast);
                 }
             }
