@@ -7,6 +7,8 @@ public class GameTimer extends CountDownTimer {
     private int timeRemaining;
     private ChangeListener listener;
 
+
+
     public GameTimer(int totalSeconds, int interval) {
         super(totalSeconds, interval);
     }
@@ -21,6 +23,7 @@ public class GameTimer extends CountDownTimer {
     public void onTick(long l) {
         Log.d("TICKTOCK", "AANTAL MILLIS OVER: " + l);
         timeRemaining = (int) l;
+
     }
 
     public int returnTimeRmaining() {

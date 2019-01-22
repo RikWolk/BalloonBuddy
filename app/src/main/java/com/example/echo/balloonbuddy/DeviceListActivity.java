@@ -98,6 +98,7 @@ public class DeviceListActivity extends Activity {
                             Intent i = new Intent(DeviceListActivity.this, GameActivity.class);
                             i.putExtra(EXTRA_DEVICE_ADDRESS, test);
                             startActivity(i);
+                            finish();
                         }
                     });
                 }
