@@ -3,7 +3,6 @@ package com.example.echo.balloonbuddy;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.jjoe64.graphview.GraphView;
@@ -22,11 +20,14 @@ import java.util.ArrayList;
 
 public class  PrestatiesActivity extends AppCompatActivity {
 
+    // Maak een databasehelper aan
     DataBaseHelper mDatabaseHelper;
 
+    // Maak arraylists aan voor de X en Y waardes in de grafiek
     public static ArrayList<String> x = new ArrayList<String>();
     public static ArrayList<String> y = new ArrayList<String>();
 
+    // Variabelen voor foto's
     ImageView vlucht1image;
     ImageView vlucht100image;
     ImageView vlucht250image;
@@ -37,22 +38,25 @@ public class  PrestatiesActivity extends AppCompatActivity {
     ImageView xp2500image;
     ImageView xp5000image;
 
+    // Variabelen voor buttons
+    ImageButton settingsButton;
+    ImageButton homeButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        // INITIATE ACHIEVEMENT VIEW
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prestaties);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        // GET DB AND MAKE LIST
+        // Geef de context mee aan de databasehelper
         mDatabaseHelper = new DataBaseHelper(this);
 
+        // Uodate de achievements bij het openen van de activity
         mDatabaseHelper.updateAchievements();
 
-        // LINK STUFF TO XML
-        ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
-        ImageButton homeButton = (ImageButton) findViewById(R.id.homeButton);
+        // Koppel de variabelen aan de UI spullen
+        settingsButton = (ImageButton) findViewById(R.id.settingsButton);
+        homeButton = (ImageButton) findViewById(R.id.homeButton);
         vlucht1image = (ImageView) findViewById(R.id.vlucht1image);
         vlucht100image = (ImageView) findViewById(R.id.vlucht100image);
         vlucht250image = (ImageView) findViewById(R.id.vlucht250image);
@@ -63,31 +67,37 @@ public class  PrestatiesActivity extends AppCompatActivity {
         xp2500image = (ImageView) findViewById(R.id.xp2500image);
         xp5000image = (ImageView) findViewById(R.id.xp5000image);
 
-        // GET ALL THE DATA FROM TABLE SCORES AND ACHIEVEMENTS
+        // Haal alle data op van de tabellen SCORES en ACHIEVEMENTS
         Cursor scoresData = mDatabaseHelper.getAllData("scores");
         Cursor achievementsData = mDatabaseHelper.getAllData("achievements");
 
-        // CLEAR ANY LOCAL OLD TABLE DATA
+        // Maak enige lokale data leeg
         x.clear();
         y.clear();
 
-        // ITERATE THROUGH TABLE DATA AND ADD IT TO X and Y ARRAYS
+        // Loop door de score data heeft en voeg het toe aan de X en Y arrays
         while(scoresData.moveToNext()) {
             x.add(scoresData.getString(0));
             y.add(scoresData.getString(1));
         }
 
+        // Plot de grafiek
         graphPlotter();
 
+        // Maakt een onclick listener aan voor de instellingen knop
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Finish de huidige activity
                 finish();
+
+                // Maak settings activiity aan en start hem
                 Intent intent = new Intent(PrestatiesActivity.this, SettingsActivity.class);
                 startActivity(intent);
             }
         });
 
+        // Maakt een onclick listener aan voor de home knop
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,13 +105,19 @@ public class  PrestatiesActivity extends AppCompatActivity {
             }
         });
 
+        // Laat de achievement goed zien met huidige data
         achievementShower(achievementsData);
     }
 
+    // Methode om de grafiek aan te maken
     public void graphPlotter() {
-        //Test
+        // Maak een GraphView aan
         GraphView graph;
+
+        // Maak een serie voor data aan
         LineGraphSeries<DataPoint> series;
+
+        // Koppel de UI aan de variabelen
         graph = (GraphView) findViewById(R.id.graph);
         series = new LineGraphSeries<>(data());
         series.setColor(Color.rgb(216, 57, 73));

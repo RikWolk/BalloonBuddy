@@ -52,7 +52,10 @@ public class SettingsActivity extends AppCompatActivity {
         prestatiesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Finish de huidige activity
                 finish();
+
+                // Maak prestaties activiity aan en start hem
                 Intent intent = new Intent(SettingsActivity.this, PrestatiesActivity.class);
                 startActivity(intent);
             }

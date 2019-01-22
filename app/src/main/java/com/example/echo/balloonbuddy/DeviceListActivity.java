@@ -55,13 +55,12 @@ public class DeviceListActivity extends Activity {
         stap5 = (TextView) findViewById(R.id.stap5);
 
         // Zet tekst in de fields
-        stap1.setText("1) Zet BlueTooth op de mobiel aan.");
-        stap2.setText("2) Zorg dat BalloonBuddy in de BlueTooth lijst staat.");
-        stap3.setText("3) Zet het BalloonBuddy apparaat aan.");
-        stap4.setText("4) Wacht tot het groene lampje aanstaat.");
+        stap1.setText("1) Zet BlueTooth op de mobiel aan");
+        stap2.setText("2) Zet het BalloonBuddy apparaat aan");
+        stap3.setText("3) Wacht tot het groene lampje aanstaat");
+        stap4.setText("4) Zorg dat BalloonBuddy in de BlueTooth lijst staat");
         stap5.setText("5) Start het spel!");
     }
-
 
     // Deze methode gaat van kracht zodra een activity vervolgd wordt
     @Override
