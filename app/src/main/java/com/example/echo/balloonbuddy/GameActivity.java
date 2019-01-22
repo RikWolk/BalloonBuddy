@@ -245,69 +245,84 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    // 
+    // Methode om de timer door te laten gaan
     private void resumeTimer() {
         // Als de GameActivity weer door gaat, moet de GameTimer weer gestart worden.
         // De if-statement staat hier om het bij de eerste keer opstarten goed te laten gaan
         if(timeRemaining != 0) {
+            // De tijd die over is meegeven aan de nieuwe gameTimer
             gameTimer = new GameTimer(timeRemaining, 1000);
+
+            // Ook deze nieuwe gameTimer moet aangeven wanneer hij klaar is
             gameTimer.setListener(new GameTimer.ChangeListener() {
                 @Override
                 public void onChange() {
-                    Log.d("GAME ACTIVITY", "SESSIE IS KLAAR");
                     onTimerFinish();
                 }
             });
+
+            // Start de nieuwe gameTimer en start de background animatie
             gameTimer.start();
             bga.resume();
         }
     }
 
+    // Als de timer klaar is moet deze methode aangeroepen worden
     private void onTimerFinish() {
+        // Maak een nieuwe intent zodt naar de EndSession gegaan kan worden
         Intent intent = new Intent(GameActivity.this, EndSessionActivity.class);
+
+        // Geef extra data mee. Namelijk de score en het aantal fouten
         Bundle score_data = new Bundle();
         score_data.putString("score", scoreDisplay.getText().toString());
         score_data.putString("mistakes", Integer.toString(mistakes));
         intent.putExtras(score_data);
+
+        // Finish de huidige activity en start de volgende
         finish();
         startActivity(intent);
     }
 
+    // Methode om connectie te maken met het bluetooth apparaat
     private void createConnection() {
-        //Get MAC address from DeviceListActivity via intent
+        // Pak het MAC address van DeviceListActivity via intent
         Intent intent = getIntent();
 
-        //Get the MAC address from the DeviceListActivty via EXTRA
+        // Pak het MAC address van DeviceListActivity via EXTRA
         address = intent.getStringExtra(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
 
-        //create device and set the MAC address
+        // Maak device en zet het MAC address
         BluetoothDevice device = btAdapter.getRemoteDevice(address);
 
+        // Probeer socket te maken
         try {
             btSocket = device.createRfcommSocketToServiceRecord(BTMODULEUUID);
         } catch (IOException e) {
-            Toast.makeText(getBaseContext(), "Socket creation failed", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "Verbinding maken mislukt", Toast.LENGTH_SHORT).show();
         }
 
-        // Establish the Bluetooth socket connection.
+        // Maak de bluetooth socket connectie
         try {
             btSocket.connect();
         } catch (IOException e) {
             try {
                 btSocket.close();
             } catch (IOException e2) {
-                //insert code to deal with this
+                Log.d("GAMEACTIVITY", "Er gaat wat mis met het afsluiten van de socket: " + e);
             }
         }
 
+        // Maak een connected thread en geef daar bluetooth info aan mee
         mConnectedThread = new ConnectedThread(btSocket, bluetoothIn);
+
+        // Start de connected thread
         mConnectedThread.start();
 
-        //I send a character when resuming.beginning transmission to check device is connected
-        //If it is not an exception will be thrown in the write method and finish() will be called
+        // Check of alles verbonden is
         mConnectedThread.write("x", this, gameTimer);
     }
 
+    // Deze methode laat de achtergrond oneindig bewegen
     private void startBackgroundAnimation() {
         bga = ValueAnimator.ofFloat(1.0f, 0.0f);
         bga.setRepeatCount(ValueAnimator.INFINITE);
