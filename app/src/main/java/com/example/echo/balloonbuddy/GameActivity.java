@@ -19,46 +19,50 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.IOException;
-import java.util.Timer;
 import java.util.UUID;
 
 public class GameActivity extends AppCompatActivity {
 
-    ImageButton restartButton;
-    ImageButton pauseButton;
-    TextView scoreDisplay;
-    int score = 0;
-    int mistakes = 0;
-
+    // Achtergrond en ballon
     ImageView background1;
     ImageView background2;
     ImageView balloon;
 
+    // Interface
+    ImageButton restartButton;
+    ImageButton pauseButton;
+    TextView scoreDisplay;
+
+    // Integers
+    int score = 0;
+    int mistakes = 0;
     int balloonState;
+    int timeRemaining;
+    final int handlerState = 0;
 
-    Handler bluetoothIn;
-
+    // Dit is nodig om de background te animeren
     ValueAnimator bga;
 
-    public ProgressBar mProgressBar;
+    // ProgressBar aanmaken
+    ProgressBar mProgressBar;
 
-    final int handlerState = 0;                        //used to identify handler message
-    private BluetoothAdapter btAdapter = null;
-    private BluetoothSocket btSocket = null;
-    private StringBuilder recDataString = new StringBuilder();
+    // Alles wat nodig is voor de bluetooth connectie
+    Handler bluetoothIn;
+    BluetoothSocket btSocket = null;
+    BluetoothAdapter btAdapter = null;
+    ConnectedThread mConnectedThread;
+    StringBuilder recDataString = new StringBuilder();
 
-    private String micState;
+    // Houdt de status van de microfoon bij
+    String micState;
 
-//    public GameTimer gameTimer = new GameTimer(600000, 1000);
-    public GameTimer gameTimer = new GameTimer(10000, 1000);
-    int timeRemaining;
+    // Dit is de timer die na tien minuten de sessie laat eindigen
+    GameTimer gameTimer = new GameTimer(600000, 1000);
 
-    private ConnectedThread mConnectedThread;
-
-    // SPP UUID service - this should work for most devices
+    // SPP UUID Service - dit moet voor de meeste apparaten werken
     private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
-    // String for MAC address
+    // String voor MAC address van bluetooth apparaat
     private static String address;
 
     @SuppressLint("HandlerLeak")
@@ -68,40 +72,50 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+        // Haal de bluetooth module op van de mobiel
         btAdapter = BluetoothAdapter.getDefaultAdapter();
 
+        // Laat de score zien in het scherm
         scoreDisplay = (TextView) findViewById(R.id.liveScore);
         scoreDisplay.setText(String.valueOf(score));
 
+        // Koppel variabelen aan button van de frontend
         pauseButton = (ImageButton) findViewById(R.id.pauseButton);
         restartButton = (ImageButton) findViewById(R.id.restartButton);
 
+        // Koppel variabelen aan de achtergrond en de ballon
         background1 = (ImageView) findViewById(R.id.backgroundImage1);
         background2 = (ImageView) findViewById(R.id.backgroundImage2);
         balloon = (ImageView) findViewById(R.id.ballonImage);
 
+        // Init de ProgressBar en zet deze op 50% gevuld
         mProgressBar = findViewById(R.id.progressbar);
         mProgressBar.setProgress(50);
 
+        // Start de achtergrond infinite loop
         startBackgroundAnimation();
 
+        // Start de gameTimer
         gameTimer.start();
+
+        // Luister naar het moment dat de gameTimer is afgelopen en voer dan een methode uit
         gameTimer.setListener(new GameTimer.ChangeListener() {
             @Override
             public void onChange() {
-                Log.d("GAME ACTIVITY", "SESSIE IS KLAAR");
                 onTimerFinish();
             }
         });
 
-        //Link the buttons and textViews to respective views
+        // De handler handelt alle berichten afkomstig van de bluetooth af
         bluetoothIn = new Handler() {
             public void handleMessage(android.os.Message msg) {
                 if (msg.what == handlerState) {
 
+                    // Lees de message die binnenkomt
                     String readMessage = (String) msg.obj;
                     recDataString.append(readMessage);
 
+                    // De status van de mic
                     int endOfLineIndex = recDataString.indexOf("*");
 
                     if (endOfLineIndex >= 0) {
@@ -112,10 +126,12 @@ public class GameActivity extends AppCompatActivity {
 
                         micState = mic;
 
+                        // Als de bluetooth module een 1 doorgeeft, gaat het goed
                         if(micState.contains("1")) {
                             micStateGood();
                         }
 
+                        // Als de bluetooth module een 2 doorgeeft, gaat het slecht
                         if(micState.contains("2")) {
                             micStateWrong();
                         }
@@ -126,10 +142,11 @@ public class GameActivity extends AppCompatActivity {
             }
         };
 
-        // Pauze menu
+        // Pauze menu klik
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Neutrliseer de mic door het op nul te zetten
                 micState = "0";
 
                 // De tijd die nog over is ophalen uit de GameTimer en opslaan in de GameActivity
@@ -145,61 +162,90 @@ public class GameActivity extends AppCompatActivity {
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Cancel de huidige timer
                 gameTimer.cancel();
+
+                // Zet de progressbar terug naar 50%
                 mProgressBar.setProgress(50);
+
+                // Herstart de activity
                 recreate();
             }
         });
     }
 
+    // Wordt afgevuurd als de activity weer door gaat
     @Override
     public void onResume() {
         super.onResume();
 
+        // Ga door met de timer
         resumeTimer();
 
+        // Maak opnieuw cconnnectie met het bluetooth apparaat
         createConnection();
     }
 
+    // Wordt afgevuurd als de activity gepauzeeerd wordt
     @Override
     public void onPause()
     {
         super.onPause();
 
+        // Pauzeer het bewegen van de background
         bga.pause();
 
         // De GameTimer die gaande is op stop zetten
         gameTimer.cancel();
 
         try {
-            //Don't leave Bluetooth sockets open when leaving activity
+            // Laat de bluetooth socket niet open staan als er uit de activity gegaan wordt
             btSocket.close();
-        } catch (IOException e2) {
-            //insert code to deal with this
+        } catch (IOException e) {
+            Log.d("GAMEACTIVITY", "Er gaat wat mis met het afsluiten van de socket: " + e);
         }
     }
 
+    // Wordt aaangeroepen als het goed gaat
     private void micStateGood() {
+        // Gooi de score omhoog
         score++;
+
+        // Update de score in de UI
         scoreDisplay.setText(String.valueOf(score));
-        Log.d("GAMEACTIVITY", "DIT IS DE EEN");
+
+        // Progressbar ophogen met een punt
         ProgressbarChanger.up(mProgressBar);
+
+        // Als de ballon status niet twee is, dan staat de ballon nog niet op het hoogste punt
         if(balloonState != 2) {
+            // De ballon moet 1 plek omhoog
             BalloonMover.up(balloon, GameActivity.this, balloonState);
+
+            // Verhoog de ballon status
             balloonState++;
         }
     }
 
+    // Wordt aaangeroepen als het fout gaat
     private void micStateWrong() {
-        Log.d("GAMEACTIVITY", "DIT IS DE TWEE");
+        // Gooi het aantal fouten omhoog
         mistakes++;
+
+        // Progressbar naar beneden halen met een punt
         ProgressbarChanger.down(mProgressBar);
+
+        // Als de ballon status niet min twee is, dan staat de ballon nog niet op het laagste punt
         if(balloonState != -2) {
+            // De ballon moet 1 plek omlaag
             BalloonMover.down(balloon, GameActivity.this, balloonState);
+
+            // Verlaag de ballon status
             balloonState--;
         }
     }
 
+    // 
     private void resumeTimer() {
         // Als de GameActivity weer door gaat, moet de GameTimer weer gestart worden.
         // De if-statement staat hier om het bij de eerste keer opstarten goed te laten gaan

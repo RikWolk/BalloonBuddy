@@ -99,18 +99,17 @@ public class DeviceListActivity extends Activity {
                         public void onClick(View v) {
                             // Verander de tekst
                             connectieText.setText("Maakt verbinding...");
+
                             // Verberg de button
                             connectButton.setEnabled(false);
                             connectButton.setVisibility(TextView.INVISIBLE);
+
                             // Laat de tekst zien
                             connectieText.setVisibility(TextView.VISIBLE);
 
-                            // Rik?
-                            String test = address;
-
                             // Maak een nieuwe activity aan, geef address mee en sluit huidige activity
                             Intent i = new Intent(DeviceListActivity.this, GameActivity.class);
-                            i.putExtra(EXTRA_DEVICE_ADDRESS, test);
+                            i.putExtra(EXTRA_DEVICE_ADDRESS, address);
                             startActivity(i);
                             finish();
                         }

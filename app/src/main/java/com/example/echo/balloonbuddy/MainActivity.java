@@ -17,7 +17,6 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity {
 
     DataBaseHelper mDatabaseHelper;
-    AlarmService mAlarmService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
